@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# ☂️ UMO - Urban Umbrella Mobility
 
-## Getting Started
+![UMO Logo](./assets/umo-logo.png)
 
-First, run the development server:
+> **비 오는 날, 우산은 우모가 챙길게.**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+UMO는 도시 속 사용자들이 비를 걱정하지 않고 자유롭게 이동할 수 있도록 도와주는 **스마트 공유 우산 서비스**입니다. 고양이 마스코트 **우모(Umo)** 가 언제 어디서든 우산을 안내하고, 공유할 수 있도록 도와줍니다.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## 🐱 소개
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+UMO는 우산을 필요한 순간에 대여하고, 자유롭게 반납할 수 있는 **도시형 공유 우산 플랫폼**입니다.  
+마스코트인 **우모(Umo)** 는 사용자에게 귀엽고 신뢰감 있는 가이드 역할을 하며, 비 오는 날 당신의 곁을 지켜줍니다.
 
-## Learn More
+### 핵심 기능
+- 🔍 실시간 우산 위치 확인
+- 📍 대여소 기반 우산 예약 / 반납
+- 🌧️ 날씨 기반 스마트 알림
+- 🧾 이용 내역 & 포인트 시스템
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📱 데모
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+> (스크린샷 or 영상 링크 첨부 예정)
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🧱 기술 스택
+
+**프론트엔드**
+- Next.js (React 기반)
+- Tailwind CSS
+- Axios 통신
+- Progressive Web App (PWA) 지원
+
+**기타**
+- GCP, Vercel, Docker
+- S3 (우산 위치 데이터 이미지)
+
+---
