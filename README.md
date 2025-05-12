@@ -1,14 +1,9 @@
 # ☂️ UMO - Urban Umbrella Mobility
 
-<<<<<<< HEAD
 ![UMO Logo](./public/assets/logo/umo-logo.png)
 
 ![UMO Face](./public/assets/character/umo-face2.png)
-=======
-![UMO Logo](./assets/logo/umo-logo.png)
 
-![UMO Face](./assets/character/umo-face2.png)
->>>>>>> 50eef523736b62741b264a85960f62651b1ea3a6
 
 > **비 오는 날, 우산은 우모가 챙길게.**
 
