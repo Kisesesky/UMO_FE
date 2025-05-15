@@ -83,3 +83,140 @@ body {
   color: #888;
   font-size: 1rem;
 }
+
+:root {
+  --app-header-height: 60px;
+  --app-navigation-height: 64px;
+  --app-primary-color: #007AFF;
+  --app-background-color: #F2F2F7;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--app-background-color);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.app-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  max-width: 650px;
+  margin: 0 auto;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  background: white;
+  border-radius: 12px;
+}
+
+.app-content {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+.app-navigation {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: var(--app-navigation-height);
+  background: white;
+  border-top: 1px solid #E5E5EA;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #8E8E93;
+  padding: 8px;
+}
+
+.nav-item.active {
+  color: var(--app-primary-color);
+}
+
+.nav-item .icon {
+  font-size: 24px;
+  margin-bottom: 4px;
+}
+
+.nav-item span {
+  font-size: 12px;
+}
+
+/* 앱 스타일 카드 컴포넌트 */
+.app-card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* 앱 스타일 버튼 */
+.app-button {
+  background: var(--app-primary-color);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 16px;
+  width: 100%;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.app-button:active {
+  opacity: 0.8;
+}
+
+/* 앱 스타일 입력 필드 */
+.app-input {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid #E5E5EA;
+  border-radius: 12px;
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+.app-input:focus {
+  outline: 2px solid var(--app-primary-color);
+  outline-offset: 2px;
+}
+
+.splash-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+  text-align: center;
+  padding: 2rem;
+  background: linear-gradient(to bottom, #e0f7fa, #ffffff);
+}
+
+.splash-logo {
+  max-width: 300px;
+  margin-bottom: 2rem;
+}
+
+.start-button {
+  margin-top: 2rem;
+  background: #0070f3;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 9999px;
+  font-size: 1.2rem;
+}

@@ -1,6 +1,7 @@
 'use client';
 import dynamic from 'next/dynamic';
 
+// SSR 비활성화로 동적 임포트
 const StationMap = dynamic(() => import('@/components/map/StationMap'), {
   ssr: false,
 });
