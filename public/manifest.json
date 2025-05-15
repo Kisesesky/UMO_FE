@@ -1,0 +1,21 @@
+{
+    "name": "UMO - Urban Umbrella Mobility",
+    "short_name": "UMO",
+    "description": "도시형 공유 우산 플랫폼",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#FFFFFF",
+    "theme_color": "#007AFF",
+    "icons": [
+      {
+        "src": "/icon-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "/icon-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ]
+  }
