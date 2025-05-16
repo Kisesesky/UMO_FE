@@ -80,7 +80,7 @@ export default function KakaoMap() {
   }, []);
 
   return (
-    <div style={{ width: '100%', height: '400px' }}>
+    <div style={{ width: '100%', height: '1150px' }}>
       <div id="map" style={{ width: '100%', height: '100%' }}></div>
     </div>
   );

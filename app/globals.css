@@ -39,13 +39,13 @@ body {
 }
 
 .main-section {
-  min-height: 70vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 3rem 1rem;
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  padding: 0;
+  /* 내비게이션 높이만큼 빼기 */
+  height: calc(100vh - var(--app-navigation-height));
+  overflow: hidden;
 }
 
 .main-section h1 {
@@ -100,20 +100,16 @@ body {
 }
 
 .app-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  flex-direction: column;
+  position: relative;
+  width: 100vw;
   height: 100vh;
   overflow: hidden;
   max-width: 650px;
   margin: 0 auto;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
   background: white;
   border-radius: 12px;
+  display: flex;
+  flex-direction: column;
 }
 
 .app-content {
@@ -124,13 +120,13 @@ body {
 }
 
 .app-navigation {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
+  position: absolute;
+  bottom: 0;
+  left: 0; right: 0;
   height: var(--app-navigation-height);
+  z-index: 20;
   background: white;
   border-top: 1px solid #E5E5EA;
-  padding-bottom: env(safe-area-inset-bottom);
 }
 
 .nav-item {
@@ -157,6 +153,8 @@ body {
 
 /* 앱 스타일 카드 컴포넌트 */
 .app-card {
+  position: absolute;
+  z-index: 10;
   background: white;
   border-radius: 12px;
   padding: 16px;
@@ -219,4 +217,12 @@ body {
   padding: 1rem 2rem;
   border-radius: 9999px;
   font-size: 1.2rem;
+}
+
+#map {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
 }
