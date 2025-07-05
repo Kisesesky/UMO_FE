@@ -2,11 +2,11 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import ProtectedRoute from '@/components/auth/ProtectedRoute';
-import { FaArrowLeft, FaShoppingCart, FaTicketAlt } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
-import { Product } from '@/types/product';
+import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import { ProductService } from '@/services/product.service';
+import { Product } from '@/types/product';
+import { FaArrowLeft, FaShoppingCart, FaTicketAlt } from 'react-icons/fa';
 
 export default function ProductsClient() {
   const router = useRouter();
@@ -22,12 +22,9 @@ export default function ProductsClient() {
       setIsLoading(true);
       setError(null);
       try {
-        let fetchedProducts: Product[] = [];
-        if (productType) {
-          fetchedProducts = await ProductService.getProductsByType(productType);
-        } else {
-          fetchedProducts = await ProductService.getAllProducts();
-        }
+        let fetchedProducts = productType
+          ? await ProductService.getProductsByType(productType)
+          : await ProductService.getAllProducts();
         setProducts(fetchedProducts);
       } catch (err: any) {
         setError(err.response?.data?.message || '상품 정보를 불러오는데 실패했습니다.');
@@ -55,7 +52,7 @@ export default function ProductsClient() {
         <main className="max-w-7xl mx-auto p-4">
           {isLoading ? (
             <div className="flex justify-center items-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500" />
             </div>
           ) : error ? (
             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
