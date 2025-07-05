@@ -1,26 +1,692 @@
-@import "tailwindcss";
+/* src/app/globals.css */
 
+/* Tailwind CSS 기본 지시어 */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* -------------------------------------------------------------------------- */
+/*                                 Global Styles                              */
+/* -------------------------------------------------------------------------- */
+
+/* Root Variables (기존 CSS 변수들을 통합) */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: theme('colors.white'); /* Tailwind colors 사용 */
+  --foreground: theme('colors.gray.900'); /* Tailwind colors 사용 */
+  --app-shadow: theme('boxShadow.app'); /* 새로운 그림자 변수 사용 */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
+/* 다크 모드 미디어 쿼리 (Tailwind JIT가 자동으로 처리할 수 있으나 명시적으로) */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: theme('colors.gray.50');
+    --foreground: theme('colors.gray.900');
   }
 }
 
+/* Body 기본 스타일 */
 body {
-  background: var(--background);
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                  App Layout                                */
+/* -------------------------------------------------------------------------- */
+
+/* 앱 전체 컨테이너 (웹앱 형태로 보이기 위한 설정) */
+.app-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  max-width: 444px; /* 모바일 기기 너비 기준 */
+  max-height: 800px; /* 모바일 기기 높이 기준 */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: var(--background);
+  box-shadow: var(--app-shadow); /* 새로운 그림자 변수 사용 */
+  border-radius: theme('borderRadius.2xl'); /* 16px 둥근 모서리 */
+}
+
+/* 지도 섹션 (앱 전체 크기) */
+.map-section {
+  position: relative;
+  width: 100%;
+  height: 100%; /* 앱 컨테이너의 100% (전체 화면) */
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+/* 지도 컨테이너 (지도 컴포넌트가 들어갈 영역) */
+.map-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+/* UI 오버레이 (지도 위에 UI 요소들을 위한 컨테이너) */
+.ui-overlay-on-map {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: theme('spacing.4'); /* 16px 패딩 */
+  z-index: 1;
+}
+
+/* UI 컨테이너 (이전 ui-overlay-on-map과 유사, page.tsx에서 ui-overlay-on-map 사용 권장) */
+.ui-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: theme('spacing.4');
+}
+
+/* 콘텐츠 섹션 (지도가 전체 화면이므로 display: none 유지) */
+.content-section {
+  display: none;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                    Drawer                                  */
+/* -------------------------------------------------------------------------- */
+
+.drawer {
+  position: absolute; /* 앱 컨테이너 내에서 위치 */
+  inset: 0;
+  z-index: 100; /* 다른 UI 요소들 위에 */
+  pointer-events: none; /* 초기에는 클릭 비활성화 */
+  /* transition: all 0.3s ease-in-out; // 이미 panel과 backdrop에 있으므로 여기서 제거 */
+}
+
+.drawer-backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4); /* 반투명 배경 */
+  opacity: 0; /* 초기에는 숨김 */
+  transition: opacity 0.3s ease-in-out; /* 부드러운 전환 효과 */
+  cursor: pointer;
+}
+
+.drawer-panel {
+  position: absolute; /* backdrop 위에서 위치 */
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 76%; /* 화면의 2/3 크기 */
+  max-width: 76vh; /* 드로어 최대 너비 (조금 줄임) */
+  background-color: theme('colors.white');
+  border-radius: theme('borderRadius.2xl'); /* 16px 둥근 모서리 */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* 그림자 */
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%); /* 초기에는 오른쪽으로 숨김 */
+  transition: transform 0.3s ease-in-out; /* 부드러운 전환 효과 */
+  z-index: 101; /* backdrop보다 위에 */
+}
+
+/* 드로어가 열렸을 때 (js에서 'open' 클래스 추가) */
+.drawer.open {
+  pointer-events: auto; /* 클릭 활성화 */
+}
+
+.drawer.open .drawer-backdrop {
+  opacity: 1; /* 배경 표시 */
+}
+
+.drawer.open .drawer-panel {
+  transform: translateX(0); /* 왼쪽으로 슬라이드 */
+}
+
+.drawer-header {
+  padding: theme('spacing.4') theme('spacing.5'); /* 16px 20px (패딩 줄임) */
+  border-bottom: 1px solid theme('colors.gray.200');
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* 아이템 중앙 정렬 */
+}
+
+.drawer-title {
+  display: flex;
+  flex-direction: column;
+  gap: theme('spacing.1'); /* 2px (간격 더 줄임) */
+}
+
+.drawer-title span:first-child {
+  font-size: theme('fontSize.base'); /* 16px (이전보다 조금 줄임) */
+  font-weight: theme('fontWeight.semibold'); /* 굵기 유지 */
+  color: theme('colors.gray.800');
+}
+
+.drawer-subtitle {
+  font-size: theme('fontSize.xs'); /* 12px (유지) */
+  color: theme('colors.gray.600');
+}
+
+.drawer-close-btn {
+  padding: theme('spacing.2'); /* 8px (유지) */
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: theme('colors.gray.500');
+  transition: color 0.2s ease;
+}
+.drawer-close-btn:hover {
+  color: theme('colors.gray.700');
+}
+
+.drawer-content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.drawer-content ul {
+  padding: theme('spacing.2') 0; /* 8px (유지) */
+  list-style: none;
+  margin: 0;
+}
+
+.drawer-menu-item {
+  display: flex;
+  align-items: center; /* 아이콘과 텍스트 수직 중앙 정렬 */
+  gap: theme('spacing.3'); /* 12px (간격 줄임) */
+  width: 100%;
+  padding: theme('spacing.3') theme('spacing.5'); /* 12px 20px (패딩 줄임) */
+  text-align: left;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.drawer-menu-item:hover {
+  background-color: theme('colors.gray.100'); /* 호버 색상 */
+}
+
+/* 드로어 메뉴 아이템 내 아이콘 색상 */
+.drawer-menu-item svg {
+  color: theme('colors.primary.500'); /* primary.500 (인디고 계열) 사용 */
+  font-size: theme('fontSize.base'); /* 16px */
+}
+
+.menu-item-label {
+  font-size: theme('fontSize.sm'); /* 14px (줄임) */
+  font-weight: theme('fontWeight.medium'); /* 굵기 유지 */
+  color: theme('colors.gray.800');
+}
+
+.menu-item-subtext {
+  font-size: theme('fontSize.xs'); /* 12px (유지) */
+  color: theme('colors.gray.500'); /* 색상 조정 */
+  margin-left: auto;
+}
+
+.drawer-footer {
+  padding: theme('spacing.4') theme('spacing.5'); /* 16px 20px (패딩 줄임) */
+  border-top: 1px solid theme('colors.gray.200');
+}
+
+.customer-service-btn {
+  display: flex;
+  align-items: center;
+  gap: theme('spacing.2'); /* 8px (간격 줄임) */
+  width: 100%;
+  padding: theme('spacing.3') theme('spacing.4'); /* 12px 16px (패딩 줄임) */
+  border: none;
+  background: theme('colors.gray.100');
+  border-radius: theme('borderRadius.md');
+  color: theme('colors.primary.500');
+  font-size: theme('fontSize.sm'); /* 14px (유지) */
+  font-weight: theme('fontWeight.medium'); /* 굵기 유지 */
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.customer-service-btn:hover {
+  background-color: theme('colors.gray.200');
+}
+
+.customer-service-btn svg {
+  font-size: theme('fontSize.base'); /* 16px (줄임) */
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                 Search Bar                                 */
+/* -------------------------------------------------------------------------- */
+
+.top-search-bar-container {
+  position: absolute; /* 지도 위에 오버레이 */
+  top: 1rem; /* 상단 여백 */
+  left: 1rem; /* 좌측 여백 */
+  right: 1rem; /* 우측 여백 */
+  padding: 0; /* 내부 패딩은 search-bar에서 처리 */
+  pointer-events: auto; /* 클릭 가능하게 */
+  z-index: 20; /* 다른 UI 요소보다 위에 */
+}
+
+.search-bar {
+  flex: 1; /* 남은 공간을 모두 차지하여 늘어나도록 */
+  display: flex; /* flex 유지 */
+  align-items: center;
+  background: theme('colors.white');
+  border-radius: theme('borderRadius.full');
+  padding: 0; /* 내부 패딩은 각 요소에서 처리 */
+  height: theme('spacing.13'); /* 52px */
+  box-shadow: theme('boxShadow.md');
+  position: relative; /* 자식 absolute 요소를 위한 기준점 */
+}
+
+.search-input {
+  flex: 1; /* 남은 공간 모두 차지 */
+  border: none;
+  outline: none;
+  font-size: theme('fontSize.base');
+  padding-left: theme('spacing.13'); /* 검색 아이콘 공간 (40px) */
+  padding-right: theme('spacing.3'); /* 오른쪽 아이콘들과 텍스트 사이 간격 (12px) */
+  height: 100%; /* 부모 높이 꽉 채우기 */
+  background: transparent; /* 배경 투명하게 (부모의 배경색 사용) */
+}
+
+.icon-button-small {
+  width: theme('spacing.8'); /* 32px */
+  height: theme('spacing.8'); /* 32px */
+  border-radius: theme('borderRadius.full');
+  background: transparent; /* 배경 투명하게 */
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0; /* 크기 줄어들지 않도록 */
+}
+
+.icon-button-small:active {
+  transform: scale(0.95);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                  Controls                                  */
+/* -------------------------------------------------------------------------- */
+
+.controls-container {
+  position: absolute;
+  right: theme('spacing.4'); /* 16px */
+  bottom: theme('spacing.24'); /* 96px */ /* 대여 버튼 위 여백 (rent-button-container bottom + height + 여백) */
+  display: flex;
+  flex-direction: column;
+  gap: theme('spacing.3'); /* 12px */
+  pointer-events: auto;
+  z-index: 10;
+}
+
+/* 새로고침 애니메이션 */
+@keyframes rotate360 {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.refresh-spin {
+  animation: rotate360 0.8s linear;
+}
+
+/* Map Controls (MapControls.tsx 컴포넌트 내의 버튼 스타일) */
+.map-control-button {
+  width: theme('spacing.12'); /* 48px */
+  height: theme('spacing.12'); /* 48px */
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: theme('borderRadius.full');
+  box-shadow: theme('boxShadow.md'); /* 새로운 그림자 사용 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: theme('colors.gray.600'); /* 아이콘 색상 */
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.map-control-button:hover {
+  background: theme('colors.white');
+  transform: translateY(-2px);
+  box-shadow: theme('boxShadow.lg');
+}
+
+.map-control-button:active {
+  transform: scale(0.95);
+  box-shadow: theme('boxShadow.sm');
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                Rent Button                                 */
+/* -------------------------------------------------------------------------- */
+
+.rent-button-container {
+  position: absolute;
+  bottom: theme('spacing.4'); /* 16px */
+  left: theme('spacing.4');
+  right: theme('spacing.4');
+  padding: 0;
+  pointer-events: auto;
+  z-index: 10;
+}
+
+.rent-button {
+  width: 100%;
+  height: theme('spacing.14'); /* 56px */
+  background: theme('colors.primary.DEFAULT'); /* 주색 사용 */
+  color: theme('colors.white');
+  border: none;
+  border-radius: theme('borderRadius.xl'); /* 12px */
+  font-size: theme('fontSize.lg'); /* 18px */
+  font-weight: theme('fontWeight.medium'); /* 500 */
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: theme('boxShadow.button'); /* 새로운 그림자 사용 */
+}
+
+.rent-button:hover {
+  background: theme('colors.primary.600');
+  transform: translateY(-2px);
+  box-shadow: theme('boxShadow.xl');
+}
+
+.rent-button:active {
+  background: theme('colors.primary.700');
+  transform: translateY(0);
+  box-shadow: theme('boxShadow.md');
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                 Map View                                   */
+/* -------------------------------------------------------------------------- */
+
+.map-view {
+  width: 100%;
+  height: 100%;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                 Header Title                               */
+/* -------------------------------------------------------------------------- */
+
+.header-title {
+  font-size: theme('fontSize.lg'); /* 18px */
+  font-weight: theme('fontWeight.semibold'); /* 600 */
+  color: theme('colors.gray.800'); /* 짙은 회색 */
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                 Weather Info                               */
+/* -------------------------------------------------------------------------- */
+
+.weather-info-container {
+  background-color: rgba(255, 255, 255, 0.9); /* 배경색: 좀 더 투명하게 */
+  border-radius: theme('borderRadius.lg'); /* 12px */
+  box-shadow: theme('boxShadow.md'); /* 그림자 */
+  padding: theme('spacing.4'); /* 16px */
+  backdrop-filter: blur(8px); /* 블러 효과 */
+  -webkit-backdrop-filter: blur(8px); /* Safari 지원 */
+}
+
+/* 날씨 아이콘 */
+.weather-icon {
+  font-size: theme('fontSize.2xl'); /* 24px */
+}
+
+/* 텍스트 스타일 */
+.weather-temperature {
+  font-size: theme('fontSize.4xl'); /* 36px */
+  font-weight: theme('fontWeight.bold'); /* 700 */
+  color: theme('colors.gray.900');
+}
+
+.weather-condition-text {
+  font-size: theme('fontSize.base'); /* 16px */
+  color: theme('colors.gray.700');
+}
+
+.weather-detail-text {
+  font-size: theme('fontSize.sm'); /* 14px */
+  color: theme('colors.gray.600');
+}
+
+.weather-location-time {
+  font-size: theme('fontSize.xs'); /* 12px */
+  color: theme('colors.gray.500');
+}
+
+/* -------------------------------------------------------------------------- */
+/*                       Page Specific Styles (Notice, Events, Guide)         */
+/* -------------------------------------------------------------------------- */
+
+/* 공통 헤더 스타일 (page.tsx에서 적용) */
+.page-header {
+  background-color: theme('colors.white');
+  box-shadow: theme('boxShadow.sm');
+  border-bottom: 1px solid theme('colors.gray.200');
+  padding-top: theme('spacing.4');
+  padding-bottom: theme('spacing.4');
+  padding-left: theme('spacing.5'); /* 20px */
+  padding-right: theme('spacing.5'); /* 20px */
+  display: flex;
+  align-items: center;
+  position: sticky; /* 스크롤 시 상단 고정 */
+  top: 0;
+  z-index: 20; /* 다른 콘텐츠 위에 */
+}
+
+.page-header-title {
+  font-size: theme('fontSize.lg'); /* 18px */
+  font-weight: theme('fontWeight.semibold');
+  color: theme('colors.gray.800');
+  flex: 1;
+  text-align: center;
+}
+
+.page-back-button {
+  width: theme('spacing.10'); /* 40px */
+  height: theme('spacing.10'); /* 40px */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: theme('borderRadius.full');
+  color: theme('colors.gray.700');
+  transition: background-color 0.2s ease;
+}
+.page-back-button:hover {
+  background-color: theme('colors.gray.100');
+}
+
+/* 공통 메인 콘텐츠 영역 스타일 */
+.page-main-content {
+  flex: 1; /* 남은 공간 채우기 */
+  overflow-y: auto; /* 스크롤 가능 */
+  background-color: theme('colors.gray.50'); /* 밝은 회색 배경 */
+  padding: theme('spacing.4'); /* 16px 패딩 */
+  display: flex; /* 내부 콘텐츠 정렬을 위해 flex 사용 */
+  flex-direction: column;
+  gap: theme('spacing.3'); /* 아이템 간 간격 */
+}
+
+/* 카드형 아이템 공통 스타일 (공지, 이벤트, 가이드) */
+.card-item {
+  background-color: theme('colors.white');
+  border-radius: theme('borderRadius.lg'); /* 12px */
+  box-shadow: theme('boxShadow.card'); /* 새로운 카드 그림자 사용 */
+  border: 1px solid theme('colors.gray.200');
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card-item:hover {
+  transform: translateY(-2px); /* 살짝 위로 */
+  box-shadow: theme('boxShadow.md'); /* 호버 시 그림자 강조 */
+}
+
+/* 텍스트 한 줄 처리 유틸리티 */
+.text-single-line {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 공지사항 카드 내 버튼 스타일 */
+.notice-item-button {
+  width: 100%;
+  text-align: left;
+  padding: theme('spacing.4'); /* 16px */
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.notice-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: theme('spacing.2'); /* 8px */
+}
+
+.notice-item-title-group {
+  display: flex;
+  align-items: flex-start;
+  gap: theme('spacing.2'); /* 8px */
+  flex: 1; /* 제목이 공간을 채우도록 */
+  min-width: 0; /* flex 아이템이 넘치지 않도록 */
+}
+
+.notice-item-badge {
+  background-color: theme('colors.danger'); /* 위험 색상 (빨강) */
+  color: theme('colors.white');
+  font-size: theme('fontSize.xs'); /* 12px */
+  font-weight: theme('fontWeight.medium');
+  padding: theme('spacing.px') theme('spacing.2'); /* 1px 8px */
+  border-radius: theme('borderRadius.full');
+  flex-shrink: 0; /* 축소 방지 */
+  margin-top: theme('spacing.px'); /* 1px */
+}
+
+.notice-item-title {
+  font-size: theme('fontSize.base'); /* 16px */
+  font-weight: theme('fontWeight.semibold');
+  color: theme('colors.gray.800');
+  line-height: theme('lineHeight.snug'); /* 1.375 */
+  flex: 1; /* 남은 공간 채우고 */
+  min-width: 0; /* 넘치지 않도록 */
+}
+
+.notice-item-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-left: theme('spacing.4'); /* 16px */
+  flex-shrink: 0;
+}
+
+.notice-item-date {
+  font-size: theme('fontSize.xs');
+  color: theme('colors.gray.500');
+  margin-bottom: theme('spacing.1'); /* 4px */
+}
+
+.notice-item-toggle-icon {
+  font-size: theme('fontSize.sm'); /* 14px */
+  color: theme('colors.gray.400');
+}
+
+.notice-item-content {
+  margin-top: theme('spacing.3'); /* 12px */
+  padding-top: theme('spacing.3'); /* 12px */
+  border-top: 1px solid theme('colors.gray.100');
+  font-size: theme('fontSize.sm');
+  color: theme('colors.gray.600');
+  line-height: theme('lineHeight.relaxed'); /* 1.625 */
+}
+
+/* 이벤트 카드 스타일 */
+.event-card-image {
+  width: 100%;
+  height: 12rem; /* 192px (h-48) */
+  object-fit: cover;
+}
+
+.event-card-content {
+  padding: theme('spacing.4');
+}
+
+.event-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* flex-start로 변경 */
+  margin-bottom: theme('spacing.2');
+}
+
+.event-card-title {
+  font-size: theme('fontSize.lg'); /* 18px */
+  font-weight: theme('fontWeight.semibold');
+  color: theme('colors.gray.800');
+  flex: 1; /* 남은 공간 채우고 */
+  min-width: 0; /* 넘치지 않도록 */
+  line-height: theme('lineHeight.tight');
+}
+
+.event-status-badge {
+  font-size: theme('fontSize.xs');
+  padding: theme('spacing.px') theme('spacing.2');
+  border-radius: theme('borderRadius.full');
+  font-weight: theme('fontWeight.medium');
+  flex-shrink: 0;
+  margin-left: theme('spacing.3'); /* 12px */
+}
+
+.event-status-badge.ongoing {
+  background-color: theme('colors.secondary.100');
+  color: theme('colors.secondary.800');
+}
+
+.event-status-badge.ended {
+  background-color: theme('colors.gray.100');
+  color: theme('colors.gray.600');
+}
+
+.event-period {
+  font-size: theme('fontSize.sm');
+  color: theme('colors.gray.600');
+  display: flex;
+  align-items: center;
+  gap: theme('spacing.2');
+}
+
+.tooltip-custom {
+  background-color: theme('colors.white') !important;
+  color: theme('colors.gray.800') !important;
+  border: 1px solid theme('colors.gray.200') !important;
+  box-shadow: theme('boxShadow.md') !important;
+  border-radius: theme('borderRadius.md') !important;
+  padding: theme('spacing.3') !important;
+  font-size: theme('fontSize.sm') !important;
+  width: 100% !important;
+  z-index: 1000 !important;
 }
