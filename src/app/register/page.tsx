@@ -6,46 +6,96 @@ import Toast from '@/components/toast/Toast';
 import api from '@/lib/api';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { FaArrowLeft, FaCheckCircle, FaEnvelope, FaExclamationCircle, FaEye, FaEyeSlash, FaLock, FaUser, FaPencilAlt } from 'react-icons/fa';
 import { useAuthStore } from '../../store/auth.store';
 
 // 약관 내용 (기존과 동일)
 const TERMS_CONTENT = `
   <h2 class="text-lg font-semibold mb-2">제1조 (목적)</h2>
-  <p class="mb-3">본 약관은 UMO(이하 “회사”라 함)가 제공하는 우산 대여 서비스 및 관련 제반 서비스(이하 “서비스”라 함)의 이용과 관련하여 회사와 회원 간의 권리, 의무 및 책임사항, 기타 필요한 사항을 규정함을 목적으로 합니다.</p>
-  
+  <p class="mb-3">
+    본 약관은 UMO(이하 "회사"라 함)가 제공하는 우산 대여 서비스 및 관련 제반 서비스(이하 "서비스"라 함)의 이용과 관련하여, 회사와 회원 간의 권리·의무 및 책임사항, 기타 필요한 사항을 정함을 목적으로 합니다.
+  </p>
+
   <h2 class="text-lg font-semibold mb-2">제2조 (용어의 정의)</h2>
-  <p class="mb-1">본 약관에서 사용하는 용어의 정의는 다음과 같습니다.</p>
+  <p class="mb-1">이 약관에서 사용하는 용어의 정의는 다음과 같습니다.</p>
   <ul class="list-disc list-inside mb-3 ml-2">
-    <li>“서비스”라 함은 구현되는 단말기(PC, 휴대형 단말기 등의 각종 유무선 장치를 포함)와 상관없이 회원이 이용할 수 있는 우산 대여 및 반납, 결제 등 회사가 제공하는 일체의 서비스를 의미합니다.</li>
-    <li>“회원”이라 함은 회사의 서비스에 접속하여 본 약관에 따라 회사와 이용계약을 체결하고 회사가 제공하는 서비스를 이용하는 고객을 말합니다.</li>
-    <li>“아이디”라 함은 회원의 식별과 서비스 이용을 위하여 회원이 정하고 회사가 승인하는 문자와 숫자의 조합을 의미합니다.</li>
-    <li>“비밀번호”라 함은 회원이 부여받은 아이디와 일치되는 회원임을 확인하고 비밀보호를 위해 회원 자신이 정한 문자와 숫자의 조합을 의미합니다.</li>
+    <li>“서비스”라 함은 회사가 제공하는 우산 대여 및 반납, 결제, 고객지원 등 관련 일체의 서비스를 말합니다.</li>
+    <li>“회원”이라 함은 본 약관에 동의하고, 회사와 서비스 이용 계약을 체결한 자로서, 회사가 제공하는 서비스를 이용하는 고객을 의미합니다.</li>
+    <li>“아이디(ID)”라 함은 회원의 식별과 서비스 이용을 위하여 회원이 정하고 회사가 승인한 문자 또는 숫자의 조합을 의미합니다.</li>
+    <li>“비밀번호”라 함은 아이디와 일치하는 회원임을 확인하고, 회원의 개인정보를 보호하기 위하여 회원이 설정한 문자 또는 숫자의 조합을 의미합니다.</li>
   </ul>
-  <p class="text-sm text-gray-500 mt-6">본 약관은 2025년 7월 15일부터 적용됩니다.</p>
+
+  <h2 class="text-lg font-semibold mb-2">제3조 (약관의 효력 및 변경)</h2>
+  <ul class="list-disc list-inside mb-3 ml-2">
+    <li>본 약관은 서비스를 이용하고자 하는 모든 회원에게 그 효력이 발생합니다.</li>
+    <li>회사는 관련 법령을 위반하지 않는 범위에서 본 약관을 개정할 수 있으며, 개정 시 개정 사유 및 적용일자를 명시하여 서비스 내 공지사항 등을 통해 사전 공지합니다.</li>
+    <li>회원은 개정 약관에 동의하지 않을 경우, 서비스 이용을 중단하고 탈퇴할 수 있습니다. 개정 약관의 효력 발생일 이후에도 서비스를 계속 이용할 경우, 해당 회원은 개정 약관에 동의한 것으로 간주합니다.</li>
+  </ul>
+
+  <h2 class="text-lg font-semibold mb-2">제4조 (회원가입)</h2>
+  <ul class="list-disc list-inside mb-3 ml-2">
+    <li>회원 가입은 서비스 내 제공되는 가입 양식에 따라 정보를 입력하고, 본 약관 및 개인정보 처리방침에 동의함으로써 성립됩니다.</li>
+    <li>회사는 다음 각 호에 해당하는 경우 회원가입을 승낙하지 않거나 사후에 취소할 수 있습니다:
+      <ul class="list-decimal list-inside ml-4">
+        <li>실명이 아닌 명의로 가입한 경우</li>
+        <li>타인의 명의를 도용한 경우</li>
+        <li>기재된 내용이 허위이거나 누락된 경우</li>
+        <li>기타 부정한 용도 또는 목적으로 신청한 경우</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h2 class="text-lg font-semibold mb-2">제5조 (회원의 의무)</h2>
+  <ul class="list-disc list-inside mb-3 ml-2">
+    <li>회원은 관계 법령, 본 약관의 규정, 이용안내 및 회사가 공지하는 사항을 준수하여야 하며, 기타 회사의 업무에 방해되는 행위를 하여서는 안 됩니다.</li>
+    <li>회원은 본인의 정보가 변경된 경우 즉시 수정하여야 하며, 이를 이행하지 않아 발생하는 불이익에 대해 회사는 책임지지 않습니다.</li>
+  </ul>
+
+  <p class="text-sm text-gray-500 mt-6">본 약관은 2025년 7월 15일부터 시행됩니다.</p>
 `;
 
 const PRIVACY_CONTENT = `
   <h2 class="text-lg font-semibold mb-2">제1조 (개인정보의 처리 목적)</h2>
-  <p class="mb-3">회사는 다음의 목적을 위하여 개인정보를 처리하며, 다음의 목적 이외의 용도로는 이용하지 않습니다.</p>
+  <p class="mb-3">회사는 다음과 같은 목적을 위하여 개인정보를 수집 및 이용하며, 수집한 개인정보는 명시한 목적 이외의 용도로는 사용되지 않습니다.</p>
   <ul class="list-disc list-inside mb-3 ml-2">
-    <li>회원 가입 및 관리: 회원 가입 의사 확인, 회원제 서비스 제공에 따른 본인 식별/인증, 회원 자격 유지/관리, 제한적 본인확인제 시행에 따른 본인확인, 서비스 부정이용 방지, 만14세 미만 아동 개인정보 처리 시 법정대리인의 동의 여부 확인, 각종 고지/통지, 고충 처리 등을 목적으로 개인정보를 처리합니다.</li>
-    <li>서비스 제공: 우산 대여 및 반납 서비스 제공, 콘텐츠 제공, 맞춤 서비스 제공, 본인인증, 요금 결제 및 정산 등을 목적으로 개인정보를 처리합니다.</li>
+    <li>회원 가입 및 본인 확인</li>
+    <li>서비스 제공에 따른 본인 인증, 결제 및 정산</li>
+    <li>고객 문의 및 민원 처리</li>
+    <li>서비스 이용 통계 분석 및 개선</li>
+    <li>관련 법령 및 이용약관에 위반되는 행위에 대한 대응</li>
   </ul>
-  
+
   <h2 class="text-lg font-semibold mb-2">제2조 (처리하는 개인정보 항목)</h2>
-  <p class="mb-1">회사는 서비스 제공을 위해 다음의 개인정보 항목을 처리하고 있습니다.</p>
+  <p class="mb-1">회사는 다음의 개인정보 항목을 수집 및 처리합니다.</p>
   <ul class="list-disc list-inside mb-3 ml-2">
-    <li>필수 항목: 이름, 이메일 주소, 비밀번호, 휴대전화번호</li>
-    <li>선택 항목: 주소, 결제 정보 (카드 번호 일부, 유효기간 등)</li>
+    <li>필수 항목: 이름, 이메일, 비밀번호, 휴대전화번호</li>
+    <li>선택 항목: 주소, 결제정보(카드 번호 일부, 유효기간 등)</li>
+    <li>자동 수집 항목: IP 주소, 쿠키, 서비스 이용기록, 접속 로그 등</li>
   </ul>
-  <p class="text-sm text-gray-500 mt-6">본 개인정보 처리 방침은 2025년 7월 15일부터 적용됩니다.</p>
+
+  <h2 class="text-lg font-semibold mb-2">제3조 (개인정보의 보유 및 이용기간)</h2>
+  <ul class="list-disc list-inside mb-3 ml-2">
+    <li>회원 탈퇴 시까지</li>
+    <li>관련 법령에 따라 보존이 필요한 경우 해당 법령이 정한 기간까지</li>
+    <li>서비스 이용 기록 등은 분석을 위해 일정 기간 익명화 후 보관될 수 있습니다</li>
+  </ul>
+
+  <h2 class="text-lg font-semibold mb-2">제4조 (개인정보의 제3자 제공)</h2>
+  <p class="mb-3">회사는 원칙적으로 이용자의 개인정보를 외부에 제공하지 않습니다. 다만 다음의 경우는 예외로 합니다.</p>
+  <ul class="list-disc list-inside mb-3 ml-2">
+    <li>이용자가 사전에 제3자 제공에 동의한 경우</li>
+    <li>법령의 규정에 의거하거나, 수사기관의 요청에 따라 제공이 필요한 경우</li>
+  </ul>
+
+  <h2 class="text-lg font-semibold mb-2">제5조 (이용자의 권리와 행사방법)</h2>
+  <p class="mb-3">이용자는 언제든지 자신의 개인정보에 대한 열람, 정정, 삭제, 처리 정지 요청을 할 수 있으며, 회사는 지체 없이 필요한 조치를 취합니다.</p>
+
+  <p class="text-sm text-gray-500 mt-6">본 개인정보 처리방침은 2025년 7월 15일부터 시행됩니다.</p>
 `;
 
-
 // 유효성 검사 함수
-const validateName = (name: string) => /^[가-힣a-zA-Z0-9]{1,8}$/.test(name);
+const validateName = (name: string) => /^[a-zA-Z0-9가-힣]{1,8}$/.test(name) && !/[ㄱ-ㅎㅏ-ㅣ]/.test(name);
 const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 const validatePassword = (password: string) =>
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{9,20}$/.test(password); // 9~20자, 영문 대소문자, 숫자, 특수문자(@$!%*?&) 모두 포함
@@ -60,6 +110,7 @@ export default function RegisterPage() {
   
   // 폼 상태
   const [name, setName] = useState('');
+  const [nameError, setNameError] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -104,7 +155,7 @@ export default function RegisterPage() {
 
   // 전체 폼 유효성 검사
   useEffect(() => {
-    const isNameValid = name.trim().length > 0;
+    const isNameValid = validateName(name);
     const isEmailFormatValid = validateEmail(email);
     const isPasswordFormatValid = validatePassword(password);
     const isPasswordMatch = password === confirmPassword;
@@ -113,6 +164,7 @@ export default function RegisterPage() {
     setEmailError(email.length > 0 && !isEmailFormatValid ? '유효한 이메일 형식이 아닙니다.' : '');
     setPasswordError(password.length > 0 && !isPasswordFormatValid ? '영문 대/소문자, 숫자, 특수문자 포함 9~20자' : '');
     setConfirmPasswordError(confirmPassword.length > 0 && !isPasswordMatch ? '비밀번호가 일치하지 않습니다.' : '');
+    setNameError(name.length > 0 && !isNameValid ? '이름은 1~8자, 한글/영문/숫자만 가능합니다.' : '');
 
     setFormValid(
       isNameValid &&
@@ -332,6 +384,11 @@ export default function RegisterPage() {
                     placeholder="이름"
                   />
                 </div>
+                {nameError && (
+                  <p className="mt-1 text-sm text-red-500 flex items-center gap-1">
+                    <FaExclamationCircle />{nameError}
+                  </p>
+                )}
               </div>
 
               {/* 이메일 */}
