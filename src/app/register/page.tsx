@@ -2,7 +2,7 @@
 'use client';
 
 import TermsModal from '@/components/terms/TermsModal';
-import Toast from '@/components/Toast';
+import Toast from '@/components/toast/Toast';
 import api from '@/lib/api';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
