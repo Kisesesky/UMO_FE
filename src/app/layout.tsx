@@ -6,7 +6,7 @@ import { Inter } from 'next/font/google';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: '우모 - 우산 대여 서비스',
+  title: 'UMO - 우산 대여 서비스',
   description: '언제 어디서나 편리하게 우산을 대여하세요',
 };
 

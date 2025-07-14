@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image'; // Next.js Image 컴포넌트 임포트
+import Image from 'next/image';
 import { useAuthStore } from '../../store/auth.store';
 import { FaEnvelope, FaLock, FaArrowLeft } from 'react-icons/fa';
 

@@ -1,12 +1,14 @@
 // src/app/register/page.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { useAuthStore } from '../../store/auth.store';
-import { FaUser, FaEnvelope, FaLock, FaCheckCircle, FaExclamationCircle, FaArrowLeft, FaEye, FaEyeSlash } from 'react-icons/fa';
 import TermsModal from '@/components/terms/TermsModal';
+import Toast from '@/components/Toast';
+import api from '@/lib/api';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState, useRef } from 'react';
+import { FaArrowLeft, FaCheckCircle, FaEnvelope, FaExclamationCircle, FaEye, FaEyeSlash, FaLock, FaUser, FaPencilAlt } from 'react-icons/fa';
+import { useAuthStore } from '../../store/auth.store';
 
 // 약관 내용 (기존과 동일)
 const TERMS_CONTENT = `
@@ -43,9 +45,15 @@ const PRIVACY_CONTENT = `
 
 
 // 유효성 검사 함수
+const validateName = (name: string) => /^[가-힣a-zA-Z0-9]{1,8}$/.test(name);
 const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-const validatePassword = (password: string) => /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password); // 최소 8자, 영문, 숫자 포함
-
+const validatePassword = (password: string) =>
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{9,20}$/.test(password); // 9~20자, 영문 대소문자, 숫자, 특수문자(@$!%*?&) 모두 포함
+const emailDomains = [
+    'gmail.com', 'naver.com', 'nate.com', 'daum.net', 'hanmail.net',
+    'kakao.com', 'hotmail.com', 'icloud.com', 'outlook.com'
+];
+  
 export default function RegisterPage() {
   const router = useRouter();
   const { register, isLoading, error: authError } = useAuthStore();
@@ -57,6 +65,10 @@ export default function RegisterPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [agreedTerms, setAgreedTerms] = useState(false);
   const [agreedPrivacy, setAgreedPrivacy] = useState(false);
+  const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
+  const profileImagePreview = profileImageFile
+    ? URL.createObjectURL(profileImageFile)
+    : '/assets/character/umo-face.png'; 
 
   // 비밀번호 가시성 상태
   const [showPassword, setShowPassword] = useState(false);
@@ -67,6 +79,10 @@ export default function RegisterPage() {
   const [passwordError, setPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
   const [formValid, setFormValid] = useState(false);
+  const [registerError, setRegisterError] = useState('');
+
+  // 이메일 자동 완성
+  const [hint, setHint] = useState('');
 
   // 이메일 인증 관련 상태 (UI 흐름만)
   const [isEmailVerified, setIsEmailVerified] = useState(false);
@@ -82,6 +98,10 @@ export default function RegisterPage() {
   const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false);
   const [currentModalType, setCurrentModalType] = useState<'terms' | 'privacy' | null>(null);
 
+  // 토스트 메세지
+  const [toastVisible, setToastVisible] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+
   // 전체 폼 유효성 검사
   useEffect(() => {
     const isNameValid = name.trim().length > 0;
@@ -91,7 +111,7 @@ export default function RegisterPage() {
     const isTermsAgreed = agreedTerms && agreedPrivacy;
 
     setEmailError(email.length > 0 && !isEmailFormatValid ? '유효한 이메일 형식이 아닙니다.' : '');
-    setPasswordError(password.length > 0 && !isPasswordFormatValid ? '최소 8자, 영문/숫자 포함' : '');
+    setPasswordError(password.length > 0 && !isPasswordFormatValid ? '영문 대/소문자, 숫자, 특수문자 포함 9~20자' : '');
     setConfirmPasswordError(confirmPassword.length > 0 && !isPasswordMatch ? '비밀번호가 일치하지 않습니다.' : '');
 
     setFormValid(
@@ -104,6 +124,46 @@ export default function RegisterPage() {
     );
   }, [name, email, password, confirmPassword, agreedTerms, agreedPrivacy, isEmailVerified]);
 
+  // 이메일 자동완성 로직
+  const getHint = (value: string) => {
+    const atIndex = value.indexOf('@');
+    if (atIndex > -1) {
+      const keyword = value.slice(atIndex + 1).toLowerCase();
+      if (keyword.length > 0) {
+        const found = emailDomains.find(domain => domain.startsWith(keyword));
+        if (found) return value.slice(0, atIndex + 1) + found;
+      }
+    }
+    return '';
+  };
+  
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setEmail(value);
+    setHint(getHint(value));
+  };
+
+  // 키보드 네비게이션(선택)
+  const handleEmailKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!hint || hint === email) return;
+    if (
+      e.key === 'Tab' ||
+      e.key === 'ArrowRight' ||
+      e.key === 'End'
+    ) {
+      e.preventDefault();
+      setEmail(hint);
+      setHint('');
+    }
+  };
+
+  const handleHintClick = () => {
+    if (hint && hint !== email) {
+      setEmail(hint);
+      setHint('');
+    }
+  };
+
   // 이메일 인증 코드 발송 (UI 로직)
   const handleSendVerificationCode = async () => {
     if (!validateEmail(email)) {
@@ -114,11 +174,13 @@ export default function RegisterPage() {
     setCodeSentMessage('');
     setCodeError('');
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      const res = await api.post('/auth/service/signup/sendcode', { email });
       setCodeSentMessage('인증 코드가 이메일로 발송되었습니다.');
       setShowVerificationInput(true);
-    } catch (err) {
-      setCodeError('인증 코드 발송에 실패했습니다.');
+    } catch (err: any) {
+      setCodeError(
+        err.response?.data?.message || '인증 코드 발송에 실패했습니다.'
+      );
     } finally {
       setIsSendingCode(false);
     }
@@ -133,15 +195,16 @@ export default function RegisterPage() {
     setIsVerifyingCode(true);
     setCodeError('');
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      if (verificationCode === '123456') { // 예시: '123456'이 올바른 코드
-        setIsEmailVerified(true);
-        setCodeSentMessage('이메일 인증이 완료되었습니다.');
-      } else {
-        setCodeError('인증 코드가 일치하지 않습니다.');
-      }
-    } catch (err) {
-      setCodeError('인증 코드 확인에 실패했습니다.');
+      const res = await api.post('/auth/service/signup/verifycode', {
+        email,
+        code: verificationCode,
+      });
+      setIsEmailVerified(true);
+      setCodeSentMessage('이메일 인증이 완료되었습니다.');
+    } catch (err: any) {
+      setCodeError(
+        err.response?.data?.message || '인증 코드 확인에 실패했습니다.'
+      );
     } finally {
       setIsVerifyingCode(false);
     }
@@ -170,19 +233,40 @@ export default function RegisterPage() {
 
   const handleSubmitRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+    setRegisterError('');
     if (!formValid) return;
 
-    await register({ name, email, password });
-    
-    if (useAuthStore.getState().isAuthenticated) {
-      router.push('/');
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('password', password);
+    formData.append('agreedTerms', String(agreedTerms));
+    formData.append('agreedPrivacy', String(agreedPrivacy));
+    if (profileImageFile) {
+      formData.append('profileImage', profileImageFile); // key 이름 주의!
+    }
+
+    try {
+      await api.post('/auth/register', formData, { 
+        headers: { 'Content-Type': 'multipart/form-data' },
+       });
+      // 회원가입 성공 후 라우팅 등 추가 로직
+      setToastMessage('회원가입이 완료되었습니다! 로그인 해주세요.');
+      setToastVisible(true);
+      setTimeout(() => setToastVisible(false), 2200);
+      setTimeout(() => router.push('/login'), 2000);
+    } catch (err: any) {
+      setRegisterError(
+        err.response?.data?.message || '회원가입에 실패했습니다. 다시 시도해주세요.'
+      );
     }
   };
 
   return (
     <div className="app-container flex flex-col bg-gray-50">
+      <Toast message={toastMessage} visible={toastVisible} />
       <header className="bg-white shadow-sm p-4 flex items-center">
-        <button 
+        <button
           onClick={() => router.push('/login')}
           className="p-2 rounded-full hover:bg-gray-100 transition-colors"
         >
@@ -190,15 +274,44 @@ export default function RegisterPage() {
         </button>
         <h1 className="text-lg font-semibold text-gray-800 flex-1 text-center pr-8">회원가입</h1>
       </header>
-      
+
       <main className="flex-1 flex flex-col items-center justify-center p-6 overflow-y-auto">
         <div className="w-full max-w-sm">
           <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold text-primary-600">우모</h2>
-            <p className="text-gray-600 mt-2">우산 대여 서비스</p>
+            <h2 className="text-2xl font-bold text-primary-600">UMO</h2>
+            <p className="text-gray-600 mt-3">우산 대여 서비스</p>
           </div>
-          
+
           <form onSubmit={handleSubmitRegister} className="space-y-6">
+            {/* 프로필 이미지 업로드 */}
+            <div className="flex flex-col items-center">
+              <div className="relative w-24 h-24 mb-2 group">
+                <img
+                  src={profileImagePreview}
+                  alt="프로필 이미지"
+                  className="w-24 h-24 rounded-full object-cover border border-gray-200 bg-white transition-opacity duration-200 group-hover:opacity-80"
+                  style={{ aspectRatio: '1/1' }}
+                />
+                <label
+                  className="absolute bottom-2 right-2 bg-white rounded-full p-2 shadow cursor-pointer border border-gray-300 hover:bg-gray-50 transition flex items-center justify-center"
+                  title="프로필 이미지 변경"
+                  style={{ zIndex: 2 }}
+                >
+                  <FaPencilAlt className="text-gray-600" />
+                  <input
+                    id="profileImage"
+                    name="profileImage"
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => setProfileImageFile(e.target.files?.[0] || null)}
+                  />
+                </label>
+                <div className="absolute inset-0 rounded-full bg-black bg-opacity-10 pointer-events-none group-hover:bg-opacity-20 transition"></div>
+              </div>
+              <span className="text-xs text-gray-500 mt-1">프로필 이미지는 선택사항입니다</span>
+            </div>
+
             <div className="space-y-4">
               {/* 이름 */}
               <div>
@@ -235,7 +348,8 @@ export default function RegisterPage() {
                     autoComplete="email"
                     required
                     value={email}
-                    onChange={(e) => { setEmail(e.target.value); setIsEmailVerified(false); setShowVerificationInput(false); setCodeSentMessage(''); setCodeError(''); }}
+                    onChange={handleEmailChange}
+                    onKeyDown={handleEmailKeyDown}
                     className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-primary-500 focus:border-primary-500 bg-white"
                     placeholder="이메일 주소"
                     disabled={isEmailVerified || isSendingCode}
@@ -252,6 +366,24 @@ export default function RegisterPage() {
                   >
                     {isSendingCode ? '전송 중...' : (isEmailVerified ? '인증 완료' : '인증 요청')}
                   </button>
+                  {/* 이메일 자동완성 추천 */}
+                  {hint && hint !== email && (
+                  <span
+                    className="absolute left-10 top-0 h-full flex items-center text-gray-400 pointer-events-auto select-none"
+                    style={{
+                      // input padding-left와 동일하게 left 조정
+                      pointerEvents: 'auto',
+                      cursor: 'pointer',
+                      userSelect: 'none',
+                    }}
+                    onMouseDown={handleHintClick}
+                    tabIndex={-1}
+                  >
+                    {/* 이미 입력한 부분은 투명, 추천되는 부분은 연하게 */}
+                    <span style={{ opacity: 0 }}>{email}</span>
+                    <span style={{ color: '#bbb' }}>{hint.slice(email.length)}</span>
+                  </span>
+                )}
                 </div>
                 {emailError && <p className="mt-1 text-sm text-red-500 flex items-center gap-1"><FaExclamationCircle />{emailError}</p>}
                 {codeSentMessage && <p className="mt-1 text-sm text-green-500 flex items-center gap-1"><FaCheckCircle />{codeSentMessage}</p>}
@@ -300,15 +432,14 @@ export default function RegisterPage() {
                   <input
                     id="password"
                     name="password"
-                    type={showPassword ? 'text' : 'password'} // 타입 동적 변경
+                    type={showPassword ? 'text' : 'password'}
                     autoComplete="new-password"
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 bg-white" // pr-10으로 공간 확보
+                    className="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 bg-white"
                     placeholder="최소 8자, 영문/숫자 포함"
                   />
-                  {/* 눈동자 아이콘 버튼 */}
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
@@ -330,15 +461,14 @@ export default function RegisterPage() {
                   <input
                     id="confirm-password"
                     name="confirm-password"
-                    type={showConfirmPassword ? 'text' : 'password'} // 타입 동적 변경
+                    type={showConfirmPassword ? 'text' : 'password'}
                     autoComplete="new-password"
                     required
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 bg-white" // pr-10으로 공간 확보
+                    className="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 bg-white"
                     placeholder="비밀번호 재입력"
                   />
-                  {/* 눈동자 아이콘 버튼 */}
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
@@ -359,13 +489,13 @@ export default function RegisterPage() {
                   name="agree-terms"
                   type="checkbox"
                   checked={agreedTerms}
-                  onClick={() => !agreedTerms && handleOpenTermsModal('terms')} 
+                  onClick={() => !agreedTerms && handleOpenTermsModal('terms')}
                   className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded cursor-pointer"
                 />
-                <label 
-                  htmlFor="agree-terms" 
+                <label
+                  htmlFor="agree-terms"
                   className="ml-2 block text-sm text-gray-900 cursor-pointer"
-                  onClick={() => !agreedTerms && handleOpenTermsModal('terms')} 
+                  onClick={() => !agreedTerms && handleOpenTermsModal('terms')}
                 >
                   <span className="font-medium text-primary-600 hover:text-primary-500">서비스 이용 약관</span> 동의 (필수)
                 </label>
@@ -379,10 +509,10 @@ export default function RegisterPage() {
                   onClick={() => !agreedPrivacy && handleOpenTermsModal('privacy')}
                   className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded cursor-pointer"
                 />
-                <label 
-                  htmlFor="agree-privacy" 
+                <label
+                  htmlFor="agree-privacy"
                   className="ml-2 block text-sm text-gray-900 cursor-pointer"
-                  onClick={() => !agreedPrivacy && handleOpenTermsModal('privacy')} 
+                  onClick={() => !agreedPrivacy && handleOpenTermsModal('privacy')}
                 >
                   <span className="font-medium text-primary-600 hover:text-primary-500">개인정보 처리 방침</span> 동의 (필수)
                 </label>
@@ -409,7 +539,7 @@ export default function RegisterPage() {
               </button>
             </div>
           </form>
-          
+
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
               이미 계정이 있으신가요?{' '}

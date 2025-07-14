@@ -5,216 +5,84 @@ import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import Drawer from '@/components/drawer';
 import MapControls from '@/components/map-controls';
 import WeatherInfo from '@/components/weather';
-import { StationService } from '@/services/station.service';
-import { useAuthStore } from '@/store/auth.store';
-import { useRentalStore } from '@/store/rental.store';
-import { useWalletStore } from '@/store/wallet.store';
-import type { KakaoMapProps, KakaoMapRef, KakaoMarker } from '@/types/kakao';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { FaBars, FaBell, FaSearch } from 'react-icons/fa';
+import { useCallback, useRef, useState, useEffect } from 'react';
 
-import type { Station } from '@/types/rental';
+import { useStationMarkers } from '@/hooks/useStationMarkers';
+import { useUserMarkers } from '@/hooks/useUserMarkers';
+import { useCurrentLocation } from '@/hooks/useCurrentLocation';
 
-// KakaoMap 컴포넌트 동적 import (SSR 비활성)
-const KakaoMap = dynamic<KakaoMapProps>(
-  () => import('@/components/kakao-map').then(mod => (mod as any).default),
+import type { KakaoMapRef } from '@/types/kakao-types';
+
+const KakaoMap = dynamic(
+  () => import('@/components/kakao-map').then(mod => mod.default),
   { ssr: false }
 );
 
 export default function HomePage() {
   const router = useRouter();
-
-  const { user } = useAuthStore();
-  const { wallet, fetchWallet } = useWalletStore();
-  const { activeRental, fetchActiveRental } = useRentalStore();
-
-  // KakaoMap ref (KakaoMapRef 타입)
-  const mapRef = useRef<KakaoMapRef | null>(null);
+  const mapRef = useRef<KakaoMapRef>(null);
   const [isMapReady, setIsMapReady] = useState(false);
-
-  // 마커 refs
-  const stationMarkersRef = useRef<KakaoMarker[]>([]);
-  const userMarkerRef = useRef<KakaoMarker | null>(null);
-
-  // 대여소 데이터 상태 및 ref (ref는 마커 관리용, 상태는 렌더링용)
-  const [stations, setStations] = useState<Station[]>([]);
-  const stationsRef = useRef<Station[]>([]);
-
-  // 사용자 위치 상태
-  const [userCoords, setUserCoords] = useState<{ latitude: number; longitude: number } | null>(null);
-
-  // Drawer 열림 상태
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  // 새로고침 진행 상태
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  // 초기 데이터 불러오기
-  useEffect(() => {
-    fetchWallet();
-    fetchActiveRental();
+  // stations & markers 훅 (stations 상태 + 마커 관리)
+  const { stations, addMarkersToMap } = useStationMarkers(mapRef);
 
-    const loadStations = async () => {
-      try {
-        const stationData = await StationService.getAllStations();
-        stationsRef.current = stationData;
-        setStations(stationData);
-      } catch (err) {
-        console.error('대여소 정보를 불러오는데 실패했습니다:', err);
-      }
-    };
+  // 사용자 위치 마커 훅
+  const { setUserMarker } = useUserMarkers();
 
-    loadStations();
-  }, [fetchWallet, fetchActiveRental]);
+  // 현재 위치 훅
 
-  // 마커 추가 함수
-  const addMarkersToMap = useCallback(() => {
-    if (!mapRef.current || !window.kakao?.maps) return;
+  const { userCoords, fetchCurrentPosition, moveToCurrentLocation } = useCurrentLocation(mapRef);
 
-    // 기존 마커 삭제
-    stationMarkersRef.current.forEach(marker => marker.setMap(null));
-    stationMarkersRef.current = [];
-
-    const kakaoMaps = window.kakao.maps;
-
-    stationsRef.current.forEach(station => {
-      const position = new kakaoMaps.LatLng(station.latitude, station.longitude);
-
-      const marker = new kakaoMaps.Marker({
-        map: mapRef.current!.getMapInstance()!,
-        position,
-        title: station.name,
-      });
-
-      kakaoMaps.event.addListener(marker, 'click', () => {
-        const infowindow = new kakaoMaps.InfoWindow({
-          content: `
-            <div style="padding:10px;width:200px;">
-              <h3 style="margin-bottom:5px;font-weight:bold;">${station.name}</h3>
-              <p style="margin-bottom:5px;font-size:12px;">${station.address || '주소 정보 없음'}</p>
-              <button 
-                onclick="window.location.href='/rent?stationId=${station.id}'" 
-                style="background:#4f46e5;color:white;border:none;padding:5px 10px;border-radius:4px;cursor:pointer;font-size:12px;"
-              >
-                이 대여소에서 대여하기
-              </button>
-            </div>
-          `,
-        });
-        infowindow.open(mapRef.current!.getMapInstance()!, marker);
-      });
-
-      stationMarkersRef.current.push(marker);
-    });
-  }, []);
-
-  // KakaoMap 로드 시 호출되는 콜백
+  // KakaoMap이 준비되었을 때
   const handleMapLoad = useCallback((mapInstance: KakaoMapRef) => {
     mapRef.current = mapInstance;
     setIsMapReady(true);
-
-    if (stationsRef.current.length > 0) {
+    if (stations.length > 0) {
       addMarkersToMap();
     }
-  }, [addMarkersToMap]);
+  }, [addMarkersToMap, stations.length]);
 
-  // stations 상태가 바뀌면 마커 갱신
+  // stations 바뀌면 마커 갱신
   useEffect(() => {
-    if (mapRef.current && stations.length > 0) {
+    if (isMapReady && stations.length > 0) {
       addMarkersToMap();
     }
-  }, [stations, addMarkersToMap]);
+  }, [isMapReady, stations, addMarkersToMap]);
 
-  // 사용자 현재 위치 받아오기
   useEffect(() => {
-    if (!navigator.geolocation) return;
+    if (isMapReady) {
+      moveToCurrentLocation(); // 지도 로드 완료 후 한 번만 호출
+    }
+  }, [isMapReady]);
 
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        setUserCoords({
-          latitude: pos.coords.latitude,
-          longitude: pos.coords.longitude,
-        });
-      },
-      (error) => {
-        console.error('Error getting location:', error);
-      }
-    );
-  }, []);
+  // 페이지 첫 렌더 시 현재 위치 가져오기
+  useEffect(() => {
+    fetchCurrentPosition();
+  }, [fetchCurrentPosition]);
 
-  // 현재 위치로 이동 및 마커 표시
+  // 현재 위치 버튼 클릭 시
   const handleCurrentLocation = useCallback(() => {
     if (!mapRef.current) {
-      console.error('mapRef가 아직 설정되지 않았습니다.');
+      console.error('지도 참조가 없습니다.');
       return;
     }
-  
-    const mapInstance = mapRef.current.getMapInstance();
-    if (!mapInstance) {
-      console.error('지도 인스턴스가 아직 준비되지 않았습니다.');
-      return;
+    moveToCurrentLocation();
+    // 마커도 갱신
+    if (userCoords) {
+      const kakaoMaps = window.kakao.maps;
+      const position = new kakaoMaps.LatLng(userCoords.latitude, userCoords.longitude);
+      const mapInstance = mapRef.current.getMapInstance();
+      if (mapInstance) {
+        setUserMarker(mapInstance, position);
+      }
     }
-  
-    if (!navigator.geolocation) {
-      alert('이 브라우저에서는 위치 서비스를 지원하지 않습니다.');
-      return;
-    }
-  
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const { latitude, longitude } = pos.coords;
-        const kakaoMaps = window.kakao.maps;
-        const newCenter = new kakaoMaps.LatLng(latitude, longitude);
-  
-        mapInstance.setCenter(newCenter);
-        mapInstance.setLevel(3);
-  
-        // 이전 마커 제거
-        if (userMarkerRef.current) {
-          userMarkerRef.current.setMap(null);
-          userMarkerRef.current = null;
-        }
-  
-        // 마커 이미지 설정 (스타 마커)
-        const markerImage = new kakaoMaps.MarkerImage(
-          'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png',
-          new kakaoMaps.Size(24, 35),
-          { offset: new kakaoMaps.Point(12, 35) }
-        );
-  
-        // 새 마커 생성
-        const marker = new kakaoMaps.Marker({
-          position: newCenter,
-          map: mapInstance,
-          image: markerImage,
-          title: '내 위치',
-        });
-  
-        userMarkerRef.current = marker;
-      },
-      (error) => {
-        console.error('Error getting current location:', error);
-        let message = '현재 위치를 가져올 수 없습니다.';
-        switch (error.code) {
-          case error.PERMISSION_DENIED:
-            message = '위치 권한이 거부되었습니다. 브라우저의 위치 권한을 허용해주세요.';
-            break;
-          case error.POSITION_UNAVAILABLE:
-            message = '위치 정보를 사용할 수 없습니다.';
-            break;
-          case error.TIMEOUT:
-            message = '위치 정보 요청 시간이 초과되었습니다.';
-            break;
-        }
-        alert(message);
-      },
-      { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
-    );
-  }, []);  
+  }, [moveToCurrentLocation, setUserMarker, userCoords]);
 
-  // 새로고침 핸들러 (레벨 유지하며 중심 다시 설정)
+  // 새로고침 버튼 핸들러
   const handleRefresh = () => {
     setIsRefreshing(true);
     if (mapRef.current) {
@@ -228,7 +96,7 @@ export default function HomePage() {
     setTimeout(() => setIsRefreshing(false), 800);
   };
 
-  // 대여/반납 페이지 이동 핸들러
+  // 대여 페이지 이동
   const handleRentClick = () => {
     router.push('/rent');
   };
@@ -244,31 +112,60 @@ export default function HomePage() {
           <div className="top-search-bar-container">
             <div className="search-bar">
               <div className="absolute inset-y-0 left-4 pl-3 flex items-center pointer-events-none">
-                <FaSearch className="text-gray-400" />
+                <svg
+                  aria-hidden="true"
+                  className="w-5 h-5 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M21 21l-4.35-4.35m1.35-4.65a7 7 0 11-14 0 7 7 0 0114 0z"
+                  ></path>
+                </svg>
               </div>
-              <input
-                type="text"
-                placeholder="어디로 가시나요?"
-                className="search-input pl-10 pr-3"
-              />
+              <input type="text" placeholder="어디로 가시나요?" className="search-input pl-10 pr-3" />
               <div className="flex items-center gap-2 pr-2">
                 <button className="icon-button-small">
-                  <FaBell size={18} color="#666" />
+                  {/* 벨 아이콘 */}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="2"
+                    stroke="currentColor"
+                    className="w-5 h-5 text-gray-600"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                    />
+                  </svg>
                 </button>
-                <button
-                  className="icon-button-small"
-                  onClick={() => setIsDrawerOpen(true)}
-                >
-                  <FaBars size={18} color="#666" />
+                <button className="icon-button-small" onClick={() => setIsDrawerOpen(true)}>
+                  {/* 메뉴 아이콘 */}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="2"
+                    stroke="currentColor"
+                    className="w-5 h-5 text-gray-600"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
                 </button>
               </div>
             </div>
           </div>
 
           <div className="absolute top-20 left-4 w-64 z-10">
-            {userCoords && (
-              <WeatherInfo latitude={userCoords.latitude} longitude={userCoords.longitude} />
-            )}
+            {userCoords && <WeatherInfo latitude={userCoords.latitude} longitude={userCoords.longitude} />}
           </div>
 
           <div className="controls-container">
@@ -281,7 +178,8 @@ export default function HomePage() {
 
           <div className="rent-button-container">
             <button className="rent-button" onClick={handleRentClick}>
-              {activeRental ? '반납하기' : '대여하기'}
+              {/* 대여중이면 반납, 아니면 대여 */}
+              {stations.length > 0 ? '반납하기' : '대여하기'}
             </button>
           </div>
         </div>
