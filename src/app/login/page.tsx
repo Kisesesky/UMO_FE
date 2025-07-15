@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useAuthStore } from '../../store/auth.store';
 import { FaEnvelope, FaLock, FaArrowLeft } from 'react-icons/fa';
+import SocialLoginButtons from '@/components/auth/SocialLoginButtons';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -23,6 +24,11 @@ export default function LoginPage() {
     }
   };
 
+  const handleSocialLogin = (provider: 'google' | 'kakao' | 'naver') => {
+    // 백엔드 소셜 로그인 엔드포인트로 이동
+    window.location.href = `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/${provider}`;
+  };
+
   return (
     <div className="app-container flex flex-col bg-gray-50">
       <header className="bg-white shadow-sm p-4 flex items-center">
@@ -35,7 +41,13 @@ export default function LoginPage() {
         <h1 className="text-lg font-semibold text-gray-800 flex-1 text-center pr-8">로그인</h1>
       </header>
       
-      <main className="flex-1 flex flex-col items-center justify-center p-6">
+      <main className="flex-1 flex flex-col items-center
+        p-6 overflow-y-auto
+        pt-8
+        md:pt-8
+        lg:pt-10
+        justify-center
+        md:justify-start">
         <div className="w-full max-w-sm">
           {/* 로고 또는 앱 이름 및 캐릭터 이미지 */}
           <div className="text-center mb-8">
@@ -109,14 +121,15 @@ export default function LoginPage() {
                 className={`w-full py-3 px-4 rounded-lg font-medium text-white shadow-button transition-colors ${
                   isLoading 
                     ? 'bg-primary-400 cursor-not-allowed' 
-                    : 'bg-primary-600 hover:bg-primary-700 active:bg-primary-800'
+                    : 'bg-primary-500 hover:bg-primary-700 active:bg-primary-800'
                 }`}
               >
                 {isLoading ? '로그인 중...' : '로그인'}
               </button>
             </div>
+            <SocialLoginButtons onSocialLogin={handleSocialLogin} />
           </form>
-          
+
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
               아직 계정이 없으신가요?{' '}

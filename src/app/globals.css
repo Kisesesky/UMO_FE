@@ -14,6 +14,7 @@
   --background: theme('colors.white'); /* Tailwind colors 사용 */
   --foreground: theme('colors.gray.900'); /* Tailwind colors 사용 */
   --app-shadow: theme('boxShadow.app'); /* 새로운 그림자 변수 사용 */
+  --safe-vh: 100vh; /* 높이 지정 */
 }
 
 /* 다크 모드 미디어 쿼리 (Tailwind JIT가 자동으로 처리할 수 있으나 명시적으로) */
@@ -21,6 +22,33 @@
   :root {
     --background: theme('colors.gray.50');
     --foreground: theme('colors.gray.900');
+  }
+}
+
+@media (max-width: 767px) and (max-width: 1023px) {
+  .app-container {
+    max-width: 444px;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1700px) {
+  .app-container {
+    width: 28vw;     /* 화면 너비의 1/3 */
+    max-width: 500px;     /* 너무 넓어지지 않도록 제한 */
+  }
+}
+
+@media (min-width: 1701px) and (max-width: 1999px) {
+  .app-container {
+    width: 28vw;     /* 화면 너비의 1/3 */
+    max-width: 524px;
+  }
+}
+
+@media (min-width: 2000px) {
+  .app-container {
+    width: 28vw;     /* 화면 너비의 1/3 */
+    max-width: 724px;
   }
 }
 
@@ -47,9 +75,7 @@ body {
 .app-container {
   position: relative;
   width: 100%;
-  height: 100vh;
-  max-width: 444px; /* 모바일 기기 너비 기준 */
-  max-height: 800px; /* 모바일 기기 높이 기준 */
+  height: 100svh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -396,7 +422,7 @@ body {
 .rent-button {
   width: 100%;
   height: theme('spacing.14'); /* 56px */
-  background: theme('colors.primary.DEFAULT'); /* 주색 사용 */
+  background: theme('colors.indigo.500'); /* 주색 사용 */
   color: theme('colors.white');
   border: none;
   border-radius: theme('borderRadius.xl'); /* 12px */

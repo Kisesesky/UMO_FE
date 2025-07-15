@@ -14,6 +14,119 @@ pnpm dev
 bun dev
 ```
 
+# 폴더구조
+src/
+├── app/
+│   ├── coupons/
+│   │   └── page.tsx
+│   ├── customer-service/
+│   │   └── page.tsx
+│   ├── event/
+│   │   └── [id]/
+│   │        └── page.tsx
+│   │   └── page.tsx
+│   ├── guide/
+│   │   └── page.tsx
+│   ├── invite-friends/
+│   │   └── page.tsx
+│   ├── login/
+│   │   └── page.tsx
+│   ├── my-rentals/
+│   │   └── page.tsx
+│   ├── notice/
+│   │   └── page.tsx
+│   ├── payment-methods/
+│   │   └── add/
+│   │        └── page.tsx
+│   │   └── page.tsx
+│   ├── privacy/
+│   │   └── page.tsx
+│   ├── products/
+│   │   └── page.tsx
+│   │   └── ProductsClient.tsx
+│   ├── profile/
+│   │   └── page.tsx
+│   ├── register/
+│   │   └── page.tsx
+│   ├── rent/
+│   │   └── page.tsx
+│   ├── return/
+│   │   └── page.tsx
+│   ├── settings/
+│   │   └── page.tsx
+│   ├── terms/
+│   │   └── page.tsx
+│   ├── wallet/
+│   │   └── page.tsx
+│   ├── favicon.ico
+│   ├── globals.css
+│   ├── layout.tsx
+│   └── page.tsx
+├── components/
+│   ├── auth/
+│   │   └── ProtectedRoute.tsx
+│   ├── drawer/
+│   │   ├── Drawer.tsx
+│   │   └── index.ts
+│   ├── events/
+│   │   └── page.tsx
+│   ├── kakao-map/
+│   │   ├── KakaoMap.tsx
+│   │   └── index.ts
+│   ├── map-controls/
+│   │   ├── MapControls.tsx
+│   │   └── index.ts
+│   ├── notice/
+│   │   └── page.tsx
+│   ├── payment/
+│   │   └── PaymentButton.tsx
+│   ├── shared/
+│   ├── terms/
+│   │   └── TermsModal.tsx
+│   ├── toast/
+│   │   ├── Toast.tsx
+│   │   └── index.ts
+│   └── weather/
+│       ├── WeatherInfo.tsx
+│       └── index.ts
+├── hooks/
+│   ├── userCurrentLocation.ts
+│   ├── userStationMarkers.ts
+│   ├── useStation.ts
+│   └── useUserMarkers.ts
+├── lib/
+│   └── api.ts
+├── services/
+│   ├── api.ts
+│   ├── auth.service.ts
+│   ├── payment.service.ts
+│   ├── product.service.ts
+│   ├── rental.service.ts
+│   ├── wallet.service.ts
+│   └── weather.service.ts
+├── store/
+│   ├── auth.store.ts
+│   ├── rental.store.ts
+│   ├── wallet.store.ts
+│   └── weather.store.ts
+├── types/
+│   ├── auth.ts
+│   ├── coupon.ts
+│   ├── event.ts
+│   ├── guide.ts
+│   ├── kakao-types.ts
+│   ├── kakao.d.ts
+│   ├── notice.ts
+│   ├── payment.ts
+│   ├── product.ts
+│   ├── rental.ts
+│   ├── toast.ts
+│   ├── wallet.ts
+│   └── weather.ts
+└── util/
+    └── (아직 파일 없음)
+
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.

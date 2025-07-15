@@ -4,11 +4,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '../../store/auth.store';
-
-interface ProtectedRouteProps {
-  children: React.ReactNode;
-  checkAuth?: boolean; // 인증 체크 여부 (기본값: true)
-}
+import { ProtectedRouteProps } from '@/types/components/auth';
 
 export default function ProtectedRoute({ children, checkAuth = true }: ProtectedRouteProps) {
   const router = useRouter();
