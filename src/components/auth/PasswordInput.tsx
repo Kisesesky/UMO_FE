@@ -8,7 +8,12 @@ export default function PasswordInput({ value, onChange, showPassword, setShowPa
 
   return (
     <div>
-      <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">비밀번호</label>
+      <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+        <b>비밀번호</b>
+        <span className="text-xs text-gray-500 ml-3 align-middle">
+          (최소 9자, 영문 대소문자, 숫자, 특수문자 포함)
+        </span>
+      </label>
       <div className="relative">
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
           <FaLock className="text-gray-400" />
@@ -28,7 +33,7 @@ export default function PasswordInput({ value, onChange, showPassword, setShowPa
             }
           }}
           className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 bg-white"
-          placeholder="최소 8자, 영문/숫자 포함"
+          placeholder="비밀번호 입력"
         />
         <button
           type="button"

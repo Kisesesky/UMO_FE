@@ -4,7 +4,6 @@
 import { useState } from 'react';
 import EmailStep from './EmailStep';
 import ResetStep from './ResetStep';
-import SuccessStep from './SuccessStep';
 import { FaArrowLeft } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
@@ -49,9 +48,19 @@ export default function FindPasswordPage() {
           </div>
 
           {/* 단계별 Step */}
-          {step === 1 && <EmailStep email={email} setEmail={setEmail} onSuccess={() => setStep(2)} />}
-          {step === 2 && <ResetStep email={email} onSuccess={() => setStep(3)} />}
-          {step === 3 && <SuccessStep />}
+          {step === 1 && (
+            <EmailStep
+              email={email}
+              setEmail={setEmail}
+              onSuccess={() => setStep(2)}
+            />
+          )}
+          {step === 2 && (
+            <ResetStep
+              email={email}
+              // onSuccess는 필요 없으므로 넘기지 않음
+            />
+          )}
         </div>
       </main>
     </div>

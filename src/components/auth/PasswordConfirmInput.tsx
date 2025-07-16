@@ -8,7 +8,9 @@ export default function PasswordConfirmInput({ value, onChange, showPassword, se
   
   return (
     <div>
-      <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700 mb-1">비밀번호 확인</label>
+      <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700 mb-1">
+        <b>비밀번호 확인</b>
+      </label>
       <div className="relative">
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
           <FaLock className="text-gray-400" />
