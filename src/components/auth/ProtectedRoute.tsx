@@ -1,7 +1,7 @@
 // src/components/auth/ProtectedRoute.tsx
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '../../store/auth.store';
 import { ProtectedRouteProps } from '@/types/components/auth';
@@ -10,24 +10,23 @@ export default function ProtectedRoute({ children, checkAuth = true }: Protected
   const router = useRouter();
   const { isAuthenticated, getProfile, isLoading } = useAuthStore();
   const [isChecking, setIsChecking] = useState(checkAuth);
+  const attemptedRef = useRef(false);
 
   useEffect(() => {
-    // 인증 체크가 필요한 경우에만 실행
-    if (checkAuth) {
-      const checkAuth = async () => {
-        if (!isAuthenticated) {
-          await getProfile();
-        }
-        setIsChecking(false);
-      };
-      
-      checkAuth();
+    if (checkAuth && !isAuthenticated && !attemptedRef.current) {
+      attemptedRef.current = true;
+      getProfile().finally(() => setIsChecking(false));
     } else {
       setIsChecking(false);
     }
-  }, [isAuthenticated, getProfile, checkAuth]);
+  }, [checkAuth, isAuthenticated, getProfile]);
 
-  // 인증 체크 중이면 로딩 표시
+  useEffect(() => {
+    if (checkAuth && !isLoading && !isAuthenticated && !isChecking) {
+      router.push('/login');
+    }
+  }, [checkAuth, isAuthenticated, isLoading, isChecking, router]);
+
   if (isChecking && checkAuth) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -36,12 +35,5 @@ export default function ProtectedRoute({ children, checkAuth = true }: Protected
     );
   }
 
-  // 인증 체크가 필요하고, 로딩이 끝났는데 인증되지 않았으면 로그인 페이지로 리디렉션
-  if (checkAuth && !isLoading && !isAuthenticated) {
-    router.push('/login');
-    return null;
-  }
-
-  // 그 외의 경우 자식 컴포넌트 렌더링
   return <>{children}</>;
 }

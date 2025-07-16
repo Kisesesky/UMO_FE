@@ -93,28 +93,34 @@ export default function Drawer({ isOpen, onClose }: DrawerProps) {
     <div className={`drawer ${isOpen ? 'open' : ''}`}>
       <div className="drawer-backdrop" onClick={handleOutsideClick} />
       <div className="drawer-panel">
-        <div className="drawer-header">
-          <div className="drawer-title">
-            {isAuthenticated ? (
-              <>
-                <span>{user?.name || '사용자'}님</span>
-                <span className="drawer-subtitle">{user?.email || ''}</span>
-              </>
-            ) : (
-              <>
-                <span>로그인 / 회원가입</span>
-                <span className="drawer-subtitle">지금 가입하면 할인쿠폰을 드려요</span>
-              </>
-            )}
-          </div>
-          <button onClick={onClose} className="drawer-close-btn">
+        {/* --- 헤더 부분 여기서부터 --- */}
+        <div className="drawer-header flex items-center justify-between">
+          {isAuthenticated ? (
+            <div className="drawer-title flex items-center gap-3 py-1">
+              <img
+                src={user?.profileImage || '/assets/character/umo-face.png'}
+                alt="프로필 이미지"
+                className="rounded-full w-10 h-10 border border-gray-200 shadow object-cover bg-white"
+                style={{ objectFit: 'cover' }}
+              />
+              <span className="font-semibold text-gray-900">{user?.name || '사용자'}님</span>
+            </div>
+          ) : (
+            <div className="drawer-title flex flex-col py-1">
+              <span className="font-semibold">로그인 / 회원가입</span>
+              <span className="drawer-subtitle text-xs text-gray-500">지금 가입하면 할인쿠폰을 드려요</span>
+            </div>
+          )}
+          <button onClick={onClose} className="drawer-close-btn ml-4">
             <FaTimes size={20} />
           </button>
         </div>
-        
+        {/* --- 헤더 끝 --- */}
+
+        {/* 나머지 메뉴 및 내용은 기존 코드 유지 */}
         <nav className="drawer-content">
           <ul>
-            {filteredMenuItems.map((item, index) => (
+            {filteredMenuItems.map((item) => (
               <React.Fragment key={item.id}>
                 {item.id === 'notice' && (
                   <li>
@@ -132,7 +138,7 @@ export default function Drawer({ isOpen, onClose }: DrawerProps) {
             className="customer-service-btn"
             onClick={() => {
               onClose();
-              router.push('/customer-service'); // 고객센터 페이지로 이동 (예시)
+              router.push('/customer-service');
             }}
           >
             <FaHeadset />

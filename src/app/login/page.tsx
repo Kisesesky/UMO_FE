@@ -8,6 +8,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useAuthStore } from '@/store/auth.store';
 import { FaArrowLeft, FaEnvelope, FaLock } from 'react-icons/fa';
 
 export default function LoginPage() {
@@ -24,6 +25,8 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const getProfile = useAuthStore((state) => state.getProfile);
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isLoading) return;
@@ -32,6 +35,7 @@ export default function LoginPage() {
     try {
       // 실제 로그인 API 호출!
       await api.post('/auth/login', { email, password }); // 쿠키 자동 저장됨
+      await getProfile();
       router.push('/');
     } catch (err: any) {
       setError(
