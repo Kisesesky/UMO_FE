@@ -34,7 +34,7 @@ export default function EmailInputWithVerification({
               inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
           }}
-          className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-primary-500 focus:border-primary-500 bg-white"
+          className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-primary-500 focus:border-primary-500 bg-white"
           placeholder="이메일 주소"
           disabled={isEmailVerified || isSendingCode}
         />
@@ -42,7 +42,7 @@ export default function EmailInputWithVerification({
           type="button"
           onClick={handleSendVerificationCode}
           disabled={isSendingCode || isEmailVerified || !email}
-          className={`shrink-0 px-4 py-3 rounded-r-lg font-medium text-white transition-colors ${
+          className={`shrink-0 px-4 py-2 rounded-r-lg font-medium text-white transition-colors ${
             (isSendingCode || isEmailVerified || !email)
               ? 'bg-gray-400 cursor-not-allowed'
               : 'bg-primary-600 hover:bg-primary-700'

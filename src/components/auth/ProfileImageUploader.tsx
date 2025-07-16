@@ -29,7 +29,7 @@ export default function ProfileImageUploader({ profileImageFile, setProfileImage
         </label>
         <div className="absolute inset-0 rounded-full bg-black bg-opacity-10 pointer-events-none group-hover:bg-opacity-20 transition"></div>
       </div>
-      <span className="text-xs text-gray-500 mt-1">프로필 이미지는 선택사항입니다</span>
+      <span className="text-xs text-gray-500">프로필 이미지는 선택사항입니다.</span>
     </div>
   );
 }

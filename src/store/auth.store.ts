@@ -24,7 +24,6 @@ export const useAuthStore = create<AuthState>((set) => ({
     set({ isLoading: true, error: null });
     try {
       const response = await AuthService.login(data);
-      localStorage.setItem('token', response.accessToken);
       set({ user: response.user, isAuthenticated: true, isLoading: false });
     } catch (error: any) {
       set({ 
@@ -55,7 +54,6 @@ export const useAuthStore = create<AuthState>((set) => ({
     } catch (error) {
       console.error('로그아웃 중 오류 발생:', error);
     } finally {
-      localStorage.removeItem('token');
       set({ user: null, isAuthenticated: false, isLoading: false });
     }
   },
@@ -68,7 +66,6 @@ export const useAuthStore = create<AuthState>((set) => ({
       const user = await AuthService.getProfile();
       set({ user, isAuthenticated: true, isLoading: false });
     } catch (error) {
-      localStorage.removeItem('token');
       set({ user: null, isAuthenticated: false, isLoading: false });
     }
   }

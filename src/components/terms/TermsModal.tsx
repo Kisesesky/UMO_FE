@@ -3,6 +3,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
+import Image from 'next/image';
 
 interface TermsModalProps {
   isOpen: boolean;
@@ -65,11 +66,24 @@ export default function TermsModal({ isOpen, onClose, onAgree, title, content }:
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
       <div className="bg-white rounded-xl shadow-xl w-full max-w-md flex flex-col h-[80vh] overflow-hidden">
         {/* 모달 헤더 */}
-        <header className="flex justify-between items-center p-4 border-b border-gray-200 shrink-0">
-          <h2 className="text-lg font-semibold text-gray-800">{title}</h2>
+        <header className="flex items-center justify-between p-4 border-b border-gray-200 shrink-0">
+          <div className="flex items-center gap-3 flex-1 min-w-0">
+            <Image
+              src="/assets/character/umo-face.png"
+              alt="우모 캐릭터"
+              width={36}
+              height={36}
+              className="rounded-full"
+              style={{ minWidth: 36, minHeight: 36 }}
+            />
+            <h2 className="text-lg font-semibold text-gray-800 truncate">
+              {title}
+            </h2>
+          </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors text-gray-600"
+            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors text-gray-600 ml-2"
+            aria-label="모달 닫기"
           >
             <FaTimes size={18} />
           </button>

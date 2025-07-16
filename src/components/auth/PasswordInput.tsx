@@ -27,7 +27,7 @@ export default function PasswordInput({ value, onChange, showPassword, setShowPa
               inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
           }}
-          className="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 bg-white"
+          className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 bg-white"
           placeholder="최소 8자, 영문/숫자 포함"
         />
         <button

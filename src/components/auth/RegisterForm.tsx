@@ -16,11 +16,8 @@ import { useEmailVerification } from '@/hooks/useEmailVerification';
 import { validateName, validateEmail, validatePassword } from '@/utils/validation';
 import TERMS_CONTENT from '@/constants/terms';
 import PRIVACY_CONTENT from '@/constants/privacy';
-
-const emailDomains = [
-  'gmail.com', 'naver.com', 'nate.com', 'daum.net', 'hanmail.net',
-  'kakao.com', 'hotmail.com', 'icloud.com', 'outlook.com'
-];
+import { emailDomains } from '@/utils/autocomplete';
+import { useEmailAutocomplete } from '@/hooks/useEmailAutocomplete';
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -40,9 +37,16 @@ export default function RegisterForm() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const {
+    email, setEmail,
+    hint, setHint,
+    handleEmailChange,
+    handleEmailKeyDown,
+    handleHintClick
+  } = useEmailAutocomplete();
+
 
   // 이메일 인증 훅
-  const [email, setEmail] = useState('');
   const {
     isEmailVerified,
     verificationCode,
@@ -63,39 +67,6 @@ export default function RegisterForm() {
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
   const [formValid, setFormValid] = useState(false);
   const [registerError, setRegisterError] = useState('');
-
-  // 이메일 자동완성
-  const [hint, setHint] = useState('');
-  const getHint = (value: string) => {
-    const atIndex = value.indexOf('@');
-    if (atIndex > -1) {
-      const keyword = value.slice(atIndex + 1).toLowerCase();
-      if (keyword.length > 0) {
-        const found = emailDomains.find(domain => domain.startsWith(keyword));
-        if (found) return value.slice(0, atIndex + 1) + found;
-      }
-    }
-    return '';
-  };
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setEmail(value);
-    setHint(getHint(value));
-  };
-  const handleEmailKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (!hint || hint === email) return;
-    if (['Tab', 'ArrowRight', 'End'].includes(e.key)) {
-      e.preventDefault();
-      setEmail(hint);
-      setHint('');
-    }
-  };
-  const handleHintClick = () => {
-    if (hint && hint !== email) {
-      setEmail(hint);
-      setHint('');
-    }
-  };
 
   // 약관 모달
   const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
@@ -179,7 +150,7 @@ export default function RegisterForm() {
   return (
     <div>
       <Toast message={toastMessage} visible={toastVisible} />
-      <form onSubmit={handleSubmitRegister} className="space-y-6">
+      <form onSubmit={handleSubmitRegister} className="space-y-3 md:space-y-5 lg:space-y-6 xl:space-y-7">
         <ProfileImageUploader
           profileImageFile={profileImageFile}
           setProfileImageFile={setProfileImageFile}

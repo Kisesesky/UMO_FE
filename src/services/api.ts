@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 // 백엔드 API URL
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 // axios 인스턴스 생성
 const api = axios.create({

@@ -27,7 +27,7 @@ export default function NameInput({ value, onChange, error }: NameInputProps) {
               inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
           }}
-          className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 bg-white"
+          className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 bg-white"
           placeholder="이름"
         />
       </div>
