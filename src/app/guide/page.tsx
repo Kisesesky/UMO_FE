@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import {
   FaCreditCard, FaMapMarkerAlt, FaUmbrella
 } from 'react-icons/fa';
+import { useSwipeable } from 'react-swipeable';
 
 const guides: GuideItem[] = [
   {
@@ -52,28 +53,43 @@ export default function GuideSliderPage() {
   const router = useRouter();
   const totalPages = guides.length;
 
-  const handleClose = () => {
-    router.push('/'); // 홈으로 이동
+  // 닫기 버튼 클릭 시 홈으로 이동
+  const handleClose = () => router.push('/');
+
+  // 이전 페이지로 이동
+  const handlePrev = () => {
+    if (currentIndex > 0) setCurrentIndex((idx) => idx - 1);
   };
 
+  // 다음 페이지로 이동 또는 완료 시 홈으로 이동
   const handleNext = () => {
     if (currentIndex < totalPages - 1) {
       setCurrentIndex((idx) => idx + 1);
     } else {
-      router.push('/'); // 마지막 페이지에서 '완료' 버튼 클릭 시 홈으로 이동
+      router.push('/');
     }
   };
 
-  const handleDotClick = (index: number) => {
-    setCurrentIndex(index);
-  };
+  // 특정 점 클릭 시 해당 인덱스로 이동
+  const handleDotClick = (index: number) => setCurrentIndex(index);
+
+  // 터치 및 마우스 스와이프 핸들러 설정
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: handleNext,
+    onSwipedRight: handlePrev,
+    trackMouse: true, // 데스크탑 마우스 드래그도 지원
+  });
 
   const currentGuide = guides[currentIndex];
 
   return (
-    <div className="app-container flex flex-col items-center justify-center"> {/* app-container가 중앙 정렬하도록 */}
-      <div className="slide-card flex flex-col w-full h-full bg-white rounded-2xl shadow-md overflow-hidden"> {/* h-full과 flex-col, overflow-hidden으로 높이 채우기 */}
-        {/* 상단 닫기 버튼 (헤더) */}
+    <div className="app-container flex flex-col items-center justify-center min-h-screen bg-gray-50">
+      <div
+        {...swipeHandlers}
+        className="slide-card flex flex-col w-full max-w-xl h-full bg-white rounded-2xl shadow-md overflow-hidden"
+        style={{ touchAction: 'pan-y' }} // 스와이프 시 수직 스크롤 방해 최소화
+      >
+        {/* 헤더: 닫기 버튼 */}
         <header className="flex justify-end p-4 shrink-0">
           <button
             type="button"
@@ -85,33 +101,33 @@ export default function GuideSliderPage() {
           </button>
         </header>
 
-        {/* 내용 (메인) */}
-        <main className="flex-grow overflow-auto px-6 pb-6 pt-0"> {/* flex-grow로 남은 공간 채우고 스크롤 가능하게 */}
-          <h2 className="text-2xl font-semibold text-gray-800 mb-24 flex items-center gap-3">
+        {/* 본문 콘텐츠 */}
+        <main className="flex-grow overflow-auto px-6 pb-6 pt-0">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-20 flex items-center gap-3">
             {currentGuide.icon && (
-              <span className="text-primary-600 text-3xl">{React.createElement(currentGuide.icon)}</span>
+              <span className="text-primary-600 text-3xl">
+                {React.createElement(currentGuide.icon)}
+              </span>
             )}
             {currentGuide.title}
           </h2>
 
-          {/* steps 디자인 개선 */}
-          <div className="space-y-10"> {/* 각 스텝 사이에 여백 추가 */}
+          {/* 단계별 안내 */}
+          <div className="space-y-10">
             {currentGuide.steps.map((step, idx) => (
-              <div key={idx} className="flex items-start gap-4"> {/* 스텝 번호와 내용 정렬 */}
-                <div className="w-8 h-8 flex-shrink-0 flex items-center justify-center rounded-full bg-primary-100 text-primary-700 font-bold text-lg shadow-sm"> {/* 번호 원형 디자인 */}
+              <div key={idx} className="flex items-start gap-4">
+                <div className="w-8 h-8 flex-shrink-0 flex items-center justify-center rounded-full bg-primary-100 text-primary-700 font-bold text-lg shadow-sm">
                   {idx + 1}
                 </div>
-                <p className="flex-grow text-gray-700 text-base leading-relaxed"> {/* 내용 텍스트 스타일 */}
-                  {step}
-                </p>
+                <p className="flex-grow text-gray-700 text-base leading-relaxed">{step}</p>
               </div>
             ))}
           </div>
         </main>
 
-        {/* 하단 페이지 인디케이터 + 버튼 (푸터) */}
-        <footer className="py-6 px-6 flex flex-col items-center gap-4 shrink-0 bg-white border-t border-gray-100 shadow-md"> {/* 푸터 스타일 */}
-          {/* 페이지 점들 */}
+        {/* 푸터: 페이지 점 표시 및 다음/완료 버튼 */}
+        <footer className="py-6 px-6 flex flex-col items-center gap-4 shrink-0 bg-white border-t border-gray-100 shadow-md">
+          {/* 인디케이터 점 */}
           <nav className="flex gap-3">
             {guides.map((_, idx) => (
               <button
@@ -120,7 +136,7 @@ export default function GuideSliderPage() {
                 aria-label={`페이지 ${idx + 1}`}
                 className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
                   idx === currentIndex ? 'bg-primary-600 w-5' : 'bg-gray-300'
-                }`} /* 활성 점은 길게 */
+                }`}
                 onClick={() => handleDotClick(idx)}
               />
             ))}
@@ -130,7 +146,7 @@ export default function GuideSliderPage() {
           <button
             type="button"
             onClick={handleNext}
-            className="w-full bg-primary-600 text-white py-3 rounded-xl font-semibold hover:bg-primary-700 active:bg-primary-800 transition shadow-button" /* 버튼 스타일 */
+            className="w-full bg-primary-600 text-white py-3 rounded-xl font-semibold hover:bg-primary-700 active:bg-primary-800 transition shadow-button"
           >
             {currentIndex === totalPages - 1 ? '완료' : '다음'}
           </button>

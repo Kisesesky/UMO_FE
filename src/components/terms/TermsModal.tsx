@@ -1,9 +1,9 @@
 // src/components/TermsModal.tsx
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
-import { FaTimes } from 'react-icons/fa';
 import Image from 'next/image';
+import { useEffect, useRef, useState } from 'react';
+import { FaTimes } from 'react-icons/fa';
 
 interface TermsModalProps {
   isOpen: boolean;
@@ -37,13 +37,9 @@ export default function TermsModal({ isOpen, onClose, onAgree, title, content }:
   // 스크롤 이벤트 핸들러
   const handleScroll = () => {
     if (contentRef.current) {
-      const { scrollTop, scrollHeight, clientHeight } = contentRef.current;
-      // 스크롤이 끝까지 내려갔는지 확인 (오차 범위 1px)
-      if (scrollHeight - scrollTop <= clientHeight + 1) {
-        setIsScrolledToBottom(true);
+      const { scrollTop, clientHeight, scrollHeight } = contentRef.current;
+      if (scrollTop + clientHeight >= scrollHeight - 4) { // -4로 완화
         setIsConfirmButtonEnabled(true);
-      } else {
-        setIsScrolledToBottom(false);
       }
     }
   };
@@ -51,17 +47,18 @@ export default function TermsModal({ isOpen, onClose, onAgree, title, content }:
   // 모달이 열릴 때 body 스크롤 방지
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
+      setIsConfirmButtonEnabled(false);
+      setTimeout(() => {
+        if (contentRef.current) {
+          const { scrollHeight, clientHeight } = contentRef.current;
+          if (scrollHeight <= clientHeight + 1) {
+            setIsConfirmButtonEnabled(true);
+          }
+        }
+      }, 50);
     }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
   }, [isOpen]);
-
-  if (!isOpen) return null;
-
+  
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
       <div className="bg-white rounded-xl shadow-xl w-full max-w-md flex flex-col h-[80vh] overflow-hidden">

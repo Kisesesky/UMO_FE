@@ -1,14 +1,14 @@
 // src/app/auth/social-terms/SocialTermsContent.tsx
 'use client';
 
-import { useSearchParams, useRouter } from 'next/navigation';
-import { useState } from 'react';
 import TermsModal from '@/components/terms/TermsModal';
 import PRIVACY_CONTENT from '@/constants/privacy';
 import TERMS_CONTENT from '@/constants/terms';
 import api from '@/lib/api';
 import TermsAgreement from 'components/auth/TermsAgreement';
 import Image from 'next/image';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useState } from 'react';
 import { FaArrowLeft, FaInfoCircle } from 'react-icons/fa';
 
 export default function SocialTermsContent() {
@@ -86,16 +86,17 @@ export default function SocialTermsContent() {
               style={{ maxWidth: '100%', height: 'auto' }}
             />
             <h2 className="text-2xl font-bold text-primary-600 mt-2">UMO</h2>
-            <p className="text-gray-600">우산 대여 서비스</p>
           </div>
 
           {/* 안내문구 */}
-          <div className="mb-4 bg-yellow-50 border border-yellow-200 text-yellow-700 px-5 py-3 rounded-xl shadow-md flex flex-col items-center text-sm font-medium">
-            <span className="flex items-center gap-2 mb-1 justify-center">
+          <div className="mb-4 bg-yellow-50 border border-yellow-200 text-yellow-700 px-5 py-3 rounded-xl shadow-md text-center text-base font-medium">
+            <div className="flex items-center gap-2 justify-center mb-1">
               <FaInfoCircle className="text-yellow-500" />
-              <b className="text-primary-600 font-bold">소셜 로그인</b>으로 회원가입 시
-            </span>
-            서비스 이용을 위한 <b className="text-primary-600 font-bold">필수 약관</b>에 동의해 주세요.
+              소셜 로그인으로 회원가입 시
+            </div>
+            <div>
+              <b className="text-primary-600 font-bold">필수 약관 동의</b>가 필요합니다.
+            </div>
           </div>
 
           <form

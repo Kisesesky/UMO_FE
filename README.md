@@ -17,14 +17,23 @@ bun dev
 # 폴더구조
 src/
 ├── app/
+│   ├── auth/
+│   │   └── social-terms
+│   │        ├── page.tsx
+│   │        └── SocialTermsContent.tsx
 │   ├── coupons/
 │   │   └── page.tsx
 │   ├── customer-service/
 │   │   └── page.tsx
 │   ├── event/
-│   │   └── [id]/
-│   │        └── page.tsx
+│   │   ├── [id]/
+│   │   │    └── page.tsx
 │   │   └── page.tsx
+│   ├── find-password/
+│   │     ├── page.tsx             # 메인 진입 페이지 (라우트)
+│   │     ├── EmailStep.tsx        # 1. 이메일/코드 입력 컴포넌트
+│   │     ├── ResetStep.tsx        # 2. 새 비밀번호 재설정 컴포넌트
+│   │     └── SuccessStep.tsx      # 3. 완료 안내 (선택
 │   ├── guide/
 │   │   └── page.tsx
 │   ├── invite-friends/
@@ -36,8 +45,8 @@ src/
 │   ├── notice/
 │   │   └── page.tsx
 │   ├── payment-methods/
-│   │   └── add/
-│   │        └── page.tsx
+│   │   ├── add/
+│   │   │    └── page.tsx
 │   │   └── page.tsx
 │   ├── privacy/
 │   │   └── page.tsx
@@ -64,7 +73,15 @@ src/
 │   └── page.tsx
 ├── components/
 │   ├── auth/
-│   │   └── ProtectedRoute.tsx
+│   │   ├── EmailInputWithVerification.tsx
+│   │   ├── NameInput.tsx
+│   │   ├── PasswordConfirmInput.tsx
+│   │   ├── PasswordInput.tsx
+│   │   ├── ProfileImageUploader.tsx
+│   │   ├── ProtectedRoute.tsx
+│   │   ├── RegisterForm.tsx
+│   │   ├── SocialLoginButtons.tsx
+│   │   └── TermsAgreement.tsx
 │   ├── drawer/
 │   │   ├── Drawer.tsx
 │   │   └── index.ts
@@ -89,8 +106,13 @@ src/
 │   └── weather/
 │       ├── WeatherInfo.tsx
 │       └── index.ts
+├── constants/
+│   ├── privacy.ts
+│   └── terms.ts
 ├── hooks/
 │   ├── userCurrentLocation.ts
+│   ├── useEmailAutocomplete.ts
+│   ├── useEmailVerification.ts
 │   ├── userStationMarkers.ts
 │   ├── useStation.ts
 │   └── useUserMarkers.ts
@@ -102,6 +124,7 @@ src/
 │   ├── payment.service.ts
 │   ├── product.service.ts
 │   ├── rental.service.ts
+│   ├── station.service.ts
 │   ├── wallet.service.ts
 │   └── weather.service.ts
 ├── store/
@@ -110,6 +133,8 @@ src/
 │   ├── wallet.store.ts
 │   └── weather.store.ts
 ├── types/
+│   │ └── components
+│   │        └── auth.ts
 │   ├── auth.ts
 │   ├── coupon.ts
 │   ├── event.ts
@@ -124,7 +149,8 @@ src/
 │   ├── wallet.ts
 │   └── weather.ts
 └── util/
-    └── (아직 파일 없음)
+    ├── autocomplete.ts
+    └── validation.ts
 
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

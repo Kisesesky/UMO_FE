@@ -80,9 +80,7 @@ export default function LoginPage() {
                 style={{ maxWidth: '100%', height: 'auto' }} // 이미지가 절대 넘치지 않게
               />
             </div>
-            <h2 className="text-2xl font-bold text-primary-600">UMO</h2>
-            <p className="text-gray-600">우산 대여 서비스</p>
-          </div>
+        </div>
           
           <form onSubmit={handleSubmit} className="space-y-6 md:space-y-7 lg:space-y-8 xl:space-y-9">
             <div className="space-y-2">
@@ -141,15 +139,24 @@ export default function LoginPage() {
                   />
                 </div>
               </div>
+              <div className="flex items-center justify-between mt-5">
+                <div />
+                <Link
+                  href="/find-password"
+                  className="text-sm font-medium text-primary-600 hover:underline transition"
+                >
+                  비밀번호를 잊으셨나요?
+                </Link>
+              </div>
             </div>
 
             {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+              <div className="mt-4 bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded-lg text-sm">
                 {error}
               </div>
             )}
 
-            <div>
+            <div className="mt-5">
               <button
                 type="submit"
                 disabled={isLoading}
