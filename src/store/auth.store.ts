@@ -59,8 +59,6 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
 
   getProfile: async () => {
-    if (!localStorage.getItem('token')) return;
-    
     set({ isLoading: true });
     try {
       const user = await AuthService.getProfile();
