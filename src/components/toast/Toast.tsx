@@ -1,23 +1,30 @@
 // src/components/Toast.tsx
 'use client';
 
-import React from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useEffect } from 'react';
 import type { ToastProps } from '@/types/toast';
 
-export default function Toast({ message, visible }: ToastProps) {
+export default function Toast({ message, type = 'success', onClose }: ToastProps) {
+  useEffect(() => {
+    if (!message) return;
+    const timer = setTimeout(onClose, 3000);
+    return () => clearTimeout(timer);
+  }, [message, onClose]);
+
+  if (!message) return null;
+
   return (
-    <div
-      className={`
-        fixed top-8 left-1/2 -translate-x-1/2 z-[9999]
-        min-w-[260px] max-w-[90vw]
-        bg-slate-900/95 text-white px-7 py-3 rounded-lg shadow-lg text-center font-medium
-        transition-opacity duration-400
-        pointer-events-none
-        ${visible ? 'opacity-100' : 'opacity-0'}
-      `}
-      aria-live="polite"
+    <motion.div
+      className={`fixed top-6 left-1/2 z-50 w-[90%] max-w-sm -translate-x-1/2 transform rounded-xl px-4 py-3 shadow-xl ${
+        type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+      }`}
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.3 }}
     >
-      {message}
-    </div>
+      <p className="text-center text-sm font-semibold">{message}</p>
+    </motion.div>
   );
 }

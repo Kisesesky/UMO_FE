@@ -8,6 +8,9 @@ export interface RegisterRequest {
   email: string;
   password: string;
   name: string;
+  agreedTerms: boolean;
+  agreedPrivacy: boolean;
+  profileImage?: File;
 }
 
 export interface AuthResponse {
@@ -19,4 +22,13 @@ export interface AuthResponse {
     name: string;
     role: string;
   };
+}
+
+export interface UserProfile {
+  id: number;
+  email: string;
+  nickname: string;
+  avatarUrl?: string;
+  createdAt: string;
+  updatedAt: string;
 }

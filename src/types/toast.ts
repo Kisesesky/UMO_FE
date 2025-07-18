@@ -1,4 +1,6 @@
+// src/types/toast.ts
 export interface ToastProps {
   message: string;
-  visible: boolean;
+  type?: 'success' | 'error' | 'warning' | 'info';
+  onClose: () => void;
 }

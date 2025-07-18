@@ -1,4 +1,5 @@
 // src/store/auth.store.ts
+import { toFormData } from '@/utils/toFormData';
 import { create } from 'zustand';
 import { AuthService } from '../services/auth.service';
 import { LoginRequest, RegisterRequest } from '../types/auth';
@@ -12,38 +13,36 @@ interface AuthState {
   register: (data: RegisterRequest) => Promise<void>;
   logout: () => Promise<void>;
   getProfile: () => Promise<void>;
+  clearError: () => void;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
+export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   isAuthenticated: false,
   isLoading: false,
   error: null,
 
+  clearError: () => set({ error: null }),
+
   login: async (data) => {
+    if (get().isLoading) return;
     set({ isLoading: true, error: null });
     try {
-      const response = await AuthService.login(data);
-      set({ user: response.user, isAuthenticated: true, isLoading: false });
+      const res = await AuthService.login(data);
+      set({ user: res.user, isAuthenticated: true, isLoading: false });
     } catch (error: any) {
-      set({ 
-        error: error.response?.data?.message || '로그인에 실패했습니다.', 
-        isLoading: false 
-      });
+      set({ error: error.message || '로그인에 실패했습니다.', isLoading: false });
     }
   },
 
   register: async (data) => {
+    if (get().isLoading) return;
     set({ isLoading: true, error: null });
     try {
-      const response = await AuthService.register(data);
-      localStorage.setItem('token', response.accessToken);
-      set({ user: response.user, isAuthenticated: true, isLoading: false });
+      const res = await AuthService.register(data);
+      set({ user: res.user, isAuthenticated: true, isLoading: false });
     } catch (error: any) {
-      set({ 
-        error: error.response?.data?.message || '회원가입에 실패했습니다.', 
-        isLoading: false 
-      });
+      set({ error: error.message || '회원가입에 실패했습니다.', isLoading: false });
     }
   },
 
@@ -52,9 +51,9 @@ export const useAuthStore = create<AuthState>((set) => ({
     try {
       await AuthService.logout();
     } catch (error) {
-      console.error('로그아웃 중 오류 발생:', error);
+      console.error('로그아웃 중 오류:', error);
     } finally {
-      set({ user: null, isAuthenticated: false, isLoading: false });
+      set({ user: null, isAuthenticated: false, isLoading: false, error: null });
     }
   },
 
@@ -63,8 +62,8 @@ export const useAuthStore = create<AuthState>((set) => ({
     try {
       const user = await AuthService.getProfile();
       set({ user, isAuthenticated: true, isLoading: false });
-    } catch (error) {
+    } catch {
       set({ user: null, isAuthenticated: false, isLoading: false });
     }
-  }
+  },
 }));

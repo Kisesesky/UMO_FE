@@ -1,25 +1,47 @@
 // src/services/auth.service.ts
-import api from './api';
-import { LoginRequest, RegisterRequest, AuthResponse } from '../types/auth';
+import api from '@/lib/api';
+import { LoginRequest, RegisterRequest, AuthResponse, UserProfile } from '@/types/auth';
+import { getErrorMessage } from '@/utils/errorMessage';
+import { toFormData } from '@/utils/toFormData';
 
 export const AuthService = {
-  async login(data: LoginRequest): Promise<AuthResponse> {
-    const response = await api.post<AuthResponse>('/auth/login', data);
-    return response.data;
+  login: async (data: LoginRequest): Promise<AuthResponse> => {
+    try {
+      const res = await api.post<AuthResponse>('/auth/login', data);
+      return res.data;
+    } catch (error: unknown) {
+      throw new Error(getErrorMessage(error, '로그인에 실패했습니다.'));
+    }
   },
 
-  async register(data: RegisterRequest): Promise<AuthResponse> {
-    const response = await api.post<AuthResponse>('/auth/register', data);
-    return response.data;
+  register: async (data: RegisterRequest): Promise<AuthResponse> => {
+    try {
+      const formData = toFormData(data);
+      const res = await api.post<AuthResponse>('/auth/register', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return res.data;
+    } catch (error: unknown) {
+      throw new Error(getErrorMessage(error, '회원가입에 실패했습니다.'));
+    }
   },
 
-  async logout(): Promise<void> {
-    await api.post('/auth/logout');
-    localStorage.removeItem('token');
+  logout: async (): Promise<void> => {
+    try {
+      await api.post('/auth/logout');
+    } catch (error: unknown) {
+      throw new Error(getErrorMessage(error, '로그아웃에 실패했습니다.'));
+    }
   },
 
-  async getProfile(): Promise<AuthResponse['user']> {
-    const response = await api.get<AuthResponse['user']>('/auth/profile');
-    return response.data;
-  }
+  getProfile: async (): Promise<UserProfile> => {
+    try {
+      const res = await api.get<UserProfile>('/auth/profile');
+      return res.data;
+    } catch (error: unknown) {
+      throw new Error(getErrorMessage(error, '프로필 정보를 불러오지 못했습니다.'));
+    }
+  },
 };

@@ -18,10 +18,11 @@ import TERMS_CONTENT from '@/constants/terms';
 import PRIVACY_CONTENT from '@/constants/privacy';
 import { emailDomains } from '@/utils/autocomplete';
 import { useEmailAutocomplete } from '@/hooks/useEmailAutocomplete';
+import { AnimatePresence } from 'framer-motion';
 
 export default function RegisterForm() {
   const router = useRouter();
-  const { register, isLoading, error: authError } = useAuthStore();
+  const { register, isLoading, error: authError, clearError } = useAuthStore();
 
   // 상태 선언
   const [name, setName] = useState('');
@@ -88,6 +89,10 @@ export default function RegisterForm() {
     else if (currentModalType === 'privacy') setAgreedPrivacy(true);
     handleCloseTermsModal();
   };
+  const handleToastClose = () => {
+    setToastVisible(false);
+    router.push('/login');
+  };
 
   // 토스트
   const [toastVisible, setToastVisible] = useState(false);
@@ -122,24 +127,21 @@ export default function RegisterForm() {
     setRegisterError('');
     if (!formValid) return;
 
-    const formData = new FormData();
-    formData.append('name', name);
-    formData.append('email', email);
-    formData.append('password', password);
-    formData.append('agreedTerms', String(agreedTerms));
-    formData.append('agreedPrivacy', String(agreedPrivacy));
-    if (profileImageFile) {
-      formData.append('profileImage', profileImageFile);
-    }
-
     try {
-      await api.post('/auth/register', formData, { 
-        headers: { 'Content-Type': 'multipart/form-data' },
-       });
+      await register({
+        name,
+        email,
+        password,
+        agreedTerms,
+        agreedPrivacy,
+        profileImage: profileImageFile || undefined,
+      });
       setToastMessage('회원가입이 완료되었습니다! 로그인 해주세요.');
       setToastVisible(true);
-      setTimeout(() => setToastVisible(false), 2200);
-      setTimeout(() => router.push('/login'), 2000);
+      setTimeout(() => {
+        setToastVisible(false);
+        router.push('/login');
+      }, 2000);
     } catch (err: any) {
       setRegisterError(
         err.response?.data?.message || '회원가입에 실패했습니다. 다시 시도해주세요.'
@@ -149,7 +151,15 @@ export default function RegisterForm() {
 
   return (
     <div>
-      <Toast message={toastMessage} visible={toastVisible} />
+      {toastVisible && (
+        <AnimatePresence>
+          <Toast
+            message={toastMessage}
+            onClose={handleToastClose}
+            type="success"
+          />
+        </AnimatePresence>
+      )}
       <form onSubmit={handleSubmitRegister} className="space-y-3 md:space-y-5 lg:space-y-6 xl:space-y-7">
         <ProfileImageUploader
           profileImageFile={profileImageFile}
