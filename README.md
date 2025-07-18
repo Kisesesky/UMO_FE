@@ -74,6 +74,7 @@ src/
 ├── components/
 │   ├── auth/
 │   │   ├── EmailInputWithVerification.tsx
+│   │   ├── LoginForm.tsx
 │   │   ├── NameInput.tsx
 │   │   ├── PasswordConfirmInput.tsx
 │   │   ├── PasswordInput.tsx
@@ -150,6 +151,8 @@ src/
 │   └── weather.ts
 └── util/
     ├── autocomplete.ts
+    ├── errorMessage.ts
+    ├── toFormData.ts
     └── validation.ts
 
 

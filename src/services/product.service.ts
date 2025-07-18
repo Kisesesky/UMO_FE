@@ -1,5 +1,5 @@
 // src/services/product.service.ts
-import api from './api';
+import api from '@/services/api';
 import { Product } from '../types/product';
 
 export const ProductService = {

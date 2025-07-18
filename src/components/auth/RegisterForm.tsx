@@ -1,24 +1,21 @@
 // src/components/auth/RegisterForm.tsx
-import React, { useState, useEffect } from 'react';
-import ProfileImageUploader from './ProfileImageUploader';
-import NameInput from './NameInput';
-import EmailInputWithVerification from './EmailInputWithVerification';
-import PasswordInput from './PasswordInput';
-import PasswordConfirmInput from './PasswordConfirmInput';
-import TermsAgreement from './TermsAgreement';
-import Toast from '@/components/toast/Toast';
 import TermsModal from '@/components/terms/TermsModal';
-import Link from 'next/link';
-import api from '@/lib/api';
-import { useRouter } from 'next/navigation';
-import { useAuthStore } from '@/store/auth.store';
-import { useEmailVerification } from '@/hooks/useEmailVerification';
-import { validateName, validateEmail, validatePassword } from '@/utils/validation';
-import TERMS_CONTENT from '@/constants/terms';
+import Toast from '@/components/toast/Toast';
 import PRIVACY_CONTENT from '@/constants/privacy';
-import { emailDomains } from '@/utils/autocomplete';
+import TERMS_CONTENT from '@/constants/terms';
 import { useEmailAutocomplete } from '@/hooks/useEmailAutocomplete';
+import { useEmailVerification } from '@/hooks/useEmailVerification';
+import { useAuthStore } from '@/store/auth.store';
+import { validateEmail, validateName, validatePassword } from '@/utils/validation';
 import { AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+import EmailInputWithVerification from './EmailInputWithVerification';
+import NameInput from './NameInput';
+import PasswordConfirmInput from './PasswordConfirmInput';
+import PasswordInput from './PasswordInput';
+import ProfileImageUploader from './ProfileImageUploader';
+import TermsAgreement from './TermsAgreement';
 
 export default function RegisterForm() {
   const router = useRouter();

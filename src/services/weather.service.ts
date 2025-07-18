@@ -1,5 +1,5 @@
 // src/services/weather.service.ts
-import api from './api';
+import api from '@/services/api';
 import { CurrentWeatherResponse, WeeklyWeatherResponse, WeatherQuery } from '../types/weather';
 
 export const WeatherService = {

@@ -1,5 +1,5 @@
 // src/services/wallet.service.ts
-import api from './api';
+import api from '@/services/api';
 import { Wallet, ChargeChuruRequest } from '../types/wallet';
 
 export const WalletService = {

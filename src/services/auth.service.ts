@@ -1,5 +1,5 @@
 // src/services/auth.service.ts
-import api from '@/lib/api';
+import api from '@/services/api';
 import { LoginRequest, RegisterRequest, AuthResponse, UserProfile } from '@/types/auth';
 import { getErrorMessage } from '@/utils/errorMessage';
 import { toFormData } from '@/utils/toFormData';

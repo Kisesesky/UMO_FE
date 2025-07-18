@@ -1,5 +1,5 @@
 // src/services/rental.service.ts
-import api from './api';
+import api from '@/services/api';
 import { Rental, RentUmbrellaRequest, ReturnUmbrellaRequest } from '../types/rental';
 
 export const RentalService = {

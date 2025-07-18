@@ -8,11 +8,9 @@ import WeatherInfo from '@/components/weather';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
-
 import { useCurrentLocation } from '@/hooks/useCurrentLocation';
 import { useStationMarkers } from '@/hooks/useStationMarkers';
 import { useUserMarkers } from '@/hooks/useUserMarkers';
-
 import type { KakaoMapRef } from '@/types/kakao-types';
 
 const KakaoMap = dynamic(

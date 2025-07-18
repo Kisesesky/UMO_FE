@@ -4,7 +4,7 @@
 import TermsModal from '@/components/terms/TermsModal';
 import PRIVACY_CONTENT from '@/constants/privacy';
 import TERMS_CONTENT from '@/constants/terms';
-import api from '@/lib/api';
+import api from '@/services/api';
 import TermsAgreement from 'components/auth/TermsAgreement';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';

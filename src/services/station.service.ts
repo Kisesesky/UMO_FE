@@ -1,5 +1,5 @@
 // src/services/station.service.ts
-import api from './api';
+import api from '@/services/api';
 import { Station, Umbrella } from '../types/rental'; // Umbrella 타입 임포트 추가
 
 export const StationService = {

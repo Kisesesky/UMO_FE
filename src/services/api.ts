@@ -10,12 +10,13 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true,
 });
 
 // 요청 인터셉터 - 토큰 추가
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('accessToken');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -31,7 +32,7 @@ api.interceptors.response.use(
     // 401 에러 (인증 만료) 처리
     if (error.response?.status === 401) {
       // 로그아웃 처리 또는 토큰 갱신 로직
-      localStorage.removeItem('token');
+      localStorage.removeItem('accessToken');
       window.location.href = '/login';
     }
     return Promise.reject(error);
