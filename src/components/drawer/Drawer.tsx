@@ -14,7 +14,7 @@ interface DrawerProps {
 // 메뉴 아이템 정의 (경로, 아이콘, 인증 필요 여부 등 포함)
 const menuItems = [
   { id: 'login', label: '이용하기', subtext: '지금 가입하면 할인쿠폰을 드려요', path: '/login', icon: FaSignInAlt, authRequired: false, isAuthItem: true },
-  { id: 'logout', label: '로그아웃', path: '/', icon: FaSignOutAlt, authRequired: true, isAuthItem: true, isLogout: true }, // isLogout 플래그 추가
+  { id: 'logout', label: '로그아웃', path: '/login', icon: FaSignOutAlt, authRequired: true, isAuthItem: true, isLogout: true }, // isLogout 플래그 추가
   { id: 'wallet', label: '지갑 관리', subtext: '내 츄르와 캣닢을 관리해요', path: '/wallet', icon: FaWallet, authRequired: true },
   { id: 'rent', label: '우산 대여', subtext: '가까운 우산을 대여해요', path: '/rent', icon: FaUmbrella, authRequired: true },
   { id: 'history', label: '이용 기록', path: '/my-rentals', icon: FaHistory, authRequired: true },

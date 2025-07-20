@@ -17,7 +17,27 @@ bun dev
 # 폴더구조
 src/
 ├── app/
+│   ├── admin/
+│   │     ├── coupons/              # 쿠폰/프로모션 관리
+│   │     ├── dashboard/            # 메인 대시보드(통계/현황)
+│   │     ├── events/               # 이벤트/공지 관리
+│   │     ├── login/                # 관리자 전용 로그인(권장)
+│   │     ├── logs/                 # 운영 로그(관리자 액션)
+│   │     ├── orders/               # 주문 관리
+│   │     │   └── [id]/             # (개별 주문 상세)
+│   │     ├── products/             # 상품 관리
+│   │     │   └── [id]/
+│   │     ├── profile/              # 내 관리자 계정 정보
+│   │     ├── stations/             # 대여소 관리
+│   │     │   └── [id]/
+│   │     ├── umbrellas/            # 우산 관리
+│   │     │   └── [id]/
+│   │     └── users/                # 사용자 관리
+│   │          └── [id]/
+│   │
 │   ├── auth/
+│   │   ├── social-callback
+│   │   │    ├── page.tsx
 │   │   └── social-terms
 │   │        ├── page.tsx
 │   │        └── SocialTermsContent.tsx
@@ -114,12 +134,14 @@ src/
 │   ├── userCurrentLocation.ts
 │   ├── useEmailAutocomplete.ts
 │   ├── useEmailVerification.ts
+│   ├── userLocationTracker.ts
 │   ├── userStationMarkers.ts
 │   ├── useStation.ts
 │   └── useUserMarkers.ts
 ├── services/
 │   ├── api.ts
-│   ├── auth.service.ts
+│   ├── auth.service.
+│   ├── location.service.ts
 │   ├── payment.service.ts
 │   ├── product.service.ts
 │   ├── rental.service.ts

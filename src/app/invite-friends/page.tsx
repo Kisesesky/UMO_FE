@@ -5,10 +5,11 @@ import { useRouter } from 'next/navigation';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import { FaArrowLeft, FaUserFriends, FaShare, FaCopy } from 'react-icons/fa';
 import { useState } from 'react';
+import Toast from '@/components/toast/Toast';
 
 export default function InviteFriendsPage() {
   const router = useRouter();
-  const [copied, setCopied] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
   
   // 임시 초대 코드 (실제로는 API에서 가져와야 함)
   const inviteCode = 'UMBRELLA2025';
@@ -16,8 +17,13 @@ export default function InviteFriendsPage() {
   
   const handleCopyLink = () => {
     navigator.clipboard.writeText(inviteLink).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      setToastMessage('초대 링크가 복사되었습니다!');
+    });
+  };
+  
+  const handleCopyCode = () => {
+    navigator.clipboard.writeText(inviteCode).then(() => {
+      setToastMessage('초대 코드가 복사되었습니다!');
     });
   };
   
@@ -30,7 +36,8 @@ export default function InviteFriendsPage() {
           url: inviteLink,
         });
       } catch (error) {
-        console.error('공유하기 실패:', error);
+        setToastMessage('공유에 실패했습니다. 초대 링크를 복사했습니다.');
+        handleCopyLink();
       }
     } else {
       handleCopyLink();
@@ -39,12 +46,16 @@ export default function InviteFriendsPage() {
 
   return (
     <ProtectedRoute>
+      {toastMessage && (
+        <Toast message={toastMessage} onClose={() => setToastMessage(null)} />
+      )}
       <div className="min-h-screen bg-gray-50">
         <header className="bg-white shadow">
           <div className="max-w-7xl mx-auto py-4 px-4 flex items-center">
             <button 
               onClick={() => router.back()}
-              className="mr-4"
+              aria-label="뒤로가기"
+              className="mr-4 p-2 hover:bg-gray-100 rounded"
             >
               <FaArrowLeft />
             </button>
@@ -65,11 +76,8 @@ export default function InviteFriendsPage() {
               <div className="flex items-center justify-center">
                 <span className="text-xl font-bold tracking-wider">{inviteCode}</span>
                 <button 
-                  onClick={() => {
-                    navigator.clipboard.writeText(inviteCode);
-                    setCopied(true);
-                    setTimeout(() => setCopied(false), 2000);
-                  }}
+                  onClick={handleCopyCode}
+                  aria-label="초대 코드 복사"
                   className="ml-2 text-indigo-600"
                 >
                   <FaCopy />
@@ -82,7 +90,7 @@ export default function InviteFriendsPage() {
                 onClick={handleCopyLink}
                 className="w-full py-3 bg-indigo-600 text-white rounded-lg flex items-center justify-center gap-2"
               >
-                <FaCopy /> {copied ? '복사 완료!' : '초대 링크 복사하기'}
+                <FaCopy /> 초대 링크 복사하기
               </button>
               
               <button
