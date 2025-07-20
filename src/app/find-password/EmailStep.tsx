@@ -1,12 +1,12 @@
 // src/app/find-password/EmailStep.tsx
 'use client';
 
-import api from '@/lib/api';
 import { useState, useEffect } from 'react';
 import { useEmailAutocomplete } from '@/hooks/useEmailAutocomplete';
 import { useRouter } from 'next/navigation';
 import { validateEmail } from '@/utils/validation';
 import { FaLock, FaEnvelope } from 'react-icons/fa';
+import api from '@/services/api';
 
 interface EmailStepProps {
   email: string;

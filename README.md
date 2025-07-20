@@ -117,8 +117,6 @@ src/
 │   ├── userStationMarkers.ts
 │   ├── useStation.ts
 │   └── useUserMarkers.ts
-├── lib/
-│   └── api.ts
 ├── services/
 │   ├── api.ts
 │   ├── auth.service.ts

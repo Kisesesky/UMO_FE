@@ -2,10 +2,10 @@
 'use client';
 import PasswordConfirmInput from '@/components/auth/PasswordConfirmInput';
 import PasswordInput from '@/components/auth/PasswordInput';
-import api from '@/lib/api';
 import { validatePassword } from '@/utils/validation';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import api from '@/services/api';
 
 interface Props {
   email: string;
