@@ -4,7 +4,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/auth.store';
-import Toast from '@/components/Toast';
+import Toast from '@/components/toast/Toast';
 
 export default function SocialCallbackPage() {
   const router = useRouter();
