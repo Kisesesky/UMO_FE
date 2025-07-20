@@ -1,6 +1,6 @@
 // src/hooks/useEmailVerification.ts
 import { useState } from 'react';
-import api from '@/lib/api';
+import api from '@/services/api';
 
 export function useEmailVerification(email: string) {
   const [isEmailVerified, setIsEmailVerified] = useState(false);
