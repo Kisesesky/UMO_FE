@@ -62,7 +62,7 @@ export default function ChangePasswordPage() {
         confirmPassword: newPwConfirm,
       });
       toast.success('비밀번호가 성공적으로 변경되었습니다.');
-      router.back();
+      router.replace('/profile');
     } catch (err: any) {
       setApiError(err?.response?.data?.message || err.message || '비밀번호 변경에 실패했습니다.');
     } finally {

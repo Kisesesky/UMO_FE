@@ -5,7 +5,7 @@ import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import { userService } from '@/services/user.service';
 import { useAuthStore } from '@/store/auth.store';
 import { useRouter } from 'next/navigation';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   FaArrowLeft, FaBell, FaInfoCircle, FaLock, FaPalette, FaSignOutAlt, FaTrashAlt, FaUser
 } from 'react-icons/fa';
@@ -20,10 +20,14 @@ export default function SettingsPage() {
   const router = useRouter();
   const [showAppInfo, setShowAppInfo] = useState(false);
   const { user, isAuthenticated } = useAuthStore();
-  if (!isAuthenticated) {
-    window.location.href = '/login';
-    return null
-  };
+  
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.replace('/login');
+    }
+  }, [isAuthenticated, router]);
+
+  if (!isAuthenticated) return null; 
   const currentUserId = user?.id || ''; 
 
   const handleLogout = async () => {

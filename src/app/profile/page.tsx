@@ -1,13 +1,13 @@
 // src/app/profile/page.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import ProtectedRoute from '@/components/auth/ProtectedRoute';
-import { useAuthStore } from '@/store/auth.store';
 import ProfileImageUploader from '@/components/auth/ProfileImageUploader';
-import toast from 'react-hot-toast';
+import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import { userService } from '@/services/user.service';
+import { useAuthStore } from '@/store/auth.store';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -47,7 +47,7 @@ export default function ProfilePage() {
       });
       toast.success('프로필이 성공적으로 저장되었습니다.');
       await getProfile?.();
-      router.back();
+      router.replace('/settings');
     } catch (error: any) {
       toast.error(error.message || '프로필 수정 실패');
     } finally {
