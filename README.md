@@ -14,6 +14,7 @@ pnpm dev
 bun dev
 ```
 
+```
 # 폴더구조
 src/
 ├── app/
@@ -188,7 +189,7 @@ src/
     ├── errorMessage.ts
     ├── toFormData.ts
     └── validation.ts
-
+```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
