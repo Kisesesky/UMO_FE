@@ -44,16 +44,15 @@ export default function AdminStationDetailPage() {
 
   const handleDelete = async () => {
     if (id === null) return;
+    if (!confirm('정말 삭제하시겠습니까?')) return;
     await AdminStationsService.remove(id);
     alert('삭제되었습니다.');
     router.push('/admin/stations');
   };
 
-  // 🟢 "분실 처리" 콜백:
   const handleMarkLost = async (umbrellaId: number) => {
     await AdminUmbrellasService.markAsLost(umbrellaId);
     alert('해당 우산이 분실 처리되었습니다.');
-    // 우산 목록 다시 불러오기
     if (id) {
       setULoading(true);
       AdminStationsService.getUmbrellas(id)
@@ -67,26 +66,47 @@ export default function AdminStationDetailPage() {
 
   return (
     <ProtectedAdminRoute>
-      <h2>대여소상세 #{station.id}</h2>
-      <div>이름: {station.name}</div>
-      <div>위치: {station.latitude}, {station.longitude}</div>
-      <div>상태: {station.isActive ? '활성' : '비활성'}</div>
-      <button onClick={() => router.push(`/admin/stations/${id}/edit`)}>수정</button>
-      <button onClick={handleDelete}>삭제</button>
-      <button onClick={() => router.push('/admin/stations')}>목록</button>
-
-      <h3 style={{ marginTop: '2rem' }}>이 대여소의 우산 목록</h3>
-      {uLoading
-        ? <div>로딩 중…</div>
-        : (
+      <section className="max-w-xl mx-auto bg-white rounded-xl shadow p-8">
+        <h2 className="text-xl font-bold mb-8 text-primary-700">대여소 상세 #{station.id}</h2>
+        <ul className="divide-y text-sm mb-8">
+          <li className="py-2 flex justify-between"><b className="text-gray-600">이름</b><span>{station.name}</span></li>
+          <li className="py-2 flex justify-between"><b className="text-gray-600">위치</b><span>{station.latitude}, {station.longitude}</span></li>
+          <li className="py-2 flex justify-between"><b className="text-gray-600">상태</b>
+            <span className={
+              station.isActive
+                ? 'inline-block rounded-full px-3 py-1 text-xs bg-green-100 text-green-700'
+                : 'inline-block rounded-full px-3 py-1 text-xs bg-gray-100 text-gray-500'
+            }>
+              {station.isActive ? '활성' : '비활성'}
+            </span>
+          </li>
+        </ul>
+        <div className="flex gap-2 mb-8">
+          <button
+            onClick={() => router.push(`/admin/stations/${id}/edit`)}
+            className="px-4 py-2 rounded font-medium text-white bg-primary-600 hover:bg-primary-700"
+          >수정</button>
+          <button
+            onClick={handleDelete}
+            className="px-4 py-2 rounded font-medium text-white bg-red-600 hover:bg-red-700"
+          >삭제</button>
+          <button
+            onClick={() => router.push('/admin/stations')}
+            className="ml-auto px-4 py-2 rounded font-medium text-primary-700 border border-primary-300 bg-white hover:bg-primary-50"
+          >목록</button>
+        </div>
+        <h3 className="mb-4 text-lg font-semibold">이 대여소의 우산 목록</h3>
+        {uLoading ? (
+          <div className="text-gray-400 py-4">우산 목록 로딩 중…</div>
+        ) : (
           <AdminUmbrellaTable
             umbrellas={umbrellas}
             onDetail={umbrellaId => router.push(`/admin/umbrellas/${umbrellaId}`)}
             onEdit={umbrellaId => router.push(`/admin/umbrellas/${umbrellaId}/edit`)}
             onMarkLost={handleMarkLost}
           />
-        )
-      }
+        )}
+      </section>
     </ProtectedAdminRoute>
   );
 }

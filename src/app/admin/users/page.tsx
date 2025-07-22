@@ -17,12 +17,16 @@ export default function AdminUsersPage() {
 
   return (
     <ProtectedAdminRoute>
-      <h1>회원 관리</h1>
-      <AdminUserTable
-        users={users}
-        onDetail={id => router.push(`/admin/users/${id}`)}
-        onEdit={id => router.push(`/admin/users/${id}/edit`)}
-      />
+      <section className="max-w-5xl mx-auto py-8">
+        <h1 className="text-2xl font-bold mb-8">회원 관리</h1>
+        <div className="bg-white rounded-xl shadow p-5">
+          <AdminUserTable
+            users={users}
+            onDetail={id => router.push(`/admin/users/${id}`)}
+            onEdit={id => router.push(`/admin/users/${id}/edit`)}
+          />
+        </div>
+      </section>
     </ProtectedAdminRoute>
   );
 }

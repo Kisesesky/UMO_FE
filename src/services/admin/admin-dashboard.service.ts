@@ -5,13 +5,13 @@ import type { AdminDashboardStats, DashboardChartData } from '@/types/admin/admi
 export const AdminDashboardService = {
   // 통계 요약
   async getSummary(): Promise<AdminDashboardStats> {
-    const { data } = await api.get('/admin/dashboard/summary');
+    const { data } = await api.get('/admin/stats/summary');
     return data;
   },
 
   // 주요 지표 차트/트렌드 데이터
   async getCharts(): Promise<DashboardChartData> {
-    const { data } = await api.get('/admin/dashboard/charts');
+    const { data } = await api.get('/admin/stats/actions/daily');
     return data;
   },
 

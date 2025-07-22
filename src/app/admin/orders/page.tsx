@@ -20,12 +20,16 @@ export default function AdminOrdersPage() {
 
   return (
     <ProtectedAdminRoute>
-      <h1>주문 관리</h1>
-      <AdminOrderTable
-        orders={orders}
-        onDetail={id => router.push(`/admin/orders/${id}`)}
-      />
-      {isLoading && <div>로딩 중...</div>}
+      <section className="max-w-5xl mx-auto py-8">
+        <h1 className="text-2xl font-bold mb-8">주문 관리</h1>
+        <div className="bg-white rounded-xl shadow p-5">
+          <AdminOrderTable
+            orders={orders}
+            onDetail={id => router.push(`/admin/orders/${id}`)}
+          />
+          {isLoading && <div className="text-center text-gray-400 py-6">로딩 중...</div>}
+        </div>
+      </section>
     </ProtectedAdminRoute>
   );
 }

@@ -18,8 +18,9 @@ bun dev
 src/
 ├── app/
 │   ├── admin/
+│   │     ├── _components_/         
 │   │     ├── coupons/              # 쿠폰/프로모션 관리
-│   │     ├── dashboard/            # 메인 대시보드(통계/현황)
+│   │     ├── dashboard/            # 기존 대시보드를 admin page로 수정
 │   │     ├── events/               # 이벤트/공지 관리
 │   │     ├── login/                # 관리자 전용 로그인(권장)
 │   │     ├── logs/                 # 운영 로그(관리자 액션)
@@ -32,8 +33,11 @@ src/
 │   │     │   └── [id]/
 │   │     ├── umbrellas/            # 우산 관리
 │   │     │   └── [id]/
-│   │     └── users/                # 사용자 관리
-│   │          └── [id]/
+│   │     ├── users/                # 사용자 관리
+│   │     │    └── [id]/
+│   │     ├── utils/                # utils 관리
+│   │     ├── layout.tsx            
+│   │     └── page.tsx              # 메인페이지 - 대시보드
 │   │
 │   ├── auth/
 │   │   ├── social-callback
@@ -92,6 +96,16 @@ src/
 │   ├── layout.tsx
 │   └── page.tsx
 ├── components/
+│   ├── admin/
+│   │   ├── AdminCouponTable.tsx
+│   │   ├── AdminEventTable.tsx
+│   │   ├── AdminLogTable.tsx
+│   │   ├── AdminOrderTable.tsx
+│   │   ├── AdminProductTable.tsx
+│   │   ├── AdminStationTable.tsx
+│   │   ├── AdminTable.tsx
+│   │   ├── AdminUmbrellaTable.tsx
+│   │   └── AdminUserTable.tsx
 │   ├── auth/
 │   │   ├── EmailInputWithVerification.tsx
 │   │   ├── LoginForm.tsx
