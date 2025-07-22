@@ -1,4 +1,5 @@
 // src/app/layout.tsx
+import { ThemeProvider } from '@/context/TemeContext';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
@@ -14,7 +15,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ko">
       <body className={inter.className}>
+        <ThemeProvider>
           {children}
+        </ThemeProvider>
       </body>
     </html>
   );
