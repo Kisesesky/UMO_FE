@@ -1,10 +1,8 @@
 // src/app/layout.tsx
-import { ThemeProvider } from '@/context/TemeContext';
-import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { useState } from 'react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Metadata } from "next";
+import ClientProviders from './ClientProviders';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -14,15 +12,12 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const [queryClient] = useState(() => new QueryClient());
   return (
     <html lang="ko">
-      <body>
-        <QueryClientProvider client={queryClient}>
-          <ThemeProvider>
-            {children}
-          </ThemeProvider>
-        </QueryClientProvider>
+      <body className={inter.className}>
+        <ClientProviders>
+          {children}
+        </ClientProviders>
       </body>
     </html>
   );
