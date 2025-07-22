@@ -13,7 +13,7 @@ export const AdminAuthService = {
      * 현업에서는 httpOnly 쿠키로도 세션 발급 가능. 
      */
     // 필요시 localStorage/sessionStorage에 토큰 저장
-    return data;
+    return { token: data.accessToken, admin: data.admin };
   },
 
   // 관리자 로그아웃

@@ -29,6 +29,7 @@ export const useAdminAuthStore = create<AdminAuthState>()(
           const { token, admin } = await AdminAuthService.login(email, password);
           set({ token, admin, isAuthenticated: true, error: null });
           // 토큰 저장 방식: localStorage(쿠키, 보안 고려)
+          localStorage.setItem('accessToken', token);
         } catch (err: any) {
           set({ error: err.response?.data?.message ?? '로그인 실패', isAuthenticated: false });
         } finally {
