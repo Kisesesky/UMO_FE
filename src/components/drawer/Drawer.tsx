@@ -21,7 +21,7 @@ const menuItems = [
   { id: 'pass', label: '이용권 구매', subtext: '언제나 부담없이', path: '/products?type=PASS', icon: FaTicketAlt }, // 예시 경로
   { id: 'payment', label: '결제 수단', path: '/payment-methods', icon: FaCreditCard }, // 예시 경로
   { id: 'coupon', label: '쿠폰', path: '/coupons', icon: FaGift }, // 예시 경로
-  { id: 'friend', label: '친구 초대', subtext: '같이 공유해봐요', path: '/invite-friends', icon: FaUserFriends }, // 예시 경로
+  { id: 'friend', label: '친구 초대', subtext: '같이 공유해봐요', path: '/invite', icon: FaUserFriends }, // 예시 경로
   { id: 'notice', label: '공지사항', path: '/notice', icon: FaBullhorn }, // 예시 경로
   { id: 'event', label: '이벤트', path: '/events', icon: FaGift }, // 예시 경로
   { id: 'guide', label: '이용 방법', subtext: '쉽게 이용하세요!', path: '/guide', icon: FaQuestionCircle }, // 예시 경로
