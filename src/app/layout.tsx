@@ -3,6 +3,8 @@ import { ThemeProvider } from '@/context/TemeContext';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import { useState } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -12,12 +14,15 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const [queryClient] = useState(() => new QueryClient());
   return (
     <html lang="ko">
-      <body className={inter.className}>
-        <ThemeProvider>
-          {children}
-        </ThemeProvider>
+      <body>
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider>
+            {children}
+          </ThemeProvider>
+        </QueryClientProvider>
       </body>
     </html>
   );
