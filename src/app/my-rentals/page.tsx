@@ -48,7 +48,7 @@ export default function MyRentalsPage() {
     }
   };
 
-  // 날짜 포맷팅 함수
+  // 날짜 포맷
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('ko-KR', {
@@ -62,97 +62,96 @@ export default function MyRentalsPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50">
-        <header className="bg-white shadow">
-          <div className="max-w-7xl mx-auto py-4 px-4 flex items-center">
-            <button 
-              onClick={() => router.back()}
-              className="mr-4"
-            >
-              <FaArrowLeft />
-            </button>
-            <h1 className="header-title">이용 내역</h1>
-          </div>
+      <div className="app-container flex flex-col min-h-screen bg-gray-50">
+        <header className="bg-white shadow-sm p-2 flex items-center">
+          <button
+            onClick={() => router.back()}
+            className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+            aria-label="뒤로"
+          >
+            <FaArrowLeft size={18} className="text-gray-700" />
+          </button>
+          <h1 className="text-lg font-semibold text-gray-800 flex-1 text-center pr-8">이용 내역</h1>
         </header>
-        
-        <main className="max-w-7xl mx-auto p-4">
-          {isLoading ? (
-            <div className="flex justify-center items-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
-            </div>
-          ) : error ? (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
-              {error}
-            </div>
-          ) : rentals.length === 0 ? (
-            <div className="bg-white rounded-lg shadow p-6 text-center text-gray-500">
-              <FaHistory className="mx-auto text-4xl mb-3 text-gray-400" />
-              <p>이용 내역이 없습니다.</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 gap-4">
-              {rentals.map(rental => {
-                const statusBadge = getStatusBadge(rental.status);
-                return (
-                  <div key={rental.id} className="bg-white rounded-lg shadow overflow-hidden">
-                    <div className="p-4">
-                      <div className="flex justify-between items-center mb-3">
-                        <div className="flex items-center gap-2">
-                          <FaUmbrella className="text-indigo-500" />
-                          <h3 className="font-semibold">
-                            우산 {rental.umbrella?.code || `#${rental.umbrellaId}`}
-                          </h3>
+
+        <main className="flex-1 flex flex-col items-center px-6 pt-4 overflow-y-auto">
+          <div className="w-full max-w-sm mb-8">
+            {isLoading ? (
+              <div className="flex justify-center items-center h-64">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500" />
+              </div>
+            ) : error ? (
+              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">{error}</div>
+            ) : rentals.length === 0 ? (
+              <div className="bg-white rounded-xl shadow p-6 text-center text-gray-500">
+                <FaHistory className="mx-auto text-4xl mb-3 text-gray-400" />
+                <p>이용 내역이 없습니다.</p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {rentals.map(rental => {
+                  const statusBadge = getStatusBadge(rental.status);
+                  return (
+                    <div key={rental.id} className="bg-white rounded-xl shadow overflow-hidden">
+                      <div className="p-5">
+                        <div className="flex justify-between items-center mb-3">
+                          <div className="flex items-center gap-2">
+                            <FaUmbrella className="text-indigo-500" />
+                            <h3 className="font-semibold">
+                              우산 {rental.umbrella?.code || `#${rental.umbrellaId}`}
+                            </h3>
+                          </div>
+                          <span className={`text-xs px-2 py-1 rounded ${statusBadge.color}`}>
+                            {statusBadge.text}
+                          </span>
                         </div>
-                        <span className={`text-xs px-2 py-1 rounded ${statusBadge.color}`}>
-                          {statusBadge.text}
-                        </span>
-                      </div>
-                      
-                      <div className="text-sm text-gray-600 space-y-1">
-                        <div className="flex items-center gap-2">
-                          <FaMapMarkerAlt className="text-gray-400" />
-                          <span>대여: {rental.rentalStationId} 대여소</span>
-                        </div>
-                        {rental.returnStationId && (
+
+                        <div className="text-sm text-gray-600 space-y-1">
                           <div className="flex items-center gap-2">
                             <FaMapMarkerAlt className="text-gray-400" />
-                            <span>반납: {rental.returnStationId} 대여소</span>
+                            <span>대여: {rental.rentalStationId} 대여소</span>
                           </div>
-                        )}
-                        <div className="flex items-center gap-2">
-                          <FaCalendarAlt className="text-gray-400" />
-                          <span>대여 시작: {formatDate(rental.rentalStart)}</span>
-                        </div>
-                        {rental.rentalEnd && (
+                          {rental.returnStationId && (
+                            <div className="flex items-center gap-2">
+                              <FaMapMarkerAlt className="text-gray-400" />
+                              <span>반납: {rental.returnStationId} 대여소</span>
+                            </div>
+                          )}
                           <div className="flex items-center gap-2">
                             <FaCalendarAlt className="text-gray-400" />
-                            <span>대여 종료: {formatDate(rental.rentalEnd)}</span>
+                            <span>대여 시작: {formatDate(rental.rentalStart)}</span>
                           </div>
-                        )}
-                        {rental.status === 'RETURNED' && (
-                          <div className="flex items-center gap-2">
-                            <FaClock className="text-gray-400" />
-                            <span>요금: {rental.totalFee} 츄르</span>
+                          {rental.rentalEnd && (
+                            <div className="flex items-center gap-2">
+                              <FaCalendarAlt className="text-gray-400" />
+                              <span>대여 종료: {formatDate(rental.rentalEnd)}</span>
+                            </div>
+                          )}
+                          {rental.status === 'RETURNED' && (
+                            <div className="flex items-center gap-2">
+                              <FaClock className="text-gray-400" />
+                              <span>요금: {rental.totalFee} 츄르</span>
+                            </div>
+                          )}
+                        </div>
+
+                        {rental.status === 'RENTED' && (
+                          <div className="mt-3 flex justify-end gap-2">
+                            <button
+                              className="px-4 py-2 bg-primary-600 text-white text-sm rounded hover:bg-primary-700 transition"
+                              onClick={() => router.push(`/return?rentalId=${rental.id}`)}
+                            >
+                              반납하기
+                            </button>
                           </div>
                         )}
                       </div>
-                      
-                      {rental.status === 'RENTED' && (
-                        <div className="mt-3 flex justify-end gap-2">
-                          <button 
-                            className="px-3 py-1 bg-red-500 text-white text-sm rounded"
-                            onClick={() => router.push(`/return?rentalId=${rental.id}`)}
-                          >
-                            반납하기
-                          </button>
-                        </div>
-                      )}
                     </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </main>
       </div>
     </ProtectedRoute>

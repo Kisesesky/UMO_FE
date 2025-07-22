@@ -52,93 +52,96 @@ export default function AddPaymentMethodPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50">
-        <header className="bg-white shadow">
-          <div className="max-w-7xl mx-auto py-4 px-4 flex items-center">
-            <button 
-              onClick={() => router.back()}
-              className="mr-4"
-            >
-              <FaArrowLeft />
-            </button>
-            <h1 className="header-title">결제 수단 추가</h1>
-          </div>
+      <div className="app-container flex flex-col min-h-screen bg-gray-50">
+        <header className="bg-white shadow-sm p-2 flex items-center">
+          <button
+            onClick={() => router.back()}
+            className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+            aria-label="뒤로"
+          >
+            <FaArrowLeft size={18} className="text-gray-700" />
+          </button>
+          <h1 className="flex-1 text-lg font-semibold text-gray-800 text-center pr-8">
+            결제 수단 추가
+          </h1>
         </header>
-        
-        <main className="max-w-7xl mx-auto p-4">
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center mb-6">
-              <FaCreditCard className="text-2xl text-gray-700 mr-2" />
-              <h2 className="text-lg font-medium">카드 정보 입력</h2>
+
+        <main className="flex-1 flex flex-col items-center px-6 pt-4 overflow-y-auto justify-start">
+          <div className="w-full max-w-sm bg-white mt-2 mb-8 p-8 rounded-xl shadow space-y-8">
+            <div className="flex items-center mb-4">
+              <FaCreditCard className="text-primary-600 text-2xl mr-2" />
+              <h2 className="text-lg font-bold text-gray-900">카드 정보 입력</h2>
             </div>
-            
-            <form onSubmit={handleSubmit}>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">카드 번호</label>
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div>
+                <label className="block text-sm font-medium mb-1 text-gray-700">카드 번호</label>
                 <input
                   type="text"
                   value={cardNumber}
-                  onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
+                  onChange={e => setCardNumber(formatCardNumber(e.target.value))}
                   placeholder="0000 0000 0000 0000"
                   maxLength={19}
-                  className="w-full p-3 border border-gray-300 rounded-md"
                   required
+                  className="w-full px-3 py-3 border border-gray-300 rounded-md bg-white focus:ring-primary-500 focus:border-primary-500"
+                  autoComplete="cc-number"
+                  inputMode="numeric"
                 />
               </div>
-              
-              <div className="grid grid-cols-2 gap-4 mb-4">
+              <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">만료일</label>
+                  <label className="block text-sm font-medium mb-1 text-gray-700">만료일</label>
                   <input
                     type="text"
                     value={expiryDate}
-                    onChange={(e) => setExpiryDate(formatExpiryDate(e.target.value))}
+                    onChange={e => setExpiryDate(formatExpiryDate(e.target.value))}
                     placeholder="MM/YY"
                     maxLength={5}
-                    className="w-full p-3 border border-gray-300 rounded-md"
                     required
+                    className="w-full px-3 py-3 border border-gray-300 rounded-md bg-white focus:ring-primary-500 focus:border-primary-500"
+                    autoComplete="cc-exp"
+                    inputMode="numeric"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">CVV</label>
+                  <label className="block text-sm font-medium mb-1 text-gray-700">CVV</label>
                   <input
                     type="text"
                     value={cvv}
-                    onChange={(e) => setCvv(e.target.value.replace(/\D/g, '').slice(0, 3))}
+                    onChange={e => setCvv(e.target.value.replace(/\D/g, '').slice(0, 3))}
                     placeholder="000"
                     maxLength={3}
-                    className="w-full p-3 border border-gray-300 rounded-md"
                     required
+                    className="w-full px-3 py-3 border border-gray-300 rounded-md bg-white focus:ring-primary-500 focus:border-primary-500"
+                    autoComplete="cc-csc"
+                    inputMode="numeric"
                   />
                 </div>
               </div>
-              
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-1">카드 소유자 이름</label>
+              <div>
+                <label className="block text-sm font-medium mb-1 text-gray-700">카드 소유자 이름</label>
                 <input
                   type="text"
                   value={cardholderName}
-                  onChange={(e) => setCardholderName(e.target.value)}
+                  onChange={e => setCardholderName(e.target.value)}
                   placeholder="카드에 표시된 이름"
-                  className="w-full p-3 border border-gray-300 rounded-md"
+                  className="w-full px-3 py-3 border border-gray-300 rounded-md bg-white focus:ring-primary-500 focus:border-primary-500"
                   required
+                  autoComplete="cc-name"
                 />
               </div>
-              
-              <div className="mb-6 flex items-center">
+              <div className="flex items-center space-x-2">
                 <input
                   type="checkbox"
                   id="default"
                   checked={isDefault}
-                  onChange={(e) => setIsDefault(e.target.checked)}
-                  className="mr-2"
+                  onChange={e => setIsDefault(e.target.checked)}
+                  className="rounded"
                 />
-                <label htmlFor="default" className="text-sm text-gray-700">기본 결제 수단으로 설정</label>
+                <label htmlFor="default" className="text-sm text-gray-700 select-none">기본 결제 수단으로 설정</label>
               </div>
-              
               <button
                 type="submit"
-                className="w-full py-3 bg-black text-white rounded-lg"
+                className="w-full py-3 bg-primary-600 text-white rounded-lg font-semibold shadow hover:bg-primary-700 transition"
               >
                 카드 등록하기
               </button>

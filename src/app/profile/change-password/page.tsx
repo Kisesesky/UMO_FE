@@ -8,6 +8,7 @@ import toast from 'react-hot-toast';
 import PasswordInput from '@/components/auth/PasswordInput';
 import PasswordConfirmInput from '@/components/auth/PasswordConfirmInput';
 import { validatePassword } from '@/utils/validation';
+import { FaArrowLeft } from 'react-icons/fa';
 
 export default function ChangePasswordPage() {
   const router = useRouter();
@@ -51,7 +52,7 @@ export default function ChangePasswordPage() {
       return;
     }
     if (newPw !== newPwConfirm) {
-      setApiError('새 비밀번호가 일치하지 않습니다.');
+      setApiError('비밀번호 입력 조건을 확인해주세요.');
       return;
     }
     setLoading(true);
@@ -71,53 +72,66 @@ export default function ChangePasswordPage() {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="space-y-6 md:space-y-7 lg:space-y-8 xl:space-y-9 max-w-md w-full bg-white rounded-lg shadow p-8 mx-auto mt-10"
-      autoComplete="off"
-    >
-      <h2 className="text-xl font-bold mb-4 text-gray-900">비밀번호 변경</h2>
-      
-      <PasswordInput
-        value={currentPw}
-        onChange={setCurrentPw}
-        showPassword={showPw}
-        setShowPassword={setShowPw}
-        error={undefined}
-      />
-      <PasswordInput
-        value={newPw}
-        onChange={setNewPw}
-        showPassword={showNewPw}
-        setShowPassword={setShowNewPw}
-        error={newPwError}
-      />
-      <PasswordConfirmInput
-        value={newPwConfirm}
-        onChange={setNewPwConfirm}
-        showPassword={showNewPwConfirm}
-        setShowPassword={setShowNewPwConfirm}
-        error={newPwConfirmError}
-      />
+    <div className="app-container flex flex-col min-h-screen bg-gray-50">
+      <header className="bg-white shadow-sm p-2 flex items-center">
+        <button
+          onClick={() => router.back()}
+          className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+          aria-label="뒤로"
+        >
+          <FaArrowLeft size={18} className="text-gray-700" />
+        </button>
+        <h1 className="text-lg font-semibold text-gray-800 flex-1 text-center pr-8">비밀번호 변경</h1>
+      </header>
 
-      {apiError && (
-        <div className="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded-lg text-sm">
-          {apiError}
+      <main className="flex-1 flex flex-col items-center px-6 pt-4 overflow-y-auto justify-start">
+        <div className="w-full max-w-sm mt-8">
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-7 bg-white p-8 rounded-2xl shadow-lg"
+            autoComplete="off"
+          >
+            <PasswordInput
+              value={currentPw}
+              onChange={setCurrentPw}
+              showPassword={showPw}
+              setShowPassword={setShowPw}
+              error={undefined}
+            />
+            <PasswordInput
+              value={newPw}
+              onChange={setNewPw}
+              showPassword={showNewPw}
+              setShowPassword={setShowNewPw}
+              error={newPwError}
+            />
+            <PasswordConfirmInput
+              value={newPwConfirm}
+              onChange={setNewPwConfirm}
+              showPassword={showNewPwConfirm}
+              setShowPassword={setShowNewPwConfirm}
+              error={newPwConfirmError}
+            />
+
+            {apiError && (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded-lg text-sm">
+                {apiError}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              className={`w-full py-2 px-3 rounded-lg font-medium text-white shadow-button transition-colors ${
+                loading ? 'bg-primary-300 cursor-not-allowed' : 'bg-primary-500 hover:bg-primary-700 active:bg-primary-800'
+              }`}
+              disabled={loading || !!newPwError || !!newPwConfirmError}
+              aria-busy={loading}
+            >
+              {loading ? '변경 중...' : '비밀번호 변경'}
+            </button>
+          </form>
         </div>
-      )}
-
-      <button
-        type="submit"
-        className={`w-full py-2 px-3 rounded-lg font-medium text-white shadow-button transition-colors ${
-          loading
-            ? 'bg-primary-300 cursor-not-allowed'
-            : 'bg-primary-500 hover:bg-primary-700 active:bg-primary-800'
-        }`}
-        disabled={loading}
-        aria-busy={loading}
-      >
-        {loading ? '변경 중...' : '비밀번호 변경'}
-      </button>
-    </form>
+      </main>
+    </div>
   );
 }

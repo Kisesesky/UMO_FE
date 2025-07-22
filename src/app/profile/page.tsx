@@ -8,6 +8,7 @@ import { useAuthStore } from '@/store/auth.store';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { FaArrowLeft } from 'react-icons/fa';
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -57,63 +58,71 @@ export default function ProfilePage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <main className="w-full max-w-md p-4">
-          <form
-            onSubmit={handleSubmit}
-            className="space-y-8 bg-white p-8 rounded-2xl shadow-lg"
-            autoComplete="off"
+      <div className="app-container flex flex-col min-h-screen bg-gray-50">
+        <header className="bg-white shadow-sm p-2 flex items-center">
+          <button
+            onClick={() => router.back()}
+            className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+            aria-label="뒤로"
           >
-            <h2 className="text-xl font-bold text-gray-900 mb-2 text-center">프로필 편집</h2>
-            {/* 프로필 이미지 업로더 */}
-            <div className="flex flex-col items-center mb-1">
-              <ProfileImageUploader
-                profileImageFile={profileImageFile}
-                setProfileImageFile={setProfileImageFile}
-                previewUrl={previewUrl}
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-700">이름</label>
-              <input
-                type="text"
-                value={name}
-                onChange={e => setName(e.target.value)}
-                required
-                className="block w-full pl-3 pr-3 py-2 border border-gray-300 rounded-lg bg-white focus:ring-primary-500 focus:border-primary-500"
-                placeholder="이름 입력"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-700">이메일</label>
-              <input
-                type="email"
-                value={email}
-                disabled
-                className="block w-full pl-3 pr-3 py-2 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed text-gray-400"
-              />
-            </div>
-            <button
-              type="submit"
-              disabled={isLoading}
-              className={`w-full py-2 px-3 rounded-lg font-medium text-white shadow-button transition-colors ${
-                isLoading
-                  ? 'bg-primary-300 cursor-not-allowed'
-                  : 'bg-primary-500 hover:bg-primary-700 active:bg-primary-800'
-              }`}
-              aria-busy={isLoading}
-            >
-              {isLoading ? '저장 중...' : '저장하기'}
-            </button>
+            <FaArrowLeft size={18} className="text-gray-700" />
+          </button>
+          <h1 className="text-lg font-semibold text-gray-800 flex-1 text-center pr-8">프로필 편집</h1>
+        </header>
 
-            <button
-              type="button"
-              className="w-full py-2 px-3 rounded-lg border mt-4 font-medium bg-white text-primary-700 shadow-button hover:bg-primary-50 transition"
-              onClick={() => router.push('/profile/change-password')}
+        <main className="flex-1 flex flex-col items-center px-6 pt-4 overflow-y-auto justify-start">
+          <div className="w-full max-w-sm mt-2 mb-8">
+            <form
+              onSubmit={handleSubmit}
+              className="space-y-8 bg-white p-8 rounded-2xl shadow-lg"
+              autoComplete="off"
             >
-              비밀번호 변경
-            </button>
-          </form>
+              <div className="flex flex-col items-center mb-1">
+                <ProfileImageUploader
+                  profileImageFile={profileImageFile}
+                  setProfileImageFile={setProfileImageFile}
+                  previewUrl={previewUrl}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1 text-gray-700">이름</label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={e => setName(e.target.value)}
+                  required
+                  className="block w-full pl-3 pr-3 py-2 border border-gray-300 rounded-lg bg-white focus:ring-primary-500 focus:border-primary-500"
+                  placeholder="이름 입력"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1 text-gray-700">이메일</label>
+                <input
+                  type="email"
+                  value={email}
+                  disabled
+                  className="block w-full pl-3 pr-3 py-2 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed text-gray-400"
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={isLoading}
+                className={`w-full py-2 px-3 rounded-lg font-medium text-white shadow-button transition-colors ${
+                  isLoading ? 'bg-primary-300 cursor-not-allowed' : 'bg-primary-500 hover:bg-primary-700 active:bg-primary-800'
+                }`}
+                aria-busy={isLoading}
+              >
+                {isLoading ? '저장 중...' : '저장하기'}
+              </button>
+              <button
+                type="button"
+                className="w-full py-2 px-3 rounded-lg border mt-4 font-medium bg-white text-primary-700 shadow-button hover:bg-primary-50 transition"
+                onClick={() => router.push('/profile/change-password')}
+              >
+                비밀번호 변경
+              </button>
+            </form>
+          </div>
         </main>
       </div>
     </ProtectedRoute>
