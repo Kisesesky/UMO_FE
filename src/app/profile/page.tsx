@@ -1,40 +1,55 @@
 // src/app/profile/page.tsx
 'use client';
 
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
-import { FaArrowLeft, FaUser, FaCamera } from 'react-icons/fa';
-import { useState, useEffect } from 'react';
 import { useAuthStore } from '@/store/auth.store';
+import ProfileImageUploader from '@/components/auth/ProfileImageUploader';
+import toast from 'react-hot-toast';
+import { userService } from '@/services/user.service';
 
 export default function ProfilePage() {
   const router = useRouter();
-  const { user } = useAuthStore();
-  
+  const { user, getProfile } = useAuthStore();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
+  const [profileImageFile, setProfileImageFile] = useState<File|null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string>(user?.profileImage || '');
   const [isLoading, setIsLoading] = useState(false);
-  
+
   useEffect(() => {
     if (user) {
       setName(user.name || '');
       setEmail(user.email || '');
-      setPhone(user.phone || '');
+      setPreviewUrl(user.profileImage || '');
+      setProfileImageFile(null);
     }
   }, [user]);
-  
+
+  // 이미지 파일 미리보기
+  useEffect(() => {
+    if (profileImageFile) {
+      setPreviewUrl(URL.createObjectURL(profileImageFile));
+    } else if (user?.profileImage) {
+      setPreviewUrl(user.profileImage);
+    }
+  }, [profileImageFile, user?.profileImage]);
+
+  // 프로필 수정
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
     try {
-      // 프로필 업데이트 API 호출 (실제 구현 필요)
-      // await UserService.updateProfile({ name, phone });
-      alert('프로필이 성공적으로 업데이트되었습니다.');
+      await userService.updateMe({
+        name,
+        profileImage: profileImageFile || '',
+      });
+      toast.success('프로필이 성공적으로 저장되었습니다.');
+      await getProfile?.();
       router.back();
     } catch (error: any) {
-      alert(`프로필 업데이트 실패: ${error.message || '알 수 없는 오류가 발생했습니다.'}`);
+      toast.error(error.message || '프로필 수정 실패');
     } finally {
       setIsLoading(false);
     }
@@ -42,76 +57,63 @@ export default function ProfilePage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50">
-        <header className="bg-white shadow">
-          <div className="max-w-7xl mx-auto py-4 px-4 flex items-center">
-            <button 
-              onClick={() => router.back()}
-              className="mr-4"
-            >
-              <FaArrowLeft />
-            </button>
-            <h1 className="header-title">프로필 편집</h1>
-          </div>
-        </header>
-        
-        <main className="max-w-7xl mx-auto p-4">
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex flex-col items-center mb-6">
-              <div className="relative">
-                <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
-                  <FaUser size={40} className="text-gray-400" />
-                </div>
-                <button className="absolute bottom-0 right-0 bg-indigo-500 text-white rounded-full p-2">
-                  <FaCamera size={14} />
-                </button>
-              </div>
-              <h2 className="mt-4 font-medium text-lg">{name || '사용자'}</h2>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <main className="w-full max-w-md p-4">
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-8 bg-white p-8 rounded-2xl shadow-lg"
+            autoComplete="off"
+          >
+            <h2 className="text-xl font-bold text-gray-900 mb-2 text-center">프로필 편집</h2>
+            {/* 프로필 이미지 업로더 */}
+            <div className="flex flex-col items-center mb-1">
+              <ProfileImageUploader
+                profileImageFile={profileImageFile}
+                setProfileImageFile={setProfileImageFile}
+                previewUrl={previewUrl}
+              />
             </div>
-            
-            <form onSubmit={handleSubmit}>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">이름</label>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-md"
-                  required
-                />
-              </div>
-              
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">이메일</label>
-                <input
-                  type="email"
-                  value={email}
-                  disabled
-                  className="w-full p-3 border border-gray-300 rounded-md bg-gray-100"
-                />
-                <p className="text-xs text-gray-500 mt-1">이메일은 변경할 수 없습니다.</p>
-              </div>
-              
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-1">전화번호</label>
-                <input
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="010-0000-0000"
-                  className="w-full p-3 border border-gray-300 rounded-md"
-                />
-              </div>
-              
-              <button
-                type="submit"
-                disabled={isLoading}
-                className={`w-full py-3 ${isLoading ? 'bg-gray-400' : 'bg-black'} text-white rounded-lg`}
-              >
-                {isLoading ? '저장 중...' : '저장하기'}
-              </button>
-            </form>
-          </div>
+            <div>
+              <label className="block text-sm font-medium mb-1 text-gray-700">이름</label>
+              <input
+                type="text"
+                value={name}
+                onChange={e => setName(e.target.value)}
+                required
+                className="block w-full pl-3 pr-3 py-2 border border-gray-300 rounded-lg bg-white focus:ring-primary-500 focus:border-primary-500"
+                placeholder="이름 입력"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1 text-gray-700">이메일</label>
+              <input
+                type="email"
+                value={email}
+                disabled
+                className="block w-full pl-3 pr-3 py-2 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed text-gray-400"
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={isLoading}
+              className={`w-full py-2 px-3 rounded-lg font-medium text-white shadow-button transition-colors ${
+                isLoading
+                  ? 'bg-primary-300 cursor-not-allowed'
+                  : 'bg-primary-500 hover:bg-primary-700 active:bg-primary-800'
+              }`}
+              aria-busy={isLoading}
+            >
+              {isLoading ? '저장 중...' : '저장하기'}
+            </button>
+
+            <button
+              type="button"
+              className="w-full py-2 px-3 rounded-lg border mt-4 font-medium bg-white text-primary-700 shadow-button hover:bg-primary-50 transition"
+              onClick={() => router.push('/profile/change-password')}
+            >
+              비밀번호 변경
+            </button>
+          </form>
         </main>
       </div>
     </ProtectedRoute>

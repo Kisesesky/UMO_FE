@@ -6,11 +6,7 @@ import React, { useState, useEffect } from 'react';
 import { FaBell } from 'react-icons/fa';
 import { userService } from '@/services/user.service'; // 사용자 서비스 임포트
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'; // React Query 사용 예시
-
-const toast = {
-  success: (message: string) => alert('SUCCESS: ' + message),
-  error: (message: string) => alert('ERROR: ' + message),
-};
+import toast from "react-hot-toast";
 
 interface NotificationToggleProps {
   userId: string; // 현재 로그인한 사용자 ID
