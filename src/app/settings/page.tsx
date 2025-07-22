@@ -73,7 +73,7 @@ export default function SettingsPage() {
         </header>
 
         {/* 메인 콘텐츠 카드 */}
-        <main className="flex-1 flex flex-col items-center justify-center px-4 py-8 overflow-y-auto">
+        <main className="flex-1 w-full px-4 py-8 flex justify-center">
           <div className="w-full max-w-md rounded-2xl bg-white dark:bg-gray-800 p-6 shadow-lg space-y-8">
             <SettingsSection title="계정 설정">
               <SettingsItem
@@ -84,7 +84,7 @@ export default function SettingsPage() {
               <SettingsItem
                 icon={<FaLock />}
                 label="비밀번호 변경"
-                onClick={() => router.push('/change-password')}
+                onClick={() => router.push('/profile/change-password')}
               />
             </SettingsSection>
 
