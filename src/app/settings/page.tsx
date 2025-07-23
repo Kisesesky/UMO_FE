@@ -15,7 +15,7 @@ import { SettingsSection } from './components/SettingsSection';
 import { ThemeToggle } from './components/ThemeToggle';
 import { AppInfoModal } from "./utils/appInfoModal";
 import toast from "react-hot-toast";
-import { useTheme } from '@/context/TemeContext';
+import { useTheme } from '@/context/ThemeContext';
 
 export default function SettingsPage() {
   const router = useRouter();

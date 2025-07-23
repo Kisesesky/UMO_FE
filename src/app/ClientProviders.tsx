@@ -1,7 +1,7 @@
 // src/app/ClientProviders.tsx
 'use client';
 
-import { ThemeProvider } from '@/context/TemeContext';
+import { ThemeProvider } from '@/context/ThemeContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
 

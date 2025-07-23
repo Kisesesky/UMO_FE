@@ -1,7 +1,7 @@
 // src/app/settings/components/ThemeToggle.tsx
 'use client';
 
-import { useTheme } from '@/context/TemeContext';
+import { useTheme } from '@/context/ThemeContext';
 import React from 'react';
 import { FaSun, FaMoon } from 'react-icons/fa'; // 아이콘 추가
 
