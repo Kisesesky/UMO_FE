@@ -33,6 +33,8 @@ export interface PasswordInputProps {
   showPassword: boolean;
   setShowPassword: (v: boolean) => void;
   error?: string;
+  label?: React.ReactNode;
+  placeholder?: string;
 }
 
 export interface PasswordConfirmInputProps extends PasswordInputProps {}

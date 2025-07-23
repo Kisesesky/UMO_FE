@@ -8,10 +8,12 @@ export default function NameInput({ value, onChange, error }: NameInputProps) {
   
   return (
     <div>
-      <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">이름</label>
+      <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
+        이름
+      </label>
       <div className="relative">
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <FaUser className="text-gray-400" />
+          <FaUser className="text-gray-400 dark:text-gray-500" />
         </div>
         <input
           id="name"
@@ -27,7 +29,7 @@ export default function NameInput({ value, onChange, error }: NameInputProps) {
               inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
           }}
-          className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 bg-white"
+          className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-primary-500 focus:border-primary-500"
           placeholder="이름"
         />
       </div>

@@ -46,31 +46,44 @@ export default function RentPage() {
   if (activeRental) {
     return (
       <ProtectedRoute>
-        <div className="app-container flex flex-col min-h-screen bg-gray-50">
-          <header className="bg-white shadow-sm p-2 flex items-center">
+        <div className="app-container flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900">
+          <header className="bg-white dark:bg-gray-800 shadow-sm p-2 flex items-center">
             <button
               onClick={() => router.back()}
-              className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+              className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               aria-label="뒤로"
+              type="button"
             >
-              <FaArrowLeft size={18} className="text-gray-700" />
+              <FaArrowLeft size={18} className="text-gray-700 dark:text-gray-300" />
             </button>
-            <h1 className="text-lg font-semibold text-gray-800 flex-1 text-center pr-8">우산 대여</h1>
+            <h1 className="text-lg font-semibold text-gray-800 dark:text-gray-100 flex-1 text-center pr-8">
+              우산 대여
+            </h1>
           </header>
           <main className="flex-1 flex flex-col items-center px-6 pt-4 pb-10 overflow-y-auto">
             <div className="w-full max-w-sm mt-4">
-              <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-lg shadow">
+              <div className="bg-yellow-50 dark:bg-yellow-900 border-l-4 border-yellow-400 dark:border-yellow-600 p-4 rounded-lg shadow">
                 <div className="flex items-center">
-                  <svg className="h-5 w-5 text-yellow-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  <svg
+                    className="h-5 w-5 text-yellow-400 dark:text-yellow-300 mr-2"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                      clipRule="evenodd"
+                    />
                   </svg>
-                  <span className="text-sm text-yellow-700 font-medium">
+                  <span className="text-sm text-yellow-700 dark:text-yellow-300 font-medium">
                     이미 대여 중인 우산이 있습니다. 반납 후 새로 대여하세요.
                   </span>
                 </div>
                 <button
                   onClick={() => router.push('/dashboard')}
-                  className="mt-4 w-full py-2 px-3 rounded-lg border font-medium bg-white text-yellow-900 shadow hover:bg-yellow-100 transition"
+                  type="button"
+                  className="mt-4 w-full py-2 px-3 rounded-lg border font-medium bg-white dark:bg-gray-800 text-yellow-900 dark:text-yellow-400 shadow hover:bg-yellow-100 dark:hover:bg-yellow-800 transition"
                 >
                   대시보드로 이동
                 </button>
@@ -84,83 +97,88 @@ export default function RentPage() {
 
   return (
     <ProtectedRoute>
-      <div className="app-container flex flex-col min-h-screen bg-gray-50">
-        <header className="bg-white shadow-sm p-2 flex items-center">
+      <div className="app-container flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900">
+        <header className="bg-white dark:bg-gray-800 shadow-sm p-2 flex items-center">
           <button
             onClick={() => router.back()}
-            className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
             aria-label="뒤로"
+            type="button"
           >
-            <FaArrowLeft size={18} className="text-gray-700" />
+            <FaArrowLeft size={18} className="text-gray-700 dark:text-gray-300" />
           </button>
-          <h1 className="text-lg font-semibold text-gray-800 flex-1 text-center pr-8">우산 대여</h1>
+          <h1 className="text-lg font-semibold text-gray-800 dark:text-gray-100 flex-1 text-center pr-8">
+            우산 대여
+          </h1>
         </header>
         <main className="flex-1 flex flex-col items-center px-4 pt-4 pb-10 overflow-y-auto">
           <div className="w-full max-w-sm mt-4 space-y-7">
             {/* 잔액 · 에러 · 로딩 */}
             <div className="flex justify-between items-center space-x-2">
-              <span className="font-medium text-gray-700">츄르 잔액:</span>
-              <span className="px-2 py-1 bg-indigo-50 rounded font-bold text-indigo-600">
+              <span className="font-medium text-gray-700 dark:text-gray-300">츄르 잔액:</span>
+              <span className="px-2 py-1 bg-indigo-50 dark:bg-indigo-900 rounded font-bold text-indigo-600 dark:text-indigo-300">
                 {wallet?.churuBalance ?? 0} 츄르
               </span>
             </div>
             {isLoading && (
               <div className="flex justify-center py-8">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500" />
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500 dark:border-indigo-300" />
               </div>
             )}
             {error && (
-              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+              <div className="bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-400 px-4 py-3 rounded">
                 {error}
               </div>
             )}
 
             {/* 대여소, 우산 목록 */}
-            <div className="bg-white rounded-xl shadow space-y-4 p-4">
-              <h3 className="text-lg font-bold text-gray-900">대여소 선택</h3>
-              <p className="text-sm text-gray-500 mb-1">우산을 대여할 대여소를 선택하세요.</p>
-              <ul className="divide-y divide-gray-200 max-h-48 overflow-y-auto">
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow space-y-4 p-4">
+              <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">대여소 선택</h3>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">우산을 대여할 대여소를 선택하세요.</p>
+              <ul className="divide-y divide-gray-200 dark:divide-gray-700 max-h-48 overflow-y-auto">
                 {stations.map(station => (
                   <li key={station.id}>
                     <button
                       onClick={() => handleStationSelect(station)}
-                      className={`w-full text-left px-4 py-3 flex items-center hover:bg-indigo-50 rounded-md ${
-                        selectedStation?.id === station.id ? 'bg-indigo-100' : ''
+                      className={`w-full text-left px-4 py-3 flex items-center hover:bg-indigo-50 dark:hover:bg-indigo-700 rounded-md ${
+                        selectedStation?.id === station.id ? 'bg-indigo-100 dark:bg-indigo-900' : ''
                       }`}
+                      type="button"
                     >
                       <div>
-                        <span className="text-sm font-semibold text-indigo-700">{station.name}</span>
-                        <div className="text-xs text-gray-500">{station.address}</div>
+                        <span className="text-sm font-semibold text-indigo-700 dark:text-indigo-300">{station.name}</span>
+                        <div className="text-xs text-gray-500 dark:text-gray-400">{station.address}</div>
                       </div>
                     </button>
                   </li>
                 ))}
               </ul>
             </div>
-            <div className="bg-white rounded-xl shadow space-y-4 p-4">
-              <h3 className="text-lg font-bold text-gray-900">우산 선택</h3>
-              <p className="text-sm text-gray-500 mb-1">
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow space-y-4 p-4">
+              <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">우산 선택</h3>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
                 {selectedStation ? `${selectedStation.name}에서 대여 가능한 우산입니다.` : '대여소를 먼저 선택하세요.'}
               </p>
               {selectedStation ? (
                 umbrellas.length > 0 ? (
-                  <ul className="divide-y divide-gray-200 max-h-48 overflow-y-auto">
+                  <ul className="divide-y divide-gray-200 dark:divide-gray-700 max-h-48 overflow-y-auto">
                     {umbrellas.map((umbrella) => (
                       <li key={umbrella.id}>
                         <button
                           onClick={() => setSelectedUmbrella(umbrella)}
-                          className={`w-full text-left px-4 py-3 flex items-center hover:bg-indigo-50 rounded-md ${
-                            selectedUmbrella?.id === umbrella.id ? 'bg-indigo-100' : ''
+                          className={`w-full text-left px-4 py-3 flex items-center hover:bg-indigo-50 dark:hover:bg-indigo-700 rounded-md ${
+                            selectedUmbrella?.id === umbrella.id ? 'bg-indigo-100 dark:bg-indigo-900' : ''
                           }`}
+                          type="button"
                         >
                           <div>
-                            <span className="text-sm font-medium text-indigo-700">
+                            <span className="text-sm font-medium text-indigo-700 dark:text-indigo-300">
                               우산 코드: {umbrella.code}
                             </span>
-                            <div className="text-xs text-gray-500">
+                            <div className="text-xs text-gray-500 dark:text-gray-400">
                               상태: {umbrella.status === 'AVAILABLE' ? '대여 가능' : '대여 불가'}
                             </div>
-                            <div className="text-xs text-gray-500">
+                            <div className="text-xs text-gray-500 dark:text-gray-400">
                               대여료: {umbrella.rentalFeePerHour} 츄르/시간
                             </div>
                           </div>
@@ -169,38 +187,39 @@ export default function RentPage() {
                     ))}
                   </ul>
                 ) : (
-                  <div className="px-2 py-3 text-sm text-gray-400">이 대여소에는 대여가능 우산이 없습니다.</div>
+                  <div className="px-2 py-3 text-sm text-gray-400 dark:text-gray-500">이 대여소에는 대여가능 우산이 없습니다.</div>
                 )
               ) : (
-                <div className="px-2 py-3 text-sm text-gray-400">대여소를 먼저 선택하세요.</div>
+                <div className="px-2 py-3 text-sm text-gray-400 dark:text-gray-500">대여소를 먼저 선택하세요.</div>
               )}
             </div>
 
             {/* 대여 확인 */}
             {selectedUmbrella && (
-              <div className="bg-white rounded-xl shadow p-4 mt-2">
-                <h3 className="text-lg font-bold text-gray-900 mb-2">대여 확인</h3>
-                <div className="text-sm text-gray-500">
+              <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-4 mt-2">
+                <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-2">대여 확인</h3>
+                <div className="text-sm text-gray-500 dark:text-gray-400">
                   <p>선택한 우산을 대여하시겠습니까?</p>
                   <p className="mt-2">
-                    <span className="font-medium text-gray-900">대여소:</span> {selectedStation?.name}
+                    <span className="font-medium text-gray-900 dark:text-gray-100">대여소:</span> {selectedStation?.name}
                   </p>
                   <p>
-                    <span className="font-medium text-gray-900">우산 코드:</span> {selectedUmbrella.code}
+                    <span className="font-medium text-gray-900 dark:text-gray-100">우산 코드:</span> {selectedUmbrella.code}
                   </p>
                   <p>
-                    <span className="font-medium text-gray-900">보증금:</span> 500 츄르
+                    <span className="font-medium text-gray-900 dark:text-gray-100">보증금:</span> 500 츄르
                   </p>
                   <p>
-                    <span className="font-medium text-gray-900">1시간 대여료:</span> {selectedUmbrella.rentalFeePerHour} 츄르
+                    <span className="font-medium text-gray-900 dark:text-gray-100">1시간 대여료:</span> {selectedUmbrella.rentalFeePerHour} 츄르
                   </p>
                 </div>
                 <button
                   onClick={handleRentUmbrella}
                   disabled={isLoading}
                   className={`mt-5 w-full inline-flex items-center justify-center px-4 py-2 border border-transparent font-medium rounded-md shadow-sm text-white ${
-                    isLoading ? 'bg-indigo-400' : 'bg-indigo-600 hover:bg-indigo-700'
+                    isLoading ? 'bg-indigo-400' : 'bg-indigo-600 hover:bg-indigo-700 dark:hover:bg-indigo-800'
                   } focus:outline-none`}
+                  type="button"
                 >
                   {isLoading ? '대여 처리 중...' : '대여하기'}
                 </button>

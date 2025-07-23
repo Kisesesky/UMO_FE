@@ -10,17 +10,17 @@ export default function PrivacyPage() {
 
   return (
     <ProtectedRoute checkAuth={false}>
-      <div className="app-container flex flex-col bg-gray-50">
-        <header className="page-header">
+      <div className="app-container flex flex-col bg-gray-50 dark:bg-gray-900">
+        <header className="page-header bg-white dark:bg-gray-800">
           <button onClick={() => router.back()} className="page-back-button">
-            <FaArrowLeft size={18} />
+            <FaArrowLeft size={18} className="text-gray-700 dark:text-gray-300" />
           </button>
-          <h1 className="page-header-title">개인정보 처리 방침</h1>
+          <h1 className="page-header-title text-gray-900 dark:text-gray-100">개인정보 처리 방침</h1>
           <div className="w-10"></div>
         </header>
         
-        <main className="flex-1 overflow-y-auto p-6 text-gray-700 leading-relaxed">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">제1조 (개인정보의 처리 목적)</h2>
+        <main className="flex-1 overflow-y-auto p-6 text-gray-700 dark:text-gray-300 leading-relaxed">
+          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">제1조 (개인정보의 처리 목적)</h2>
           <p className="mb-4">
             회사는 다음의 목적을 위하여 개인정보를 처리하며, 다음의 목적 이외의 용도로는 이용하지 않습니다.
           </p>
@@ -78,21 +78,20 @@ export default function PrivacyPage() {
             <p className="mb-4">
               회사는 원활한 서비스 제공을 위하여 아래와 같이 개인정보 처리업무를 외부에 위탁하고 있으며, 관계 법령에 따라 위탁계약 시 개인정보가 안전하게 관리될 수 있도록 필요한 사항을 규정하고 있습니다.
             </p>
-            <table className="w-full text-sm mb-4 border border-gray-300">
+            <table className="w-full text-sm mb-4 border border-gray-300 dark:border-gray-600">
               <thead>
-                <tr className="bg-gray-100 text-gray-700 border-b">
-                  <th className="px-2 py-1 border-r">수탁업체명</th>
-                  <th className="px-2 py-1 border-r">위탁업무</th>
+                <tr className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600">
+                  <th className="px-2 py-1 border-r border-gray-300 dark:border-gray-600">수탁업체명</th>
+                  <th className="px-2 py-1 border-r border-gray-300 dark:border-gray-600">위탁업무</th>
                   <th className="px-2 py-1">보유 및 이용기간</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td className="px-2 py-1 border-r">Google Web Services</td>
-                  <td className="px-2 py-1 border-r">서비스 인프라 운영 및 데이터 저장</td>
+                  <td className="px-2 py-1 border-r border-gray-300 dark:border-gray-600">Google Web Services</td>
+                  <td className="px-2 py-1 border-r border-gray-300 dark:border-gray-600">서비스 인프라 운영 및 데이터 저장</td>
                   <td className="px-2 py-1">회원 탈퇴 시 또는 위탁계약 종료 시까지</td>
                 </tr>
-                {/* 필요한 수탁사 추가 가능 */}
               </tbody>
             </table>
 
@@ -144,7 +143,7 @@ export default function PrivacyPage() {
           </ul>
 
           {/* ... 더 많은 개인정보 처리 방침 내용 ... */}
-          <p className="text-sm text-gray-500 mt-8">
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-8">
             본 개인정보 처리 방침은 2025년 7월 15일부터 적용됩니다.
           </p>
         </main>

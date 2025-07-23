@@ -79,10 +79,10 @@ export default function Drawer({ isOpen, onClose }: DrawerProps) {
 
   const renderMenuItem = (item: typeof menuItems[0]) => (
     <li key={item.id}>
-      <button className="drawer-menu-item" onClick={() => handleMenuItemClick(item)}>
+      <button className="drawer-menu-item hover:bg-gray-100 dark:hover:bg-gray-700" onClick={() => handleMenuItemClick(item)}>
         {item.icon && React.createElement(item.icon, { size: 20 })}
-        <span className="menu-item-label">{item.label}</span>
-        {item.subtext && <span className="menu-item-subtext">{item.subtext}</span>}
+        <span className="menu-item-label text-gray-900 dark:text-gray-100">{item.label}</span>
+        {item.subtext && <span className="menu-item-subtext text-gray-500 dark:text-gray-400">{item.subtext}</span>}
       </button>
     </li>
   );
@@ -91,27 +91,27 @@ export default function Drawer({ isOpen, onClose }: DrawerProps) {
 
   return (
     <div className={`drawer ${isOpen ? 'open' : ''}`}>
-      <div className="drawer-backdrop" onClick={handleOutsideClick} />
-      <div className="drawer-panel">
+      <div className="drawer-backdrop bg-black bg-opacity-40 dark:bg-opacity-60" onClick={handleOutsideClick} />
+      <div className="drawer-panel bg-white dark:bg-gray-900">
         {/* --- 헤더 부분 여기서부터 --- */}
-        <div className="drawer-header flex items-center justify-between">
+        <div className="drawer-header flex items-center justify-between border-b border-gray-200 dark:border-gray-700">
           {isAuthenticated ? (
-            <div className="drawer-title flex items-center gap-3 py-1">
+            <div className="drawer-title flex items-center gap-3 py-1 bg-white dark:bg-gray-700">
               <img
                 src={user?.profileImage || '/assets/character/umo-face.png'}
                 alt="프로필 이미지"
-                className="rounded-full w-10 h-10 border border-gray-200 shadow object-cover bg-white"
+                className="rounded-full w-10 h-10 border border-gray-200 shadow object-cover bg-whitedark:bg-gray-700"
                 style={{ objectFit: 'cover' }}
               />
-              <span className="font-semibold text-gray-900">{user?.name || '사용자'}님</span>
+              <span className="font-semibold text-gray-500 dark:text-gray-400">{user?.name || '사용자'}님</span>
             </div>
           ) : (
             <div className="drawer-title flex flex-col py-1">
-              <span className="font-semibold">로그인 / 회원가입</span>
-              <span className="drawer-subtitle text-xs text-gray-500">지금 가입하면 할인쿠폰을 드려요</span>
+              <span className="font-semibold text-gray-500 dark:text-gray-400">로그인 / 회원가입</span>
+              <span className="drawer-subtitle text-xs text-gray-500 dark:text-gray-400">지금 가입하면 할인쿠폰을 드려요</span>
             </div>
           )}
-          <button onClick={onClose} className="drawer-close-btn ml-4">
+          <button onClick={onClose} className="drawer-close-btn text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white ml-4">
             <FaTimes size={20} />
           </button>
         </div>
@@ -124,7 +124,7 @@ export default function Drawer({ isOpen, onClose }: DrawerProps) {
               <React.Fragment key={item.id}>
                 {item.id === 'notice' && (
                   <li>
-                    <hr className="my-2 border-t border-gray-200" />
+                    <hr className="my-2 border-t border-gray-200 dark:border-gray-700" />
                   </li>
                 )}
                 {renderMenuItem(item)}
@@ -133,9 +133,9 @@ export default function Drawer({ isOpen, onClose }: DrawerProps) {
           </ul>
         </nav>
 
-        <div className="drawer-footer">
+        <div className="drawer-footer border-t border-gray-200 dark:border-gray-700">
           <button
-            className="customer-service-btn"
+            className="customer-service-btn text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
             onClick={() => {
               onClose();
               router.push('/customer-service');

@@ -127,16 +127,16 @@ export default function EventDetailPage() {
 
   return (
     <ProtectedRoute checkAuth={false}>
-      <div className="app-container flex flex-col">
-        <header className="page-header">
+      <div className="app-container flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+        <header className="page-header border-b bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 p-4">
           <button onClick={() => router.push('/events')} className="page-back-button">
             <FaArrowLeft size={18} />
           </button>
-          <h1 className="page-header-title">이벤트</h1>
+          <h1 className="page-header-title text-gray-900 dark:text-gray-100">이벤트</h1>
           <div className="w-10"></div>
         </header>
         
-        <main className="page-main-content">
+        <main className="page-main-content bg-white dark:bg-gray-900">
           <div className="event-detail-container">
             {/* 이벤트 이미지 */}
             <div className="relative w-full h-48 md:h-64 overflow-hidden">
@@ -156,43 +156,43 @@ export default function EventDetailPage() {
             
             {/* 이벤트 정보 */}
             <div className="p-4">
-              <h2 className="text-xl font-bold text-gray-800 mb-2">{event.title}</h2>
+              <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">{event.title}</h2>
               
-              <div className="flex items-center text-sm text-gray-600 mb-4">
-                <FaCalendarAlt className="mr-2" />
+              <div className="flex items-center text-sm text-gray-600 dark:text-gray-100 mb-4">
+                <FaCalendarAlt className="mr-2 text-gray-400 dark:text-gray-600" />
                 <span>{event.period}</span>
               </div>
               
               {event.location && (
-                <div className="flex items-center text-sm text-gray-600 mb-4">
-                  <FaMapMarkerAlt className="mr-2" />
+                <div className="flex items-center text-sm text-gray-600 dark:text-gray-100 mb-4">
+                  <FaMapMarkerAlt className="mr-2 text-gray-400 dark:text-gray-600" />
                   <span>{event.location}</span>
                 </div>
               )}
               
-              <div className="bg-gray-50 p-4 rounded-lg mb-4">
-                <h3 className="font-medium text-gray-800 mb-2">이벤트 내용</h3>
-                <p className="text-gray-700 text-sm leading-relaxed">{event.description}</p>
+              <div className="bg-white dark:bg-gray-900 p-4 rounded-lg mb-4">
+                <h3 className="font-medium text-gray-800 dark:text-gray-100 mb-2">이벤트 내용</h3>
+                <p className="text-gray-900 dark:text-gray-100 text-sm leading-relaxed">{event.description}</p>
               </div>
               
               {event.howToParticipate && (
-                <div className="bg-gray-50 p-4 rounded-lg mb-4">
-                  <h3 className="font-medium text-gray-800 mb-2">참여 방법</h3>
-                  <p className="text-gray-700 text-sm leading-relaxed">{event.howToParticipate}</p>
+                <div className="bg-white dark:bg-gray-900 p-4 rounded-lg mb-4">
+                  <h3 className="font-medium text-gray-800 dark:text-gray-100 mb-2">참여 방법</h3>
+                  <p className="text-gray-900 dark:text-gray-100 text-sm leading-relaxed">{event.howToParticipate}</p>
                 </div>
               )}
               
               {event.rewards && (
-                <div className="bg-gray-50 p-4 rounded-lg mb-4">
-                  <h3 className="font-medium text-gray-800 mb-2">혜택</h3>
-                  <p className="text-gray-700 text-sm leading-relaxed whitespace-pre-line">{event.rewards}</p>
+                <div className="bg-white dark:bg-gray-900 p-4 rounded-lg mb-4">
+                  <h3 className="font-medium text-gray-800 dark:text-gray-100 mb-2">혜택</h3>
+                  <p className="text-gray-900 dark:text-gray-100 text-sm leading-relaxed whitespace-pre-line">{event.rewards}</p>
                 </div>
               )}
               
               {event.terms && event.terms.length > 0 && (
-                <div className="bg-gray-50 p-4 rounded-lg mb-4">
-                  <h3 className="font-medium text-gray-800 mb-2">유의사항</h3>
-                  <ul className="text-gray-700 text-sm leading-relaxed list-disc pl-5">
+                <div className="bg-white dark:bg-gray-900 p-4 rounded-lg mb-4">
+                  <h3 className="font-medium text-gray-800 dark:text-gray-100 mb-2">유의사항</h3>
+                  <ul className="text-gray-900 dark:text-gray-100 text-sm leading-relaxed list-disc pl-5">
                     {event.terms.map((term, index) => (
                       <li key={index}>{term}</li>
                     ))}

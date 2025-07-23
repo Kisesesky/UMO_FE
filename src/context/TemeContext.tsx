@@ -32,7 +32,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       initialTheme = savedTheme;
     } else {
       // 저장된 테마가 없으면 시스템 설정을 따르거나 기본값 (light)
-      initialTheme = systemPrefersDark ? 'dark' : 'light';
+      initialTheme = 'light';
     }
 
   setThemeState(initialTheme);

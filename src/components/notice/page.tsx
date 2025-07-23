@@ -18,24 +18,24 @@ export default function NoticeCard({ notice, isExpanded, onToggle }: NoticeCardP
 
     const renderButtonContent = () => (
       <>
-        <div className="notice-item-header flex justify-between items-center">
-          <div className="notice-item-title-group flex items-center gap-2">
+        <div className="notice-item-header flex justify-between items-center bg-white dark:bg-gray-800">
+          <div className="notice-item-title-group flex items-center gap-2 text-gray-900 dark:text-gray-100">
             {notice.isNew && <span className="notice-item-badge">NEW</span>}
-            <h4 className="notice-item-title text-single-line">{notice.title}</h4>
+            <h4 className="notice-item-title text-single-line text-gray-900 dark:text-gray-100">{notice.title}</h4>
           </div>
   
-          <div className="notice-item-meta flex items-center gap-2 text-sm text-gray-500">
+          <div className="notice-item-meta flex items-center gap-2 text-sm text-gray-500 dark:text-gray-100">
             <span className="notice-item-date">{notice.date}</span>
             {isExpanded ? (
-              <FaChevronUp className="notice-item-toggle-icon" />
+              <FaChevronUp className="notice-item-toggle-icon text-gray-700 dark:text-gray-300" />
             ) : (
-              <FaChevronDown className="notice-item-toggle-icon" />
+              <FaChevronDown className="notice-item-toggle-icon text-gray-700 dark:text-gray-300" />
             )}
           </div>
         </div>
   
         {isExpanded && notice.content && (
-          <div className="notice-item-content mt-3 text-gray-700 text-sm">
+          <div className="notice-item-content mt-3 text-gray-700 dark:text-gray-300 text-sm">
             {notice.content.split('\n').map((line, index) => (
               <p key={index} className="mb-2 whitespace-pre-line">{line}</p>
             ))}
@@ -45,7 +45,7 @@ export default function NoticeCard({ notice, isExpanded, onToggle }: NoticeCardP
     );
   
     return (
-      <div className="card-item">
+      <div className="card-item bg-white dark:bg-gray-800">
         {/* 툴팁 타겟은 닫힌 상태일 때만 활성화 */}
         {!isExpanded ? (
           <div

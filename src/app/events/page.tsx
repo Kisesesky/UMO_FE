@@ -46,20 +46,20 @@ export default function EventsPage() {
 
   return (
     <ProtectedRoute checkAuth={false}>
-      <div className="app-container flex flex-col">
-        <header className="page-header">
-          <button onClick={() => router.push('/')} className="page-back-button">
+      <div className="app-container flex flex-col bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+        <header className="page-header border-b bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 p-4">
+          <button onClick={() => router.push('/')} className="page-back-button mr-3 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">
             <FaArrowLeft size={18} />
           </button>
-          <h1 className="page-header-title">이벤트</h1>
+          <h1 className="page-header-title text-gray-900 dark:text-gray-100">이벤트</h1>
           <div className="w-10" />
         </header>
 
-        <main className="page-main-content">
+        <main className="page-main-content bg-white dark:bg-gray-800">
           {events.length === 0 ? (
             <div className="card-item p-8 text-center">
-              <FaGift className="mx-auto text-4xl mb-3 text-gray-300" />
-              <p className="text-gray-500">진행 중인 이벤트가 없습니다.</p>
+              <FaGift className="mx-auto text-4xl mb-3 text-gray-300 dark:text-gray-300" />
+              <p className="text-gray-500 dark:text-gray-400">진행 중인 이벤트가 없습니다.</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-4">

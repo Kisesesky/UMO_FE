@@ -68,39 +68,43 @@ export default function NoticePage() {
 
   return (
     <ProtectedRoute checkAuth={false}>
-      <div className="app-container flex flex-col">
-        <header className="page-header flex items-center">
-          <button onClick={() => router.push('/')} className="page-back-button mr-3">
+      {/* 다크모드 배경 및 텍스트 컬러 */}
+      <div className="app-container flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen">
+        <header className="page-header flex items-center border-b bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 p-4">
+          <button
+            onClick={() => router.push('/')}
+            className="page-back-button mr-3 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition"
+          >
             <FaArrowLeft size={18} />
           </button>
-          <h1 className="page-header-title">공지사항</h1>
+          <h1 className="page-header-title text-xl font-semibold text-gray-900 dark:text-gray-100">공지사항</h1>
           <div className="flex-1" />
         </header>
 
-        <main className="page-main-content">
+        <main className="page-main-content flex-1 p-4 bg-white dark:bg-gray-900">
           {notices.length === 0 ? (
             <div className="card-item p-8 text-center">
-              <FaBullhorn className="mx-auto text-4xl mb-3 text-gray-300" />
-              <p className="text-gray-500">등록된 공지사항이 없습니다.</p>
+              <FaBullhorn className="mx-auto text-4xl mb-3 text-gray-400 dark:text-gray-600" />
+              <p className="text-gray-500 dark:text-gray-400">등록된 공지사항이 없습니다.</p>
             </div>
           ) : (
-            notices.map((notice) => (
-              // selectedNoticeId가 null이거나 현재 notice.id와 같을 때만 렌더링
-              (selectedNoticeId === null || selectedNoticeId === notice.id) && (
-                <NoticeCard
-                  key={notice.id}
-                  notice={notice}
-                  isExpanded={selectedNoticeId === notice.id} // 현재 선택된 카드인지 확인
-                  onToggle={handleCardClick} // 클릭 이벤트 전달
-                />
-              )
-            ))
+            notices.map(
+              (notice) =>
+                (selectedNoticeId === null || selectedNoticeId === notice.id) && (
+                  <NoticeCard
+                    key={notice.id}
+                    notice={notice}
+                    isExpanded={selectedNoticeId === notice.id}
+                    onToggle={handleCardClick}
+                  />
+                )
+            )
           )}
-          {/* ✅ 툴팁은 여기에서 한 번만 전역으로 선언 */}
+          {/* Tooltip에 다크 모드 커스텀 스타일 적용 */}
           <Tooltip
             id="notice-tooltip"
             place="top"
-            className="tooltip-custom"
+            className="tooltip-custom bg-gray-800 text-gray-100 border border-gray-700 shadow-lg"
             events={['hover']}
             delayHide={0}
             clickable={false}

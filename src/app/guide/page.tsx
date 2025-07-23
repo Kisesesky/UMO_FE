@@ -83,29 +83,29 @@ export default function GuideSliderPage() {
   const currentGuide = guides[currentIndex];
 
   return (
-    <div className="app-container flex flex-col items-center justify-center min-h-screen bg-gray-50">
+    <div className="app-container flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
       <div
         {...swipeHandlers}
-        className="slide-card flex flex-col w-full max-w-xl h-full bg-white rounded-2xl shadow-md overflow-hidden"
+        className="slide-card flex flex-col w-full max-w-xl h-full rounded-2xl overflow-hidden shadow-md bg-white dark:bg-gray-800"
         style={{ touchAction: 'pan-y' }} // 스와이프 시 수직 스크롤 방해 최소화
       >
         {/* 헤더: 닫기 버튼 */}
-        <header className="flex justify-end p-4 shrink-0">
+        <header className="flex justify-end p-4 shrink-0 border-b border-gray-200 dark:border-gray-700">
           <button
             type="button"
             onClick={handleClose}
             aria-label="닫기"
-            className="px-4 py-2 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition font-semibold text-sm"
+            className="px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition font-semibold text-sm"
           >
             닫기
           </button>
         </header>
 
         {/* 본문 콘텐츠 */}
-        <main className="flex-grow overflow-auto px-6 pb-6 pt-0">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-20 flex items-center gap-3">
+        <main className="flex-grow overflow-auto px-6 pb-6 pt-10">
+          <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-20 flex items-center gap-3">
             {currentGuide.icon && (
-              <span className="text-primary-600 text-3xl">
+              <span className="text-primary-600 dark:text-primary-400 text-3xl">
                 {React.createElement(currentGuide.icon)}
               </span>
             )}
@@ -116,17 +116,17 @@ export default function GuideSliderPage() {
           <div className="space-y-10">
             {currentGuide.steps.map((step, idx) => (
               <div key={idx} className="flex items-start gap-4">
-                <div className="w-8 h-8 flex-shrink-0 flex items-center justify-center rounded-full bg-primary-100 text-primary-700 font-bold text-lg shadow-sm">
+                <div className="w-8 h-8 flex-shrink-0 flex items-center justify-center rounded-full bg-primary-100 text-primary-700 font-bold text-lg shadow-sm dark:bg-primary-900 dark:text-primary-300">
                   {idx + 1}
                 </div>
-                <p className="flex-grow text-gray-700 text-base leading-relaxed">{step}</p>
+                <p className="flex-grow text-gray-700 dark:text-gray-300 text-base leading-relaxed">{step}</p>
               </div>
             ))}
           </div>
         </main>
 
         {/* 푸터: 페이지 점 표시 및 다음/완료 버튼 */}
-        <footer className="py-6 px-6 flex flex-col items-center gap-4 shrink-0 bg-white border-t border-gray-100 shadow-md">
+        <footer className="py-6 px-6 flex flex-col items-center gap-4 shrink-0 bg-white dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700 shadow-md">
           {/* 인디케이터 점 */}
           <nav className="flex gap-3">
             {guides.map((_, idx) => (
@@ -135,7 +135,9 @@ export default function GuideSliderPage() {
                 type="button"
                 aria-label={`페이지 ${idx + 1}`}
                 className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                  idx === currentIndex ? 'bg-primary-600 w-5' : 'bg-gray-300'
+                  idx === currentIndex
+                    ? 'bg-primary-600 dark:bg-primary-400 w-5'
+                    : 'bg-gray-300 dark:bg-gray-600'
                 }`}
                 onClick={() => handleDotClick(idx)}
               />
@@ -146,7 +148,7 @@ export default function GuideSliderPage() {
           <button
             type="button"
             onClick={handleNext}
-            className="w-full bg-primary-600 text-white py-3 rounded-xl font-semibold hover:bg-primary-700 active:bg-primary-800 transition shadow-button"
+            className="w-full bg-primary-600 dark:bg-primary-500 text-white py-3 rounded-xl font-semibold hover:bg-primary-700 dark:hover:bg-primary-600 active:bg-primary-800 dark:active:bg-primary-700 transition shadow-button"
           >
             {currentIndex === totalPages - 1 ? '완료' : '다음'}
           </button>

@@ -16,9 +16,9 @@ export default function EventCard({ event, onClick }: EventCardProps) {
         data-tooltip-content={event.description ?? ''}
       >
         <img src={event.imageUrl} alt={event.title} className="event-card-image" />
-        <div className="event-card-content">
-          <div className="event-card-header">
-            <h3 className="event-card-title text-single-line">{event.title}</h3>
+        <div className="event-card-content bg-white dark:bg-gray-800">
+          <div className="event-card-header text-gray-900 dark:text-gray-200">
+            <h3 className="event-card-title text-single-line text-gray-900 dark:text-gray-200">{event.title}</h3>
             <span
               className={`event-status-badge ${
                 event.status === '진행중' ? 'ongoing' : 'ended'

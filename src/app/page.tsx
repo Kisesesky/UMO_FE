@@ -133,7 +133,7 @@ export default function HomePage() {
 
   return (
     <ProtectedRoute checkAuth={false}>
-      <div className="app-container">
+      <div className="app-container bg-gray-50 dark:bg-gray-900">
         <div className="map-container relative z-0">
           <KakaoMap onMapLoad={handleMapLoad} />
         </div>
@@ -148,8 +148,8 @@ export default function HomePage() {
                   onClick={handleToggleSearch}
                   aria-label="검색 창 열기"
                   className="w-12 h-12 flex items-center justify-center rounded-full border-4 border-indigo-300 
-                    bg-white transition-transform duration-300 ease-in-out transform 
-                    hover:scale-105 active:scale-90 shadow-md hover:shadow-xl"
+                  bg-white dark:bg-gray-800 transition-transform duration-300 ease-in-out transform 
+                  hover:scale-105 active:scale-90 shadow-md hover:shadow-xl"
                   style={{
                     background: 'rgba(255, 255, 255, 0.35)', // 내부 채우기
                     border: '13px solid #6366F1', // 테두리만 퍼플
@@ -169,7 +169,7 @@ export default function HomePage() {
                     flex items-center w-full max-w-xl px-6 py-3
                     rounded-full shadow-md transition-all duration-300 transform scale-95
                     animate-fade-in border-2 border-[#6366F1]/70
-                    backdrop-blur-md
+                    backdrop-blur-md bg-white dark:bg-gray-800
                   `}
                   style={{
                     backgroundColor: 'rgba(255, 255, 255, 0.35)', // 전문적인 투명도
@@ -177,7 +177,7 @@ export default function HomePage() {
                 >
                   <input
                     autoFocus
-                    className="w-full bg-transparent border-none outline-none text-indigo-700 placeholder-indigo-400 text-base"
+                    className="w-full bg-transparent border-none outline-none text-indigo-700 dark:text-indigo-400 placeholder-indigo-400 dark:placeholder-indigo-600 text-base"
                     placeholder="어디로 가시나요?"
                   />
                 </div>
@@ -189,8 +189,7 @@ export default function HomePage() {
               <div className="flex items-center gap-3 ml-2">
                 {/* 알람 */}
                 <button
-                  className="w-12 h-12 flex items-center justify-center rounded-full bg-white/90 border border-gray-300 shadow-md     transition-all duration-200 ease-in-out
-                    hover:-translate-y-1 hover:shadow-lg"
+                  className="w-12 h-12 flex items-center justify-center rounded-full bg-white/90 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 shadow-md transition-all duration-200 ease-in-out hover:-translate-y-1 hover:shadow-lg"
                   aria-label="알림"
                 >
                   {/* 벨 SVG */}
@@ -203,8 +202,7 @@ export default function HomePage() {
                 </button>
                 {/* 메뉴 */}
                 <button
-                  className="w-12 h-12 flex items-center justify-center rounded-full bg-white/90 border border-gray-300 shadow-md     transition-all duration-200 ease-in-out
-                    hover:-translate-y-1 hover:shadow-lg"
+                  className="w-12 h-12 flex items-center justify-center rounded-full bg-white/90 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 shadow-md transition-all duration-200 ease-in-out hover:-translate-y-1 hover:shadow-lg"
                   aria-label="메뉴"
                   onClick={() => setIsDrawerOpen(true)}
                 >

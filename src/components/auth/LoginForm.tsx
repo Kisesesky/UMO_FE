@@ -57,12 +57,12 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
     <form onSubmit={handleSubmit} className="space-y-6 md:space-y-7 lg:space-y-8 xl:space-y-9">
       <div className="space-y-2">
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
             이메일
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <FaEnvelope className="text-gray-400" />
+              <FaEnvelope className="text-gray-400 dark:text-gray-500" />
             </div>
             <input
               id="email"
@@ -73,12 +73,12 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
               value={email}
               onChange={handleEmailChange}
               onKeyDown={handleEmailKeyDown}
-              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 bg-white"
+              className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-primary-500 focus:border-primary-500"
               placeholder="이메일 주소"
             />
             {hint && hint !== email && (
               <span
-                className="absolute left-10 top-0 h-full flex items-center text-gray-400 pointer-events-auto select-none"
+                className="absolute left-10 top-0 h-full flex items-center text-gray-400 dark:text-gray-500 select-none cursor-pointer"
                 style={{
                   pointerEvents: 'auto',
                   cursor: 'pointer',
@@ -95,12 +95,12 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
         </div>
 
         <div>
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
             비밀번호
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <FaLock className="text-gray-400" />
+              <FaLock className="text-gray-400 dark:text-gray-500" />
             </div>
             <input
               id="password"
@@ -110,7 +110,7 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 bg-white"
+              className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-primary-500 focus:border-primary-500"
               placeholder="비밀번호"
             />
           </div>
@@ -119,7 +119,7 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
           <div />
           <Link
             href="/find-password"
-            className="text-sm font-medium text-primary-600 hover:underline transition"
+            className="text-sm font-medium text-primary-600 hover:underline transition dark:text-primary-400"
           >
             비밀번호를 잊으셨나요?
           </Link>
@@ -127,7 +127,7 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
       </div>
 
       {error && (
-        <div className="mt-4 bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded-lg text-sm">
+        <div className="mt-4 bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 text-red-700 dark:text-red-400 px-3 py-2 rounded-lg text-sm">
           {error}
         </div>
       )}

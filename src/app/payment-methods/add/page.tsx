@@ -13,41 +13,25 @@ export default function AddPaymentMethodPage() {
   const [cardholderName, setCardholderName] = useState('');
   const [cvv, setCvv] = useState('');
   const [isDefault, setIsDefault] = useState(false);
-  
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // 여기에 결제 수단 추가 로직 구현 (API 호출 등)
     alert('결제 수단이 추가되었습니다.');
     router.push('/payment-methods');
   };
 
-  // 카드 번호 포맷팅 (4자리마다 공백 추가)
   const formatCardNumber = (value: string) => {
     const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
-    const matches = v.match(/\d{4,16}/g);
-    const match = matches && matches[0] || '';
     const parts = [];
-    
-    for (let i = 0, len = match.length; i < len; i += 4) {
-      parts.push(match.substring(i, i + 4));
+    for (let i = 0; i < v.length; i += 4) {
+      parts.push(v.substring(i, i + 4));
     }
-    
-    if (parts.length) {
-      return parts.join(' ');
-    } else {
-      return value;
-    }
+    return parts.join(' ');
   };
 
-  // 만료일 포맷팅 (MM/YY)
   const formatExpiryDate = (value: string) => {
-    const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
-    
-    if (v.length >= 2) {
-      return `${v.substring(0, 2)}/${v.substring(2, 4)}`;
-    }
-    
-    return v;
+    const v = value.replace(/\D/g, '');
+    return v.length > 2 ? `${v.slice(0, 2)}/${v.slice(2, 4)}` : v;
   };
 
   return (
@@ -66,10 +50,10 @@ export default function AddPaymentMethodPage() {
           </h1>
         </header>
 
-        <main className="flex-1 flex flex-col items-center px-6 pt-4 overflow-y-auto justify-start">
-          <div className="w-full max-w-sm bg-white mt-2 mb-8 p-8 rounded-xl shadow space-y-8">
-            <div className="flex items-center mb-4">
-              <FaCreditCard className="text-primary-600 text-2xl mr-2" />
+        <main className="flex-1 flex flex-col items-center px-6 pt-4 pb-10 overflow-y-auto">
+          <div className="w-full max-w-md bg-white p-8 mt-2 rounded-xl shadow space-y-6">
+            <div className="flex items-center gap-2">
+              <FaCreditCard className="text-primary-600 text-2xl" />
               <h2 className="text-lg font-bold text-gray-900">카드 정보 입력</h2>
             </div>
             <form onSubmit={handleSubmit} className="space-y-5">
@@ -82,7 +66,7 @@ export default function AddPaymentMethodPage() {
                   placeholder="0000 0000 0000 0000"
                   maxLength={19}
                   required
-                  className="w-full px-3 py-3 border border-gray-300 rounded-md bg-white focus:ring-primary-500 focus:border-primary-500"
+                  className="w-full px-3 py-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition"
                   autoComplete="cc-number"
                   inputMode="numeric"
                 />
@@ -97,7 +81,7 @@ export default function AddPaymentMethodPage() {
                     placeholder="MM/YY"
                     maxLength={5}
                     required
-                    className="w-full px-3 py-3 border border-gray-300 rounded-md bg-white focus:ring-primary-500 focus:border-primary-500"
+                    className="w-full px-3 py-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition"
                     autoComplete="cc-exp"
                     inputMode="numeric"
                   />
@@ -111,7 +95,7 @@ export default function AddPaymentMethodPage() {
                     placeholder="000"
                     maxLength={3}
                     required
-                    className="w-full px-3 py-3 border border-gray-300 rounded-md bg-white focus:ring-primary-500 focus:border-primary-500"
+                    className="w-full px-3 py-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition"
                     autoComplete="cc-csc"
                     inputMode="numeric"
                   />
@@ -124,20 +108,22 @@ export default function AddPaymentMethodPage() {
                   value={cardholderName}
                   onChange={e => setCardholderName(e.target.value)}
                   placeholder="카드에 표시된 이름"
-                  className="w-full px-3 py-3 border border-gray-300 rounded-md bg-white focus:ring-primary-500 focus:border-primary-500"
                   required
                   autoComplete="cc-name"
+                  className="w-full px-3 py-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition"
                 />
               </div>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center gap-2">
                 <input
                   type="checkbox"
                   id="default"
                   checked={isDefault}
                   onChange={e => setIsDefault(e.target.checked)}
-                  className="rounded"
+                  className="h-4 w-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
                 />
-                <label htmlFor="default" className="text-sm text-gray-700 select-none">기본 결제 수단으로 설정</label>
+                <label htmlFor="default" className="text-sm text-gray-700 select-none">
+                  기본 결제 수단으로 설정
+                </label>
               </div>
               <button
                 type="submit"

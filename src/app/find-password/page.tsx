@@ -17,16 +17,16 @@ export default function FindPasswordPage() {
 
   // (선택) 인증 성공 여부 등 덧붙이기
   return (
-    <div className="app-container flex flex-col min-h-screen bg-gray-50">
+    <div className="app-container flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* 헤더 */}
-      <header className="bg-white shadow-sm p-2 flex items-center">
+      <header className="bg-white dark:bg-gray-800 shadow-sm p-2 flex items-center">
         <button
           onClick={() => router.push('/login')}
-          className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+          className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
         >
-          <FaArrowLeft size={18} className="text-gray-700" />
+          <FaArrowLeft size={18} className="text-gray-700 dark:text-gray-300" />
         </button>
-        <h2 className="text-md font-semibold text-gray-800 flex-1 text-center pr-8">
+        <h2 className="text-md font-semibold text-gray-800 dark:text-gray-100 flex-1 text-center pr-8">
           비밀번호 찾기
         </h2>
       </header>
@@ -58,7 +58,6 @@ export default function FindPasswordPage() {
           {step === 2 && (
             <ResetStep
               email={email}
-              // onSuccess는 필요 없으므로 넘기지 않음
             />
           )}
         </div>

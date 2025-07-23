@@ -74,7 +74,10 @@ export default function SettingsPage() {
         </header>
 
         {/* Main */}
-        <main className="flex-1 w-full max-w-xl mx-auto px-4 pt-4 pb-10 space-y-5">
+        <main className=
+          "flex-1 w-full max-w-xl mx-auto px-4 pt-4 pb-10 space-y-5 overflow-y-auto"
+          style={{ minHeight: 0 }}
+        >
           <SettingsSection title="계정 설정">
             <SettingsItem
               icon={<FaUser />}

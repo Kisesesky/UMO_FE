@@ -113,81 +113,85 @@ export default function EmailStep({ email, setEmail, onSuccess }: EmailStepProps
 
       {/* 이메일+버튼 한 줄 + 오토컴플리트 */}
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">이메일</label>
+        <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">이메일</label>
         <div className="flex w-full">
           <div className="relative flex-1">
             <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <FaEnvelope className="text-gray-400" />
+              <FaEnvelope className="text-gray-400 dark:text-gray-400" />
             </span>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            value={emailValue}
-            onChange={e => {
-              handleEmailChange(e);          // 오토컴플리트 반영
-              setEmailValue(e.target.value);  // 훅 내부 상태도 갱신
-              setEmail(e.target.value);      // 부모(상위) 상태 동기화
-              handleEmailConfirm(e);
-            }}
-            onKeyDown={handleEmailKeyDown}
-            autoComplete="email"
-            placeholder="이메일 주소"
+            <input
+              id="email"
+              name="email"
+              type="email"
+              value={emailValue}
+              onChange={e => {
+                handleEmailChange(e);          // 오토컴플리트 반영
+                setEmailValue(e.target.value);  // 훅 내부 상태도 갱신
+                setEmail(e.target.value);      // 부모(상위) 상태 동기화
+                handleEmailConfirm(e);
+              }}
+              onKeyDown={handleEmailKeyDown}
+              autoComplete="email"
+              placeholder="이메일 주소"
+              className={`
+                block w-full pl-10 pr-3 py-2 border-y border-l
+                rounded-l-lg focus:border-primary-500 bg-white dark:bg-gray-800
+                ${emailError 
+                  ? 'border-red-400 focus:border-red-500' 
+                  : 'border-gray-300 focus:ring-primary-500 dark:border-gray-600 dark:focus:ring-primary-500'
+                }
+                text-gray-900 dark:text-gray-100
+              `}
+              disabled={loading || isSent}
+            />
+
+            {hint && hint !== emailValue && (
+              <span
+                className="absolute left-10 top-0 h-full flex items-center text-gray-400 cursor-pointer select-none dark:text-gray-400"
+                onMouseDown={handleHintClick}
+                tabIndex={-1}
+              >
+                <span style={{opacity: 0}}>{emailValue}</span>
+                <span style={{color: '#bbb'}}>{hint.slice(emailValue.length)}</span>
+              </span>
+            )}
+          </div>
+          <button
+            disabled={loading || !validateEmail(emailValue) || cooldown > 0}
             className={`
-              block w-full pl-10 pr-3 py-2 border-y border-l border-gray-300
-              rounded-l-lg focus:border-primary-500 bg-white
-              ${emailError ? 'border-red-400 focus:border-red-500' : 'focus:ring-primary-500'}
+              px-4 py-2 rounded-r-lg font-medium text-white transition-colors border
+              border-l-0
+              ${!validateEmail(emailValue) || loading || cooldown > 0
+                ? 'bg-gray-400 cursor-not-allowed border-gray-300 dark:border-gray-600'
+                : 'bg-primary-600 hover:bg-primary-700 border-gray-300 dark:border-gray-600'
+              }
             `}
-            disabled={loading || isSent}
-          />
-
-          {hint && hint !== emailValue && (
-            <span
-              className="absolute left-10 top-0 h-full flex items-center text-gray-400 cursor-pointer select-none"
-              onMouseDown={handleHintClick}
-              tabIndex={-1}
-            >
-              <span style={{opacity: 0}}>{emailValue}</span>
-              <span style={{color: '#bbb'}}>{hint.slice(emailValue.length)}</span>
-            </span>
-          )}
+            onClick={handleSendCode}
+            style={{ minWidth: '110px' }}
+          >
+            {isSent
+              ? cooldown > 0
+                ? `재전송 (${cooldown}s)`
+                : '재전송'
+              : '인증 요청'}
+          </button>
         </div>
-        <button
-          disabled={loading || !validateEmail(emailValue) || cooldown > 0}
-          className={`
-            px-4 py-2 rounded-r-lg font-medium text-white transition-colors border
-            border-l-0 border-gray-300
-            ${
-              !validateEmail(emailValue) || loading || cooldown > 0
-              ? 'bg-gray-400 cursor-not-allowed'
-              : 'bg-primary-600 hover:bg-primary-700'
-            }
-          `}
-          onClick={handleSendCode}
-          style={{ minWidth: '110px' }}
-        >
-          {isSent
-            ? cooldown > 0
-              ? `재전송 (${cooldown}s)`
-              : '재전송'
-            : '인증 요청'}
-        </button>
-      </div>
 
-      {/* 에러 메시지 */}
-      <div className="min-h-[24px] mt-1">
-        {emailError && <p className="text-xs text-red-500">{emailError}</p>}
-      </div>
+        {/* 에러 메시지 */}
+        <div className="min-h-[24px] mt-1">
+          {emailError && <p className="text-xs text-red-500">{emailError}</p>}
+          {inputError && !emailError && <p className="text-xs text-red-500">{inputError}</p>}
+        </div>
       </div>
 
       {/* 인증번호 입력 - 발송 후 노출 */}
       {isSent && (
         <div className="mt-3">
-          <label className="block text-sm mb-1">인증번호</label>
+          <label className="block text-sm mb-1 text-gray-700 dark:text-gray-300">인증번호</label>
           <div className="flex w-full">
             <div className="relative flex-1">
               <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FaLock className="text-gray-400" />
+                <FaLock className="text-gray-400 dark:text-gray-400" />
               </span>
               <input
                 type="text"
@@ -196,9 +200,11 @@ export default function EmailStep({ email, setEmail, onSuccess }: EmailStepProps
                 value={code}
                 onChange={e => setCode(e.target.value.replace(/[^0-9]/g, ""))}
                 className={`
-                  block w-full pl-10 pr-3 py-2 border-y border-l border-gray-300
-                  rounded-l-lg focus:border-primary-500 bg-white
+                  block w-full pl-10 pr-3 py-2 border-y border-l rounded-l-lg
+                  focus:border-primary-500 bg-white dark:bg-gray-800
                   focus:ring-primary-500
+                  border-gray-300 dark:border-gray-600
+                  text-gray-900 dark:text-gray-100
                 `}
                 placeholder="6자리 인증코드"
                 disabled={loading}
@@ -207,11 +213,10 @@ export default function EmailStep({ email, setEmail, onSuccess }: EmailStepProps
             <button
               className={`
                 px-4 py-2 rounded-r-lg font-medium text-white transition-colors border
-                border-l-0 border-gray-300
-                ${
-                  loading || code.length !== 6
-                    ? 'bg-gray-400 cursor-not-allowed'
-                    : 'bg-primary-600 hover:bg-primary-700'
+                border-l-0 border-gray-300 dark:border-gray-600
+                ${loading || code.length !== 6
+                  ? 'bg-gray-400 cursor-not-allowed'
+                  : 'bg-primary-600 hover:bg-primary-700'
                 }
               `}
               disabled={loading || code.length !== 6}
@@ -223,6 +228,6 @@ export default function EmailStep({ email, setEmail, onSuccess }: EmailStepProps
           </div>
         </div>
       )}
-  </div>
-  )
+    </div>
+  );
 }

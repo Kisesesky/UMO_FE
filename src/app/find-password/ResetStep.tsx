@@ -75,13 +75,15 @@ export default function ResetStep({ email }: Props) {
   }
 
   return (
-    <div className="space-y-8 pt-2">
+    <div className="space-y-8 pt-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-[300px]">
       {/* 토스트 메시지 */}
       {toastMsg && (
-        <div className="
-          fixed top-6 left-1/2 -translate-x-1/2 z-[9999] bg-slate-900/90
-          text-white font-bold py-2 px-5 rounded-lg shadow
-        ">
+        <div
+          className="
+            fixed top-6 left-1/2 -translate-x-1/2 z-[9999] bg-slate-900/90
+            text-white font-bold py-2 px-5 rounded-lg shadow
+          "
+        >
           {toastMsg}
         </div>
       )}
@@ -103,16 +105,20 @@ export default function ResetStep({ email }: Props) {
       <button
         className={`
           mt-8 w-full py-2 rounded-lg font-bold text-white transition-colors border
-          border-l-0 border-gray-300
-          ${!pw1 || !pw2 || pw1 !== pw2 || pw1Error || pw2Error || loading
-            ? 'bg-gray-400 cursor-not-allowed'
-            : 'bg-primary-600 hover:bg-primary-700'
-          }`}
+          border-l-0 border-gray-300 dark:border-gray-600
+          ${
+            !pw1 || !pw2 || pw1 !== pw2 || pw1Error || pw2Error || loading
+              ? 'bg-gray-400 cursor-not-allowed'
+              : 'bg-primary-600 hover:bg-primary-700 dark:bg-primary-500 dark:hover:bg-primary-600'
+          }
+        `}
         onClick={handleReset}
         disabled={
-          !pw1 || !pw2 ||
+          !pw1 ||
+          !pw2 ||
           pw1 !== pw2 ||
-          !!pw1Error || !!pw2Error ||
+          !!pw1Error ||
+          !!pw2Error ||
           loading
         }
         type="button"

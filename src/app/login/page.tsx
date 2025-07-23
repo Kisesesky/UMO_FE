@@ -24,15 +24,16 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="app-container flex flex-col bg-gray-50 min-h-screen">
-      <header className="bg-white shadow-sm p-2 flex items-center">
+    <div className="app-container flex flex-col bg-gray-50 dark:bg-gray-900 min-h-screen text-gray-900 dark:text-gray-100">
+      <header className="bg-white dark:bg-gray-800 shadow-sm p-2 flex items-center border-b border-gray-200 dark:border-gray-700">
         <button
           onClick={() => router.back()}
-          className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+          className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+          aria-label="뒤로가기"
         >
-          <FaArrowLeft size={18} className="text-gray-700" />
+          <FaArrowLeft size={18} className="text-gray-700 dark:text-gray-300" />
         </button>
-        <h1 className="text-lg font-semibold text-gray-800 flex-1 text-center pr-8">로그인</h1>
+        <h1 className="text-lg font-semibold flex-1 text-center pr-8 text-gray-800 dark:text-gray-100">로그인</h1>
       </header>
 
       <main
@@ -55,7 +56,7 @@ export default function LoginPage() {
         <div className="w-full max-w-sm mt-6">
           <LoginForm onLoginSuccess={handleLoginSuccess} />
           <div className="mt-4 text-center">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
               아직 계정이 없으신가요?{' '}
               <Link href="/register" className="font-medium text-primary-600 hover:text-primary-500">
                 회원가입하기

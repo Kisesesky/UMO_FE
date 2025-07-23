@@ -9,15 +9,15 @@ export default function ProfileImageUploader({ profileImageFile, setProfileImage
         <img
           src={previewUrl}
           alt="프로필 이미지"
-          className="w-24 h-24 rounded-full object-cover border border-gray-200 bg-white transition-opacity duration-200 group-hover:opacity-80"
+          className="w-24 h-24 rounded-full object-cover border border-gray-200 bg-white dark:bg-gray-800 dark:border-gray-600 transition-opacity duration-200 group-hover:opacity-80"
           style={{ aspectRatio: '1/1' }}
         />
         <label
-          className="absolute bottom-2 right-2 bg-white rounded-full p-2 shadow cursor-pointer border border-gray-300 hover:bg-gray-50 transition flex items-center justify-center"
+          className="absolute bottom-2 right-2 bg-white dark:bg-gray-700 rounded-full p-2 shadow cursor-pointer border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 transition flex items-center justify-center"
           title="프로필 이미지 변경"
           style={{ zIndex: 2 }}
         >
-          <FaPencilAlt className="text-gray-600" />
+          <FaPencilAlt className="text-gray-600 dark:text-gray-300" />
           <input
             id="profileImage"
             name="profileImage"
@@ -29,7 +29,7 @@ export default function ProfileImageUploader({ profileImageFile, setProfileImage
         </label>
         <div className="absolute inset-0 rounded-full bg-black bg-opacity-10 pointer-events-none group-hover:bg-opacity-20 transition"></div>
       </div>
-      <span className="text-xs text-gray-500">프로필 이미지는 선택사항입니다.</span>
+      <span className="text-xs text-gray-500 dark:text-gray-400">프로필 이미지는 선택사항입니다.</span>
     </div>
   );
 }

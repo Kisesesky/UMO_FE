@@ -13,7 +13,7 @@ export default function MapControls({ onRefresh, onCurrentLocation, isRefreshing
     
     <div className="flex flex-col gap-3"> {/* 변경 */}
       <button 
-        className="map-control-button" // globals.css에서 스타일링
+        className="map-control-button bg-white dark:bg-gray-800 shadow-md rounded-full p-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" // globals.css에서 스타일링
         onClick={onRefresh}
       >
         <div className={isRefreshing ? 'refresh-spin' : ''}>
@@ -21,7 +21,7 @@ export default function MapControls({ onRefresh, onCurrentLocation, isRefreshing
         </div>
       </button>
       <button 
-        className="map-control-button" // globals.css에서 스타일링
+        className="map-control-button bg-white dark:bg-gray-800 shadow-md rounded-full p-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" // globals.css에서 스타일링
         onClick={onCurrentLocation}
       >
         <FaLocationArrow size={20} /> {/* 아이콘 크기 조정 */}
