@@ -8,6 +8,7 @@ import { FaArrowLeft, FaCalendarAlt, FaGift } from 'react-icons/fa';
 import { Tooltip } from 'react-tooltip';
 import { Event } from '@/types/event';
 import EventCard from '@/components/events/page';
+import ModernScrollbar from '@/components/custom-scrollbar/ModernScrollbar';
 
 export default function EventsPage() {
   const router = useRouter();
@@ -56,18 +57,20 @@ export default function EventsPage() {
         </header>
 
         <main className="page-main-content bg-white dark:bg-gray-800">
-          {events.length === 0 ? (
-            <div className="card-item p-8 text-center">
-              <FaGift className="mx-auto text-4xl mb-3 text-gray-300 dark:text-gray-300" />
-              <p className="text-gray-500 dark:text-gray-400">진행 중인 이벤트가 없습니다.</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 gap-4">
-              {events.map(event => (
-                <EventCard key={event.id} event={event} onClick={handleEventClick} />
-              ))}
-            </div>
-          )}
+          <ModernScrollbar className="w-full h-full">
+            {events.length === 0 ? (
+              <div className="card-item p-8 text-center">
+                <FaGift className="mx-auto text-4xl mb-3 text-gray-300 dark:text-gray-300" />
+                <p className="text-gray-500 dark:text-gray-400">진행 중인 이벤트가 없습니다.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 gap-4">
+                {events.map(event => (
+                  <EventCard key={event.id} event={event} onClick={handleEventClick} />
+                ))}
+              </div>
+            )}
+          </ModernScrollbar>
         </main>
       </div>
     </ProtectedRoute>

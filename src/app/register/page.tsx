@@ -5,11 +5,12 @@ import RegisterForm from '@/components/auth/RegisterForm';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FaArrowLeft } from 'react-icons/fa';
+import ModernScrollbar from '@/components/custom-scrollbar/ModernScrollbar';
 
 export default function RegisterPage() {
   const router = useRouter();
   return (
-    <div className="app-container flex flex-col bg-gray-50 dark:bg-gray-900">
+    <div className="app-container flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900">
       <header className="bg-white dark:bg-gray-800 shadow-sm p-2 flex items-center">
         <button
           onClick={() => router.push('/login')}
@@ -23,30 +24,30 @@ export default function RegisterPage() {
       <main 
         className="
           flex-1 flex flex-col items-center
-          px-6 pt-4 md:pt-8 lg:pt-10
-          overflow-y-auto justify-start
+          px-6 pt-4 md:pt-8 lg:pt-8
+          relative justify-start max-w-md mx-auto
           text-gray-900 dark:text-gray-100
         "
       >
-        <div className="w-full max-w-sm">
-          <div className="text-center">
+          <div className="w-full max-w-sm">
+            <div className="text-center">
+            </div>
+          <RegisterForm />
+            <div className="mt-4 text-center">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                이미 계정이 있으신가요?{' '}
+                <Link
+                  href="/login"
+                  className="
+                    font-medium text-primary-600 hover:text-primary-500 
+                    dark:text-primary-400 dark:hover:text-primary-300
+                  "
+                >
+                  로그인하기
+                </Link>
+              </p>
+            </div>
           </div>
-      <RegisterForm />
-      <div className="mt-4 text-center">
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              이미 계정이 있으신가요?{' '}
-              <Link
-                href="/login"
-                className="
-                  font-medium text-primary-600 hover:text-primary-500 
-                  dark:text-primary-400 dark:hover:text-primary-300
-                "
-              >
-                로그인하기
-              </Link>
-            </p>
-          </div>
-        </div>
       </main>
 
     </div>

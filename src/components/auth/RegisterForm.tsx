@@ -157,7 +157,7 @@ export default function RegisterForm() {
           />
         </AnimatePresence>
       )}
-      <form onSubmit={handleSubmitRegister} className="space-y-3 md:space-y-5 lg:space-y-6 xl:space-y-7">
+      <form onSubmit={handleSubmitRegister} className="space-y-3 md:space-y-4 lg:space-y-5 xl:space-y-5">
         <ProfileImageUploader
           profileImageFile={profileImageFile}
           setProfileImageFile={setProfileImageFile}

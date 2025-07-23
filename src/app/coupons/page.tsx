@@ -47,11 +47,11 @@ export default function CouponsPage() {
                   value={couponCode}
                   onChange={e => setCouponCode(e.target.value)}
                   placeholder="쿠폰 코드 입력"
-                  className="flex-1 px-3 py-3 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-600"
+                  className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-600"
                 />
                 <button
                   type="submit"
-                  className="px-4 py-3 bg-primary-600 text-white rounded-md font-semibold flex items-center gap-1 shadow hover:bg-primary-700 transition"
+                  className="px-4 py-2 bg-primary-600 text-white rounded-md font-semibold flex items-center gap-1 shadow hover:bg-primary-700 transition"
                 >
                   <FaPlus /> 등록
                 </button>
@@ -66,14 +66,14 @@ export default function CouponsPage() {
             ) : (
               <div className="bg-white dark:bg-gray-800 rounded-xl shadow overflow-hidden">
                 <div className="p-4 border-b">
-                  <h3 className="font-medium">내 쿠폰 목록</h3>
+                  <h3 className="font-medium text-gray-700 dark:text-gray-300">내 쿠폰 목록</h3>
                 </div>
                 <ul>
                   {coupons.map(coupon => (
                     <li key={coupon.id} className="border-b last:border-b-0">
                       <div className="p-4">
                         <div className="flex justify-between items-center mb-2">
-                          <h4 className="font-medium">{coupon.name}</h4>
+                          <h4 className="font-medium text-gray-600 dark:text-gray-300">{coupon.name}</h4>
                           {coupon.isUsed ? (
                             <span className="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded">사용 완료</span>
                           ) : (

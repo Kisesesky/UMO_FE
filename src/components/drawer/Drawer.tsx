@@ -133,9 +133,9 @@ export default function Drawer({ isOpen, onClose }: DrawerProps) {
           </ul>
         </nav>
 
-        <div className="drawer-footer border-t border-gray-200 dark:border-gray-700">
+        <div className="drawer-footer border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
           <button
-            className="customer-service-btn text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white dark:bg-gray-800"
+            className="customer-service-btn bg-white text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white dark:bg-gray-800"
             onClick={() => {
               onClose();
               router.push('/customer-service');

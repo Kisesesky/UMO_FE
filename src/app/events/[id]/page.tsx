@@ -5,6 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import { FaArrowLeft, FaCalendarAlt, FaMapMarkerAlt, FaGift } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
+import ModernScrollbar from '@/components/custom-scrollbar/ModernScrollbar';
 
 // 이벤트 데이터 타입
 interface EventDetail {
@@ -137,76 +138,78 @@ export default function EventDetailPage() {
         </header>
         
         <main className="page-main-content bg-white dark:bg-gray-900">
-          <div className="event-detail-container">
-            {/* 이벤트 이미지 */}
-            <div className="relative w-full h-48 md:h-64 overflow-hidden">
-              <img 
-                src={event.imageUrl} 
-                alt={event.title} 
-                className="w-full pb-[56.25%] object-cover"
-              />
-              <div className="absolute top-0 left-0 right-0 p-4 bg-gradient-to-b from-black/50 to-transparent">
-                <span className={`text-xs px-2 py-1 rounded-full font-medium ${
-                  event.status === '진행중' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600'
-                }`}>
-                  {event.status}
-                </span>
-              </div>
-            </div>
-            
-            {/* 이벤트 정보 */}
-            <div className="p-4">
-              <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">{event.title}</h2>
-              
-              <div className="flex items-center text-sm text-gray-600 dark:text-gray-100 mb-4">
-                <FaCalendarAlt className="mr-2 text-gray-400 dark:text-gray-600" />
-                <span>{event.period}</span>
+          <ModernScrollbar className="w-full h-full">
+            <div className="event-detail-container">
+              {/* 이벤트 이미지 */}
+              <div className="relative w-full h-48 md:h-64 overflow-hidden">
+                <img 
+                  src={event.imageUrl} 
+                  alt={event.title} 
+                  className="w-full pb-[56.25%] object-cover"
+                />
+                <div className="absolute top-0 left-0 right-0 p-4 bg-gradient-to-b from-black/50 to-transparent">
+                  <span className={`text-xs px-2 py-1 rounded-full font-medium ${
+                    event.status === '진행중' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600'
+                  }`}>
+                    {event.status}
+                  </span>
+                </div>
               </div>
               
-              {event.location && (
+              {/* 이벤트 정보 */}
+              <div className="p-4">
+                <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">{event.title}</h2>
+                
                 <div className="flex items-center text-sm text-gray-600 dark:text-gray-100 mb-4">
-                  <FaMapMarkerAlt className="mr-2 text-gray-400 dark:text-gray-600" />
-                  <span>{event.location}</span>
+                  <FaCalendarAlt className="mr-2 text-gray-400 dark:text-gray-600" />
+                  <span>{event.period}</span>
                 </div>
-              )}
-              
-              <div className="bg-white dark:bg-gray-900 p-4 rounded-lg mb-4">
-                <h3 className="font-medium text-gray-800 dark:text-gray-100 mb-2">이벤트 내용</h3>
-                <p className="text-gray-900 dark:text-gray-100 text-sm leading-relaxed">{event.description}</p>
+                
+                {event.location && (
+                  <div className="flex items-center text-sm text-gray-600 dark:text-gray-100 mb-4">
+                    <FaMapMarkerAlt className="mr-2 text-gray-400 dark:text-gray-600" />
+                    <span>{event.location}</span>
+                  </div>
+                )}
+                
+                <div className="bg-white dark:bg-gray-900 p-4 rounded-lg mb-4">
+                  <h3 className="font-medium text-gray-800 dark:text-gray-100 mb-2">이벤트 내용</h3>
+                  <p className="text-gray-900 dark:text-gray-100 text-sm leading-relaxed">{event.description}</p>
+                </div>
+                
+                {event.howToParticipate && (
+                  <div className="bg-white dark:bg-gray-900 p-4 rounded-lg mb-4">
+                    <h3 className="font-medium text-gray-800 dark:text-gray-100 mb-2">참여 방법</h3>
+                    <p className="text-gray-900 dark:text-gray-100 text-sm leading-relaxed">{event.howToParticipate}</p>
+                  </div>
+                )}
+                
+                {event.rewards && (
+                  <div className="bg-white dark:bg-gray-900 p-4 rounded-lg mb-4">
+                    <h3 className="font-medium text-gray-800 dark:text-gray-100 mb-2">혜택</h3>
+                    <p className="text-gray-900 dark:text-gray-100 text-sm leading-relaxed whitespace-pre-line">{event.rewards}</p>
+                  </div>
+                )}
+                
+                {event.terms && event.terms.length > 0 && (
+                  <div className="bg-white dark:bg-gray-900 p-4 rounded-lg mb-4">
+                    <h3 className="font-medium text-gray-800 dark:text-gray-100 mb-2">유의사항</h3>
+                    <ul className="text-gray-900 dark:text-gray-100 text-sm leading-relaxed list-disc pl-5">
+                      {event.terms.map((term, index) => (
+                        <li key={index}>{term}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                
+                {event.status === '진행중' && (
+                  <button className="w-full py-3 bg-primary-500 text-white rounded-lg font-medium mt-4 hover:bg-primary-600 transition-colors">
+                    이벤트 참여하기
+                  </button>
+                )}
               </div>
-              
-              {event.howToParticipate && (
-                <div className="bg-white dark:bg-gray-900 p-4 rounded-lg mb-4">
-                  <h3 className="font-medium text-gray-800 dark:text-gray-100 mb-2">참여 방법</h3>
-                  <p className="text-gray-900 dark:text-gray-100 text-sm leading-relaxed">{event.howToParticipate}</p>
-                </div>
-              )}
-              
-              {event.rewards && (
-                <div className="bg-white dark:bg-gray-900 p-4 rounded-lg mb-4">
-                  <h3 className="font-medium text-gray-800 dark:text-gray-100 mb-2">혜택</h3>
-                  <p className="text-gray-900 dark:text-gray-100 text-sm leading-relaxed whitespace-pre-line">{event.rewards}</p>
-                </div>
-              )}
-              
-              {event.terms && event.terms.length > 0 && (
-                <div className="bg-white dark:bg-gray-900 p-4 rounded-lg mb-4">
-                  <h3 className="font-medium text-gray-800 dark:text-gray-100 mb-2">유의사항</h3>
-                  <ul className="text-gray-900 dark:text-gray-100 text-sm leading-relaxed list-disc pl-5">
-                    {event.terms.map((term, index) => (
-                      <li key={index}>{term}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              
-              {event.status === '진행중' && (
-                <button className="w-full py-3 bg-primary-500 text-white rounded-lg font-medium mt-4 hover:bg-primary-600 transition-colors">
-                  이벤트 참여하기
-                </button>
-              )}
             </div>
-          </div>
+          </ModernScrollbar>
         </main>
       </div>
     </ProtectedRoute>

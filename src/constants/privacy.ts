@@ -71,7 +71,6 @@ const PRIVACY_CONTENT = `
           <td className="px-2 py-1 border-r">서비스 인프라 운영 및 데이터 저장</td>
           <td className="px-2 py-1">회원 탈퇴 시 또는 위탁계약 종료 시까지</td>
         </tr>
-        {/* 필요한 수탁사 추가 가능 */}
       </tbody>
     </table>
 
@@ -122,7 +121,6 @@ const PRIVACY_CONTENT = `
 
   </ul>
 
-  {/* ... 더 많은 개인정보 처리 방침 내용 ... */}
   <p className="text-sm text-gray-500 mt-8">
     본 개인정보 처리 방침은 2025년 7월 15일부터 적용됩니다.
   </p>

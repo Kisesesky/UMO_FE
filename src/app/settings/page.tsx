@@ -16,6 +16,7 @@ import { ThemeToggle } from './components/ThemeToggle';
 import { AppInfoModal } from "./utils/appInfoModal";
 import toast from "react-hot-toast";
 import { useTheme } from '@/context/ThemeContext';
+import ModernScrollbar from '@/components/custom-scrollbar/ModernScrollbar';
 
 export default function SettingsPage() {
   const router = useRouter();
@@ -75,9 +76,10 @@ export default function SettingsPage() {
 
         {/* Main */}
         <main className=
-          "flex-1 w-full max-w-xl mx-auto px-4 pt-4 pb-10 space-y-5 overflow-y-auto"
+          "flex-1 w-full max-w-xl mx-auto px-4 pt-4 pb-10 space-y-5 relative"
           style={{ minHeight: 0 }}
         >
+          <ModernScrollbar className="w-full h-full">
           <SettingsSection title="계정 설정">
             <SettingsItem
               icon={<FaUser />}
@@ -131,6 +133,7 @@ export default function SettingsPage() {
               <span className="text-xs text-gray-500 dark:text-gray-400">1.0.0</span>
             </SettingsItem>
           </SettingsSection>
+          </ModernScrollbar>
         </main>
 
         {showAppInfo && <AppInfoModal onClose={() => setShowAppInfo(false)} />}
