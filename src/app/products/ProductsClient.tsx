@@ -37,16 +37,16 @@ export default function ProductsClient() {
 
   return (
     <ProtectedRoute>
-      <div className="app-container flex flex-col min-h-screen bg-gray-50">
-        <header className="bg-white shadow-sm p-2 flex items-center">
+      <div className="app-container flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900">
+        <header className="bg-white dark:bg-gray-800 shadow-sm p-2 flex items-center">
           <button
             onClick={() => router.back()}
-            className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+            className="p-2 rounded-full hover:bg-gray-100 dark:bg-gray-800 transition-colors"
             aria-label="뒤로"
           >
-            <FaArrowLeft size={18} className="text-gray-700" />
+            <FaArrowLeft size={18} className="text-gray-700 dark:text-white" />
           </button>
-          <h1 className="text-lg font-semibold text-gray-800 flex-1 text-center pr-8">
+          <h1 className="text-lg font-semibold text-gray-800 dark:text-white flex-1 text-center pr-8">
             {productType === 'PASS' ? '이용권 구매' : '상품 둘러보기'}
           </h1>
         </header>
@@ -62,13 +62,13 @@ export default function ProductsClient() {
                 {error}
               </div>
             ) : products.length === 0 ? (
-              <div className="bg-white shadow rounded-lg text-center p-6 text-gray-500">
+              <div className="bg-white shadow rounded-lg text-center p-6 text-gray-500 dark:text-white">
                 표시할 상품이 없습니다.
               </div>
             ) : (
               <div className="grid grid-cols-1 gap-6">
                 {products.map(product => (
-                  <div key={product.id} className="bg-white rounded-xl shadow-md overflow-hidden">
+                  <div key={product.id} className="bg-white dark:bg-gray-700 rounded-xl shadow-md overflow-hidden">
                     {product.imageUrl && (
                       <img
                         src={product.imageUrl}
@@ -77,8 +77,8 @@ export default function ProductsClient() {
                       />
                     )}
                     <div className="p-5 space-y-2">
-                      <h3 className="font-bold text-lg text-gray-900">{product.name}</h3>
-                      <p className="text-sm text-gray-600">{product.description}</p>
+                      <h3 className="font-bold text-lg text-gray-900 dark:text-white">{product.name}</h3>
+                      <p className="text-sm text-gray-600 dark:text-white">{product.description}</p>
                       <div className="flex items-center justify-between pt-2">
                         <span className="text-xl font-bold text-indigo-600">
                           {product.price} {product.currencyType}
@@ -89,7 +89,7 @@ export default function ProductsClient() {
                         </button>
                       </div>
                       {product.productType === 'PASS' && product.durationDays && (
-                        <div className="mt-2 text-sm text-gray-500 flex items-center gap-1">
+                        <div className="mt-2 text-sm text-gray-500 dark:text-white flex items-center gap-1">
                           <FaTicketAlt className="text-indigo-500" />
                           <span>{product.durationDays}일 이용권</span>
                         </div>

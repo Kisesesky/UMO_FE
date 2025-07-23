@@ -67,30 +67,30 @@ export default function MyRentalsPage() {
 
   return (
     <ProtectedRoute>
-      <div className="app-container flex flex-col min-h-screen bg-gray-50">
-        <header className="bg-white shadow-sm p-2 flex items-center">
+      <div className="app-container flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900">
+        <header className="bg-white dark:bg-gray-800 shadow-sm p-2 flex items-center">
           <button
             onClick={() => router.back()}
-            className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
             aria-label="뒤로"
           >
-            <FaArrowLeft size={18} className="text-gray-700" />
+            <FaArrowLeft size={18} className="text-gray-700 dark:text-white" />
           </button>
-          <h1 className="text-lg font-semibold text-gray-800 flex-1 text-center pr-8">이용 내역</h1>
+          <h1 className="text-lg font-semibold text-gray-800 dark:text-white flex-1 text-center pr-8">이용 내역</h1>
         </header>
 
         <main className="flex-1 flex flex-col items-center px-6 py-6 overflow-y-auto">
           <div className="w-full max-w-md">
             {isLoading ? (
               <div className="flex justify-center items-center h-64">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500" />
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600" />
               </div>
             ) : error ? (
               <div className="bg-red-100 border border-red-300 text-red-700 px-4 py-3 rounded text-center">
                 {error}
               </div>
             ) : rentals.length === 0 ? (
-              <div className="bg-white rounded-xl shadow p-6 text-center text-gray-500">
+              <div className="bg-white rounded-xl shadow p-6 text-center text-gray-500 dark:text-gray-300">
                 <FaHistory className="mx-auto text-4xl mb-3 text-gray-400" />
                 <p className="text-sm">이용 내역이 없습니다.</p>
               </div>
@@ -99,11 +99,11 @@ export default function MyRentalsPage() {
                 {rentals.map((rental) => {
                   const statusBadge = getStatusBadge(rental.status);
                   return (
-                    <div key={rental.id} className="bg-white rounded-2xl shadow p-5">
+                    <div key={rental.id} className="bg-white dark:bg-gray-700 rounded-2xl shadow p-5">
                       <div className="flex justify-between items-center mb-3">
                         <div className="flex items-center gap-2">
-                          <FaUmbrella className="text-indigo-600" />
-                          <span className="font-semibold text-gray-800">
+                          <FaUmbrella className="text-indigo-700" />
+                          <span className="font-semibold text-gray-800 dark:text-white">
                             우산 {rental.umbrella?.code || `#${rental.umbrellaId}`}
                           </span>
                         </div>
@@ -114,7 +114,7 @@ export default function MyRentalsPage() {
                         </span>
                       </div>
 
-                      <div className="space-y-2 text-sm text-gray-700">
+                      <div className="space-y-2 text-sm text-gray-700 dark:text-white">
                         <div className="flex items-center gap-2">
                           <FaMapMarkerAlt className="text-gray-400" />
                           <span>대여소: {rental.rentalStationId}</span>

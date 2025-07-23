@@ -96,7 +96,7 @@ export default function Drawer({ isOpen, onClose }: DrawerProps) {
         {/* --- 헤더 부분 여기서부터 --- */}
         <div className="drawer-header flex items-center justify-between border-b border-gray-200 dark:border-gray-700">
           {isAuthenticated ? (
-            <div className="drawer-title flex items-center gap-3 py-1 bg-white dark:bg-gray-700">
+            <div className="drawer-title flex items-center gap-3 py-1 bg-white dark:bg-gray-900">
               <img
                 src={user?.profileImage || '/assets/character/umo-face.png'}
                 alt="프로필 이미지"
@@ -135,7 +135,7 @@ export default function Drawer({ isOpen, onClose }: DrawerProps) {
 
         <div className="drawer-footer border-t border-gray-200 dark:border-gray-700">
           <button
-            className="customer-service-btn text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+            className="customer-service-btn text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white dark:bg-gray-800"
             onClick={() => {
               onClose();
               router.push('/customer-service');

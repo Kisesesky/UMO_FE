@@ -36,16 +36,16 @@ export default function AddPaymentMethodPage() {
 
   return (
     <ProtectedRoute>
-      <div className="app-container flex flex-col min-h-screen bg-gray-50">
-        <header className="bg-white shadow-sm p-2 flex items-center">
+      <div className="app-container flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900">
+        <header className="bg-white dark:bg-gray-800 shadow-sm p-2 flex items-center">
           <button
             onClick={() => router.back()}
-            className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
             aria-label="뒤로"
           >
-            <FaArrowLeft size={18} className="text-gray-700" />
+            <FaArrowLeft size={18} className="text-gray-700 dark:text-white" />
           </button>
-          <h1 className="flex-1 text-lg font-semibold text-gray-800 text-center pr-8">
+          <h1 className="flex-1 text-lg font-semibold text-gray-800 dark:text-white text-center pr-8">
             결제 수단 추가
           </h1>
         </header>
@@ -54,11 +54,11 @@ export default function AddPaymentMethodPage() {
           <div className="w-full max-w-md bg-white p-8 mt-2 rounded-xl shadow space-y-6">
             <div className="flex items-center gap-2">
               <FaCreditCard className="text-primary-600 text-2xl" />
-              <h2 className="text-lg font-bold text-gray-900">카드 정보 입력</h2>
+              <h2 className="text-lg font-bold text-gray-900 dark:text-white">카드 정보 입력</h2>
             </div>
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="block text-sm font-medium mb-1 text-gray-700">카드 번호</label>
+                <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-white">카드 번호</label>
                 <input
                   type="text"
                   value={cardNumber}
@@ -66,14 +66,14 @@ export default function AddPaymentMethodPage() {
                   placeholder="0000 0000 0000 0000"
                   maxLength={19}
                   required
-                  className="w-full px-3 py-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition"
+                  className="w-full px-3 py-3 border border-gray-300 rounded-lg bg-white dark:bg-gray-700 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition"
                   autoComplete="cc-number"
                   inputMode="numeric"
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium mb-1 text-gray-700">만료일</label>
+                  <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-white">만료일</label>
                   <input
                     type="text"
                     value={expiryDate}
@@ -81,13 +81,13 @@ export default function AddPaymentMethodPage() {
                     placeholder="MM/YY"
                     maxLength={5}
                     required
-                    className="w-full px-3 py-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition"
+                    className="w-full px-3 py-3 border border-gray-300 rounded-lg bg-white dark:bg-gray-700 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition"
                     autoComplete="cc-exp"
                     inputMode="numeric"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1 text-gray-700">CVV</label>
+                  <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-white">CVV</label>
                   <input
                     type="text"
                     value={cvv}
@@ -95,14 +95,14 @@ export default function AddPaymentMethodPage() {
                     placeholder="000"
                     maxLength={3}
                     required
-                    className="w-full px-3 py-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition"
+                    className="w-full px-3 py-3 border border-gray-300 rounded-lg bg-white dark:bg-gray-700 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition"
                     autoComplete="cc-csc"
                     inputMode="numeric"
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1 text-gray-700">카드 소유자 이름</label>
+                <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-white">카드 소유자 이름</label>
                 <input
                   type="text"
                   value={cardholderName}
@@ -110,7 +110,7 @@ export default function AddPaymentMethodPage() {
                   placeholder="카드에 표시된 이름"
                   required
                   autoComplete="cc-name"
-                  className="w-full px-3 py-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition"
+                  className="w-full px-3 py-3 border border-gray-300 rounded-lg bg-white dark:bg-gray-700 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition"
                 />
               </div>
               <div className="flex items-center gap-2">
@@ -121,7 +121,7 @@ export default function AddPaymentMethodPage() {
                   onChange={e => setIsDefault(e.target.checked)}
                   className="h-4 w-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
                 />
-                <label htmlFor="default" className="text-sm text-gray-700 select-none">
+                <label htmlFor="default" className="text-sm text-gray-700 dark:text-white select-none">
                   기본 결제 수단으로 설정
                 </label>
               </div>

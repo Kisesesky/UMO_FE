@@ -27,27 +27,27 @@ export default function CouponsPage() {
 
   return (
     <ProtectedRoute>
-      <div className="app-container flex flex-col min-h-screen bg-gray-50">
-        <header className="bg-white shadow-sm p-2 flex items-center">
+      <div className="app-container flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900">
+        <header className="bg-white dark:bg-gray-800 shadow-sm p-2 flex items-center">
           <button
             onClick={() => router.back()}
-            className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
             aria-label="뒤로"
           >
-            <FaArrowLeft size={18} className="text-gray-700" />
+            <FaArrowLeft size={18} className="text-gray-700 dark:text-white" />
           </button>
-          <h1 className="flex-1 text-lg font-semibold text-gray-800 text-center pr-8">쿠폰</h1>
+          <h1 className="flex-1 text-lg font-semibold text-gray-800 dark:text-white text-center pr-8">쿠폰</h1>
         </header>
         <main className="flex-1 flex flex-col items-center px-6 pt-4 pb-10 overflow-y-auto">
           <div className="w-full max-w-sm mb-6">
-            <div className="bg-white rounded-xl shadow p-6 mb-4">
+            <div className="bg-white dark:bg-gray-700 rounded-xl shadow p-6 mb-4">
               <form onSubmit={handleAddCoupon} className="flex gap-2">
                 <input
                   type="text"
                   value={couponCode}
                   onChange={e => setCouponCode(e.target.value)}
                   placeholder="쿠폰 코드 입력"
-                  className="flex-1 px-3 py-3 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
+                  className="flex-1 px-3 py-3 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-600"
                 />
                 <button
                   type="submit"
@@ -59,12 +59,12 @@ export default function CouponsPage() {
             </div>
 
             {coupons.length === 0 ? (
-              <div className="bg-white rounded-xl shadow p-6 text-center text-gray-500">
-                <FaGift className="mx-auto text-4xl mb-3 text-gray-400" />
+              <div className="bg-white dark:bg-gray-700 rounded-xl shadow p-6 text-center text-gray-500 dark:text-gray-300">
+                <FaGift className="mx-auto text-4xl mb-3 text-gray-400 dark:text-gray-300" />
                 <p>사용 가능한 쿠폰이 없습니다.</p>
               </div>
             ) : (
-              <div className="bg-white rounded-xl shadow overflow-hidden">
+              <div className="bg-white dark:bg-gray-800 rounded-xl shadow overflow-hidden">
                 <div className="p-4 border-b">
                   <h3 className="font-medium">내 쿠폰 목록</h3>
                 </div>
@@ -80,11 +80,11 @@ export default function CouponsPage() {
                             <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">사용 가능</span>
                           )}
                         </div>
-                        <div className="flex items-center text-sm text-gray-500 mb-1">
+                        <div className="flex items-center text-sm text-gray-500 dark:text-gray-300 mb-1">
                           <FaTicketAlt className="mr-1 text-indigo-500" />
                           <span>{coupon.discount}</span>
                         </div>
-                        <div className="text-xs text-gray-500">
+                        <div className="text-xs text-gray-500 dark:text-gray-300">
                           {coupon.isUsed
                             ? '사용 완료'
                             : `${coupon.expiryDate}까지 사용 가능`}

@@ -32,16 +32,16 @@ export default function PaymentMethodsPage() {
 
   return (
     <ProtectedRoute>
-      <div className="app-container flex flex-col min-h-screen bg-gray-50">
-        <header className="bg-white shadow-sm p-2 flex items-center">
+      <div className="app-container flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900">
+        <header className="bg-white dark:bg-gray-800 shadow-sm p-2 flex items-center">
           <button
             onClick={() => router.back()}
-            className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
             aria-label="뒤로"
           >
-            <FaArrowLeft size={18} className="text-gray-700" />
+            <FaArrowLeft size={18} className="text-gray-700 dark:text-white" />
           </button>
-          <h1 className="text-lg font-semibold text-gray-800 flex-1 text-center pr-8">결제 수단 관리</h1>
+          <h1 className="text-lg font-semibold text-gray-800 dark:text-white flex-1 text-center pr-8">결제 수단 관리</h1>
         </header>
 
         <main className="flex-1 flex flex-col items-center px-6 pt-4 pb-10 overflow-y-auto">
@@ -54,19 +54,19 @@ export default function PaymentMethodsPage() {
             </button>
 
             {paymentMethods.length === 0 ? (
-              <div className="bg-white rounded-xl shadow p-6 text-center text-gray-500">
-                <FaCreditCard className="mx-auto text-4xl mb-3 text-gray-400" />
+              <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 text-center text-gray-500 dark:text-white">
+                <FaCreditCard className="mx-auto text-4xl mb-3 text-gray-400 dark:text-white" />
                 <p>등록된 결제 수단이 없습니다.</p>
               </div>
             ) : (
               <div className="space-y-4">
                 {paymentMethods.map(method => (
-                  <div key={method.id} className="bg-white rounded-xl shadow p-4 flex justify-between items-center">
+                  <div key={method.id} className="bg-white dark:bg-gray-800 rounded-xl shadow p-4 flex justify-between items-center">
                     <div className="flex items-center gap-3">
-                      <FaCreditCard className="text-gray-500" />
+                      <FaCreditCard className="text-gray-500 dark:text-white" />
                       <div>
                         <p className="font-semibold">{method.name}</p>
-                        <p className="text-sm text-gray-500">•••• {method.last4}</p>
+                        <p className="text-sm text-gray-500 dark:text-white">•••• {method.last4}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">

@@ -102,11 +102,36 @@ export default function WalletPage() {
                 <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-md">
                   <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100">보너스 지급 기준</h4>
                   <ul className="mt-2 text-sm text-gray-500 dark:text-gray-300 list-disc pl-5 space-y-1">
-                    <li>50,000원 이상: 100% 보너스 (50,000원 → 10,000 츄르)</li>
-                    <li>30,000원 이상: 70% 보너스 (30,000원 → 5,100 츄르)</li>
-                    <li>10,000원 이상: 50% 보너스 (10,000원 → 1,500 츄르)</li>
-                    <li>5,000원 이상: 30% 보너스 (5,000원 → 650 츄르)</li>
-                    <li>3,000원 이상: 10% 보너스 (3,000원 → 330 츄르)</li>
+                  <li>
+                    <span className="font-medium text-gray-800 dark:text-gray-100 block">50,000원 이상</span>
+                    <span className="font-bold block mt-0.5">
+                      100% 보너스 <span className="text-xs text-gray-500 dark:text-gray-300">(50,000원 → 10,000 츄르)</span>
+                    </span>
+                  </li>
+                  <li>
+                    <span className="font-medium text-gray-800 dark:text-gray-100 block">30,000원 이상</span>
+                    <span className="font-bold block mt-0.5">
+                      70% 보너스 <span className="text-xs text-gray-500 dark:text-gray-300">(30,000원 → 5,100 츄르)</span>
+                    </span>
+                  </li>
+                  <li>
+                    <span className="font-medium text-gray-800 dark:text-gray-100 block">10,000원 이상</span>
+                    <span className="font-bold block mt-0.5">
+                      50% 보너스 <span className="text-xs text-gray-500 dark:text-gray-300">(10,000원 → 1,500 츄르)</span>
+                    </span>
+                  </li>
+                  <li>
+                    <span className="font-medium text-gray-800 dark:text-gray-100 block">5,000원 이상</span>
+                    <span className="font-bold block mt-0.5">
+                      30% 보너스 <span className="text-xs text-gray-500 dark:text-gray-300">(5,000원 → 650 츄르)</span>
+                    </span>
+                  </li>
+                  <li>
+                    <span className="font-medium text-gray-800 dark:text-gray-100 block">3,000원 이상</span>
+                    <span className="font-bold block mt-0.5">
+                      10% 보너스 <span className="text-xs text-gray-500 dark:text-gray-300">(3,000원 → 330 츄르)</span>
+                    </span>
+                  </li>
                   </ul>
                 </div>
               </div>
