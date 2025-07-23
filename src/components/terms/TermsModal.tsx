@@ -61,9 +61,9 @@ export default function TermsModal({ isOpen, onClose, onAgree, title, content }:
   
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
-      <div className="bg-white rounded-xl shadow-xl w-full max-w-md flex flex-col h-[80vh] overflow-hidden">
+      <div className="bg-white rounded-xl shadow-xl w-full max-w-md dark:bg-gray-800 flex flex-col h-[80vh] overflow-hidden">
         {/* 모달 헤더 */}
-        <header className="flex items-center justify-between p-4 border-b border-gray-200 shrink-0">
+        <header className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 border-b border-gray-200 shrink-0">
           <div className="flex items-center gap-3 flex-1 min-w-0">
             <Image
               src="/assets/character/umo-face.png"
@@ -73,7 +73,7 @@ export default function TermsModal({ isOpen, onClose, onAgree, title, content }:
               className="rounded-full"
               style={{ minWidth: 36, minHeight: 36 }}
             />
-            <h2 className="text-lg font-semibold text-gray-800 truncate">
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 truncate">
               {title}
             </h2>
           </div>
@@ -90,7 +90,7 @@ export default function TermsModal({ isOpen, onClose, onAgree, title, content }:
         <div 
           ref={contentRef}
           onScroll={handleScroll}
-          className="flex-1 overflow-y-auto p-4 text-gray-700 leading-relaxed text-sm"
+          className="flex-1 overflow-y-auto p-4 text-gray-700 dark:text-gray-100 leading-relaxed text-sm"
           dangerouslySetInnerHTML={{ __html: content }} // HTML 문자열 렌더링
         />
 

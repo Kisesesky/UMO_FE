@@ -52,8 +52,8 @@ export default function ProductsClient() {
           </h1>
         </header>
 
-        <main className="flex-1 flex flex-col items-center px-4 pt-4 pb-10 w-full max-w-md mx-auto relative">
-          <ModernScrollbar className="w-full h-full">
+        <main className="flex-1 w-full max-w-md mx-auto px-4 pt-6 pb-10 overflow-hidden">
+          <ModernScrollbar className="h-full">
             <div className="w-full max-w-md">
               {isLoading ? (
                 <div className="flex justify-center items-center h-64">

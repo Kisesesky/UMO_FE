@@ -12,6 +12,7 @@ import { useCurrentLocation } from '@/hooks/useCurrentLocation';
 import { useStationMarkers } from '@/hooks/useStationMarkers';
 import { useUserMarkers } from '@/hooks/useUserMarkers';
 import type { KakaoMapRef } from '@/types/kakao-types';
+import { useUserLocationTracker } from '@/hooks/userLocationTracker';
 
 const KakaoMap = dynamic(
   () => import('@/components/kakao-map').then(mod => mod.default),
@@ -38,6 +39,12 @@ export default function HomePage() {
   // 현재 위치 훅
 
   const { userCoords, fetchCurrentPosition, moveToCurrentLocation } = useCurrentLocation(mapRef);
+
+  useUserLocationTracker({
+    watch: true,     // 기본 true. 원하면 false로 바꿀 수 있음
+    interval: 60000, // 30초마다(기본값). 변경 원하면 값 조정
+    minMoveDistance: 30, // 30m 이상일때만
+  });
 
   // KakaoMap이 준비되었을 때
   const handleMapLoad = useCallback((mapInstance: KakaoMapRef) => {

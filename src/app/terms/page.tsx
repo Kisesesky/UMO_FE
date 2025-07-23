@@ -13,7 +13,7 @@ export default function TermsPage() {
     <ProtectedRoute checkAuth={false}>
       <div className="app-container flex flex-col bg-gray-50 dark:bg-gray-900 min-h-screen">
         <header className="page-header flex items-center justify-between px-4 py-2 bg-white dark:bg-gray-800 shadow-sm">
-          <button
+        <button
             onClick={() => router.back()}
             className="page-back-button text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors"
             aria-label="뒤로가기"

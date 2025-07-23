@@ -24,7 +24,7 @@ export default function RegisterPage() {
       <main 
         className="
           flex-1 flex flex-col items-center
-          px-6 pt-4 md:pt-8 lg:pt-8
+          px-6 pt-3 md:pt-4 lg:pt-4
           relative justify-start max-w-md mx-auto
           text-gray-900 dark:text-gray-100
         "

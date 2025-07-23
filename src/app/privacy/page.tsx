@@ -33,7 +33,7 @@ export default function PrivacyPage() {
               <li>고객 문의 및 상담: 고객 문의에 대한 답변, 불만 처리, 서비스 개선을 위한 통계 분석 등을 목적으로 개인정보를 처리합니다.</li>
             </ul>
 
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">제2조 (처리하는 개인정보 항목)</h2>
+            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">제2조 (처리하는 개인정보 항목)</h2>
             <p className="mb-4">
               회사는 서비스 제공을 위해 다음의 개인정보 항목을 처리하고 있습니다.
             </p>
@@ -43,7 +43,7 @@ export default function PrivacyPage() {
               <li>서비스 이용 과정에서 자동으로 생성될 수 있는 항목: 서비스 이용 기록, 접속 로그, 쿠키, 접속 IP 정보, 결제 기록 등</li>
             </ul>
 
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">제3조 (개인정보의 처리 및 보유 기간)</h2>
+            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">제3조 (개인정보의 처리 및 보유 기간)</h2>
             <p className="mb-4">
               회사는 법령에 따른 개인정보 보유∙이용 기간 또는 정보주체로부터 개인정보를 수집 시에 동의 받은 개인정보 보유∙이용 기간 내에서 개인정보를 처리∙보유합니다.
             </p>
@@ -65,7 +65,7 @@ export default function PrivacyPage() {
                 </ul>
               </ul>
 
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">제4조 (개인정보의 제3자 제공)</h2>
+              <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">제4조 (개인정보의 제3자 제공)</h2>
               <p className="mb-4">
                 회사는 원칙적으로 정보주체의 개인정보를 수집·이용 목적 범위 내에서 처리하며, 정보주체의 사전 동의 없이 제3자에게 제공하지 않습니다.
                 다만, 다음의 경우에는 관련 법령에 따라 제3자 제공이 가능합니다.
@@ -76,7 +76,7 @@ export default function PrivacyPage() {
                 <li>정보주체 또는 법정대리인이 의사표시를 할 수 없는 상태이거나, 긴급한 생명·신체·재산의 이익을 위해 필요하다고 인정되는 경우</li>
               </ul>
 
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">제5조 (개인정보의 처리 위탁)</h2>
+              <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">제5조 (개인정보의 처리 위탁)</h2>
               <p className="mb-4">
                 회사는 원활한 서비스 제공을 위하여 아래와 같이 개인정보 처리업무를 외부에 위탁하고 있으며, 관계 법령에 따라 위탁계약 시 개인정보가 안전하게 관리될 수 있도록 필요한 사항을 규정하고 있습니다.
               </p>
@@ -97,7 +97,7 @@ export default function PrivacyPage() {
                 </tbody>
               </table>
 
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">제6조 (정보주체의 권리 및 행사 방법)</h2>
+              <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">제6조 (정보주체의 권리 및 행사 방법)</h2>
               <p className="mb-4">
                 정보주체는 언제든지 개인정보 열람, 정정·삭제, 처리정지 요청 등의 권리를 행사할 수 있습니다. 이와 관련하여 서면, 이메일, 고객센터 등을 통해 요청하실 수 있으며, 회사는 이에 대해 지체 없이 조치하겠습니다.
               </p>
@@ -106,7 +106,7 @@ export default function PrivacyPage() {
                 <li>개인정보 열람 등 요청 시 본인 여부 확인을 위한 절차가 진행될 수 있습니다.</li>
               </ul>
 
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">제7조 (개인정보 자동 수집 및 거부 안내)</h2>
+              <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">제7조 (개인정보 자동 수집 및 거부 안내)</h2>
               <p className="mb-4">
                 회사는 웹사이트 이용 시 쿠키(cookie) 등의 자동 수집 장치를 통해 이용자의 정보를 저장하고 수시로 불러옵니다. 이용자는 브라우저 설정을 통해 쿠키 저장을 거부할 수 있습니다.
               </p>
@@ -116,7 +116,7 @@ export default function PrivacyPage() {
                 <li>단, 쿠키 설정 거부 시 일부 서비스 이용에 제한이 있을 수 있습니다.</li>
               </ul>
 
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">제8조 (개인정보의 안전성 확보 조치)</h2>
+              <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">제8조 (개인정보의 안전성 확보 조치)</h2>
               <p className="mb-4">
                 회사는 개인정보의 안전성 확보를 위해 다음과 같은 기술적·관리적·물리적 조치를 취하고 있습니다.
               </p>
@@ -127,7 +127,7 @@ export default function PrivacyPage() {
                 <li>개인정보 처리 직원의 최소화 및 교육 시행</li>
               </ul>
 
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">제9조 (개인정보 보호 책임자)</h2>
+              <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">제9조 (개인정보 보호 책임자)</h2>
               <p className="mb-2">
                 회사는 개인정보 처리에 관한 업무를 총괄해서 책임지고, 개인정보 관련 문의사항 처리 등을 위한 개인정보 보호 책임자를 지정하고 있습니다.
               </p>
