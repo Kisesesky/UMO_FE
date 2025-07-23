@@ -1,5 +1,4 @@
 // src/app/settings/components/NotificationToggle.tsx
-
 'use client';
 
 import React, { useState, useEffect } from 'react';

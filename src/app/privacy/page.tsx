@@ -62,6 +62,85 @@ export default function PrivacyPage() {
                 <li>컴퓨터통신, 인터넷 로그기록 자료, 접속지 추적자료: 3개월</li>
               </ul>
             </ul>
+
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">제4조 (개인정보의 제3자 제공)</h2>
+            <p className="mb-4">
+              회사는 원칙적으로 정보주체의 개인정보를 수집·이용 목적 범위 내에서 처리하며, 정보주체의 사전 동의 없이 제3자에게 제공하지 않습니다.
+              다만, 다음의 경우에는 관련 법령에 따라 제3자 제공이 가능합니다.
+            </p>
+            <ul className="list-disc list-inside mb-4">
+              <li>정보주체로부터 별도의 동의를 받은 경우</li>
+              <li>법령에 특별한 규정이 있는 경우</li>
+              <li>정보주체 또는 법정대리인이 의사표시를 할 수 없는 상태이거나, 긴급한 생명·신체·재산의 이익을 위해 필요하다고 인정되는 경우</li>
+            </ul>
+
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">제5조 (개인정보의 처리 위탁)</h2>
+            <p className="mb-4">
+              회사는 원활한 서비스 제공을 위하여 아래와 같이 개인정보 처리업무를 외부에 위탁하고 있으며, 관계 법령에 따라 위탁계약 시 개인정보가 안전하게 관리될 수 있도록 필요한 사항을 규정하고 있습니다.
+            </p>
+            <table className="w-full text-sm mb-4 border border-gray-300">
+              <thead>
+                <tr className="bg-gray-100 text-gray-700 border-b">
+                  <th className="px-2 py-1 border-r">수탁업체명</th>
+                  <th className="px-2 py-1 border-r">위탁업무</th>
+                  <th className="px-2 py-1">보유 및 이용기간</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="px-2 py-1 border-r">Google Web Services</td>
+                  <td className="px-2 py-1 border-r">서비스 인프라 운영 및 데이터 저장</td>
+                  <td className="px-2 py-1">회원 탈퇴 시 또는 위탁계약 종료 시까지</td>
+                </tr>
+                {/* 필요한 수탁사 추가 가능 */}
+              </tbody>
+            </table>
+
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">제6조 (정보주체의 권리 및 행사 방법)</h2>
+            <p className="mb-4">
+              정보주체는 언제든지 개인정보 열람, 정정·삭제, 처리정지 요청 등의 권리를 행사할 수 있습니다. 이와 관련하여 서면, 이메일, 고객센터 등을 통해 요청하실 수 있으며, 회사는 이에 대해 지체 없이 조치하겠습니다.
+            </p>
+            <ul className="list-disc list-inside mb-4">
+              <li>만 14세 미만 아동의 경우 법정대리인이 권리를 행사할 수 있습니다.</li>
+              <li>개인정보 열람 등 요청 시 본인 여부 확인을 위한 절차가 진행될 수 있습니다.</li>
+            </ul>
+
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">제7조 (개인정보 자동 수집 및 거부 안내)</h2>
+            <p className="mb-4">
+              회사는 웹사이트 이용 시 쿠키(cookie) 등의 자동 수집 장치를 통해 이용자의 정보를 저장하고 수시로 불러옵니다. 이용자는 브라우저 설정을 통해 쿠키 저장을 거부할 수 있습니다.
+            </p>
+            <ul className="list-disc list-inside mb-4">
+              <li>쿠키 수집 목적: 이용자 식별, 맞춤형 서비스 제공 등</li>
+              <li>설정 방법: 웹 브라우저 &gt; 인터넷 옵션 &gt; 개인정보 &gt; 고급</li>
+              <li>단, 쿠키 설정 거부 시 일부 서비스 이용에 제한이 있을 수 있습니다.</li>
+            </ul>
+
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">제8조 (개인정보의 안전성 확보 조치)</h2>
+            <p className="mb-4">
+              회사는 개인정보의 안전성 확보를 위해 다음과 같은 기술적·관리적·물리적 조치를 취하고 있습니다.
+            </p>
+            <ul className="list-disc list-inside mb-4">
+              <li>개인정보 접근 제한 및 관리 체계 수립</li>
+              <li>개인정보 암호화 저장 (비밀번호, 결제정보 등)</li>
+              <li>해킹이나 악성 코드 등에 대비한 보안 프로그램 설치 및 주기적 점검</li>
+              <li>개인정보 처리 직원의 최소화 및 교육 시행</li>
+            </ul>
+
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">제9조 (개인정보 보호 책임자)</h2>
+            <p className="mb-2">
+              회사는 개인정보 처리에 관한 업무를 총괄해서 책임지고, 개인정보 관련 문의사항 처리 등을 위한 개인정보 보호 책임자를 지정하고 있습니다.
+            </p>
+            <ul className="list-inside list-disc mb-4">
+              <li>성명: 한성호</li>
+              <li>직책: 개인정보 보호책임자</li>
+              <li>연락처: <a className="text-blue-600 hover:underline" href="mailto:privacy@umo.site">privacy@umo.site</a></li>
+            </ul>
+
+            <p className="text-sm text-gray-500 mt-8">
+              본 개인정보 처리방침은 관련 법령 및 회사 정책에 따라 변경될 수 있으며, 변경 시 홈페이지를 통해 사전 고지합니다. <br />
+              본 방침은 2025년 7월 15일부터 시행됩니다.
+            </p>
+
           </ul>
 
           {/* ... 더 많은 개인정보 처리 방침 내용 ... */}

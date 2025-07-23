@@ -1,5 +1,4 @@
 // src/app/settings/components/ThemeToggle.tsx
-
 'use client';
 
 import { useTheme } from '@/context/TemeContext';

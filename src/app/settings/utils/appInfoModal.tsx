@@ -1,11 +1,13 @@
 // src/app/settings/utils/appInfoModal.tsx
 import React, { useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { FaInfoCircle } from "react-icons/fa";
 
 type Props = { onClose: () => void };
 
 export function AppInfoModal({ onClose }: Props) {
   const modalRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
     function onKeydown(e: KeyboardEvent) { if (e.key === "Escape") onClose(); }
@@ -17,6 +19,11 @@ export function AppInfoModal({ onClose }: Props) {
       document.body.style.overflow = origin;
     };
   }, [onClose]);
+
+  const handleOpenLicenseModal = () => {
+    onClose();
+    router.push('/settings/open-source');
+  };
 
   return (
     <div
@@ -54,6 +61,26 @@ export function AppInfoModal({ onClose }: Props) {
           <div>
             <dt className="text-xs text-gray-500">고객센터</dt>
             <dd>support@umo.site</dd>
+          </div>
+          <div>
+            <dt className="text-xs text-gray-500">서비스 이용약관</dt>
+            <dd>
+              <a href="/terms" className="text-blue-600 hover:underline">약관 보기</a>
+            </dd>
+          </div>
+          <div>
+            <dt className="text-xs text-gray-500">개인정보처리방침</dt>
+            <dd>
+              <a href="/privacy" className="text-blue-600 hover:underline">처리방침 보기</a>
+            </dd>
+          </div>
+          <div>
+            <dt className="text-xs text-gray-500">오픈소스 라이선스</dt>
+            <dd>
+              <button onClick={handleOpenLicenseModal} className="text-blue-600 hover:underline">
+                오픈소스 라이선스 보기
+              </button>
+            </dd>
           </div>
         </dl>
       </div>
