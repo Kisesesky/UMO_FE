@@ -41,17 +41,17 @@ export default function CouponsPage() {
         <main className="flex-1 flex flex-col items-center px-6 pt-4 pb-10 overflow-y-auto">
           <div className="w-full max-w-sm mb-6">
             <div className="bg-white dark:bg-gray-700 rounded-xl shadow p-6 mb-4">
-              <form onSubmit={handleAddCoupon} className="flex gap-2">
+              <form onSubmit={handleAddCoupon} className="flex gap-2 items-center">
                 <input
                   type="text"
                   value={couponCode}
                   onChange={e => setCouponCode(e.target.value)}
                   placeholder="쿠폰 코드 입력"
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-600"
+                  className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-600 h-10"
                 />
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-primary-600 text-white rounded-md font-semibold flex items-center gap-1 shadow hover:bg-primary-700 transition"
+                  className="px-4 py-2 bg-primary-600 text-white rounded-md font-semibold flex items-center gap-1 shadow hover:bg-primary-700 transition h-10"
                 >
                   <FaPlus /> 등록
                 </button>

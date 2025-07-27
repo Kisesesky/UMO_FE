@@ -104,7 +104,7 @@ export default function WalletPage() {
                     value={chargeAmount || ''}
                     onChange={(e) => setChargeAmount(parseInt(e.target.value) || 0)}
                     placeholder="직접 입력 (원)"
-                    className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white rounded-md bg-white dark:bg-gray-700 text-right"
+                    className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white rounded-md bg-white dark:bg-gray-700 text-right h-8"
                   />
                   <PaymentButton 
                     amount={chargeAmount} 

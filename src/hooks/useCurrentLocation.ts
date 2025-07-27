@@ -64,7 +64,7 @@ export function useCurrentLocation(mapRef: React.RefObject<KakaoMapRef | null>) 
       },
       { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
     );
-  }, [mapRef]);
+  }, [mapRef.current]);
 
   return {
     userCoords,

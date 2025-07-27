@@ -129,14 +129,16 @@ export default function ProfilePage() {
               {isLoading ? '저장 중...' : '저장하기'}
             </button>
 
-            {/* 비밀번호 변경 버튼 */}
-            <button
-              type="button"
-              onClick={() => router.push('/profile/change-password')}
-              className="w-full py-2 px-3 rounded-lg border mt-2 font-medium bg-white dark:bg-gray-900 text-primary-700 dark:text-primary-400 border-primary-200 dark:border-primary-400 shadow-button hover:bg-primary-50 dark:hover:bg-gray-800 transition"
-            >
-              비밀번호 변경
-            </button>
+            {/* 비밀번호 변경 버튼 - 소셜 로그인 사용자는 숨김 */}
+            {user?.provider !== 'kakao' && user?.provider !== 'google' && user?.provider !== 'naver' && (
+              <button
+                type="button"
+                onClick={() => router.push('/profile/change-password')}
+                className="w-full py-2 px-3 rounded-lg border mt-2 font-medium bg-white dark:bg-gray-900 text-primary-700 dark:text-primary-400 border-primary-200 dark:border-primary-400 shadow-button hover:bg-primary-50 dark:hover:bg-gray-800 transition"
+              >
+                비밀번호 변경
+              </button>
+            )}
           </form>
         </main>
       </div>
