@@ -81,7 +81,7 @@ export default function EmailInputWithVerification({
               required
               value={verificationCode}
               onChange={e => setVerificationCode(e.target.value)}
-              className="block w-full pl-3 pr-3 py-3 border border-gray-300 dark:border-gray-600 rounded-l-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+              className="block w-full pl-3 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-l-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-primary-500 focus:border-primary-500"
               placeholder="인증 코드 6자리"
               disabled={isVerifyingCode}
             />

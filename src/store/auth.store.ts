@@ -16,6 +16,8 @@ interface AuthState {
   clearError: () => void;
 }
 
+let isFetchingProfile = false;
+
 export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   isAuthenticated: false,
@@ -58,12 +60,17 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   getProfile: async () => {
+    if (isFetchingProfile) return; // 중복 호출 방지
+    isFetchingProfile = true;
+
     set({ isLoading: true });
     try {
       const user = await AuthService.getProfile();
       set({ user, isAuthenticated: true, isLoading: false });
     } catch {
       set({ user: null, isAuthenticated: false, isLoading: false });
+    } finally {
+      isFetchingProfile = false;
     }
   },
 }));

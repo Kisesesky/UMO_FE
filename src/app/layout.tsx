@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { Metadata } from "next";
 import ClientProviders from './ClientProviders';
+import AuthProvider from '@/providers/AuthProvider';
+import SplashWrapper from 'components/splash/SplasWrapper';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -15,9 +17,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ko">
       <body className="bg-white dark:bg-gray-900">
-        <ClientProviders>
-          {children}
-        </ClientProviders>
+        <AuthProvider>
+          <ClientProviders>
+            <SplashWrapper>
+                {children}
+            </SplashWrapper>
+          </ClientProviders>
+        </AuthProvider>
       </body>
     </html>
   );
